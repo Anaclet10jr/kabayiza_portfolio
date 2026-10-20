@@ -3,7 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Civil & Structural Engineer Portfolio & CMS</title>
+    <title>Eng. Clement KABAYIZA | Civil &amp; Structural Engineer</title>
+    <meta id="meta-description" name="description" content="Explore Eng. Clement KABAYIZA's civil and structural engineering portfolio, project experience, infrastructure work, design services, and materials research.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="author" content="Eng. Clement KABAYIZA">
+    <meta name="theme-color" content="#0f172a">
+    <meta property="og:type" content="website">
+    <meta id="og-title" property="og:title" content="Eng. Clement KABAYIZA | Civil &amp; Structural Engineer">
+    <meta id="og-description" property="og:description" content="Civil and structural engineering portfolio featuring projects, infrastructure work, and technical services.">
+    <meta id="og-url" property="og:url" content="">
+    <meta id="og-image" property="og:image" content="">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta id="twitter-title" name="twitter:title" content="Eng. Clement KABAYIZA | Civil &amp; Structural Engineer">
+    <meta id="twitter-description" name="twitter:description" content="Civil and structural engineering portfolio featuring projects, infrastructure work, and technical services.">
+    <meta id="twitter-image" name="twitter:image" content="">
+    <link id="canonical-url" rel="canonical" href="">
+    <script id="person-structured-data" type="application/ld+json">{}</script>
     <!-- Tailwind CSS CDN with dark mode support -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -96,7 +111,7 @@
                     <i class="fa-solid fa-hard-hat"></i>
                 </div>
                 <div>
-                    <h1 id="nav-engineer-name" class="font-extrabold text-lg tracking-tight text-slate-900 dark:text-white">Eng. Clement KABAYIZA</h1>
+                    <div id="nav-engineer-name" class="font-extrabold text-lg tracking-tight text-slate-900 dark:text-white">Eng. Clement KABAYIZA</div>
                     <p id="nav-engineer-title" class="text-xs text-sky-600 dark:text-sky-500 font-semibold tracking-wider uppercase">Senior Structural Engineer</p>
                 </div>
             </div>
@@ -404,7 +419,7 @@
                         </h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="bg-white dark:bg-slate-800/40 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                                <p class="text-slate-600 dark:text-slate-300 text-sm italic mb-4">"Eng. Clement delivered our 14-story commercial tower 2 months ahead of schedule without a single compromise on structural integrity."</p>
+                                <p class="text-slate-600 dark:text-slate-300 text-sm italic mb-4">"Eng. Clement KABAYIZA delivered our 14-story commercial tower 2 months ahead of schedule without a single compromise on structural integrity."</p>
                                 <div class="text-xs font-bold text-slate-900 dark:text-white">Marcus Sterling</div>
                                 <div class="text-xs text-sky-600 dark:text-sky-500">Project Director, Horizon Real Estate</div>
                             </div>
@@ -717,7 +732,7 @@
                 <!-- TAB 5: JSON Export / Import Backup Tool -->
                 <div id="cms-tab-backup" class="space-y-6 hidden">
                     <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code">Hosting & Data Backup Tool</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">This is a JSON backup (a <code>.json</code> file), not a JavaScript <code>.js</code> file. It contains your profile, projects, uploaded photos, experiments, and EmailJS settings. Import replaces the current portfolio; sync it to GitHub Gist or Supabase after import to publish it online.</p>
+                    <p class="text-xs text-slate-400 leading-relaxed">This is a JSON backup (a <code>.json</code> file), not a JavaScript <code>.js</code> file. It contains your profile, projects, uploaded photos, experiments, and EmailJS settings. Import replaces the current saved portfolio in this browser, so export a backup first.</p>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
                         <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4">
@@ -735,21 +750,20 @@
                             <h4 class="font-bold text-white text-sm flex items-center gap-2">
                                 <i class="fa-solid fa-upload text-emerald-400"></i> Import JSON Backup
                             </h4>
-                            <p class="text-xs text-slate-400">Choose a JSON backup file previously downloaded from this dashboard. This replaces the current portfolio data.</p>
+                            <p class="text-xs text-slate-400">Choose a JSON backup file previously downloaded from this dashboard. This replaces current data in this browser.</p>
                             <input type="file" id="import-json-file" accept=".json" class="hidden" onchange="importDataJSON(event)">
                             <button onclick="document.getElementById('import-json-file').click()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2">
                                 <i class="fa-solid fa-file-import"></i> Upload JSON File
                             </button>
-                            <p class="text-[11px] text-slate-500">After choosing the file, wait for the success message, then sync to GitHub Gist or Supabase to publish the import online.</p>
+                            <p class="text-[11px] text-slate-500">After choosing the file, wait for the success message; your portfolio preview will update. Imported data is stored only in this browser.</p>
                         </div>
                     </div>
-                </div>
 
-                <div id="cms-tab-cloud" class="space-y-6 hidden">
+                    <div id="cms-tab-cloud" class="space-y-6 hidden">
                         <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code">Supabase Cloud Storage</h3>
                         <p class="text-xs leading-relaxed text-slate-300">Cloud storage keeps your portfolio and uploaded photos online so the published site and your other devices can load the same saved work. Browser storage remains as a local backup.</p>
                         <div class="rounded-xl border border-slate-700 bg-slate-800 p-4 space-y-3">
-                            <p id="cloud-storage-status" class="text-xs text-sky-300" role="status" aria-live="polite">Checking cloud storage configuration…</p>
+                            <p id="cloud-storage-status" class="text-xs text-amber-300" role="status" aria-live="polite">Checking cloud storage configuration…</p>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <label class="text-xs text-slate-400">Supabase admin email
                                     <input id="cloud-admin-email" type="email" autocomplete="username" class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 p-2.5 text-sm text-white">
@@ -764,7 +778,6 @@
                                 <button type="button" onclick="syncPortfolioToCloud()" class="rounded-lg bg-emerald-600 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-500">Save current portfolio to cloud</button>
                             </div>
                         </div>
-
                         <div class="rounded-xl border border-sky-900 bg-slate-900 p-4 space-y-2 text-xs text-slate-300">
                             <h4 class="font-bold text-white">One-time setup checklist</h4>
                             <ol class="list-decimal space-y-1 pl-5">
@@ -774,7 +787,7 @@
                                 <li>Replace <code class="text-sky-300">YOUR-ADMIN-USER-UUID</code> in the SQL below with that user’s UID, then run it once in Supabase SQL Editor.</li>
                                 <li>Open the CMS, sign in here using that Supabase admin email/password, then save. The website will load the cloud copy for visitors.</li>
                             </ol>
-                            <p class="text-sky-200">The API key used in a static website is public by design. Never use a service-role/secret key here. Security comes from the SQL row policies and the authenticated admin UID.</p>
+                            <p class="text-amber-200">The API key used in a static website is public by design. Never use a service-role/secret key here. Security comes from the SQL row policies and the authenticated admin UID.</p>
                         </div>
                         <details class="rounded-xl border border-slate-700 bg-slate-950 p-4">
                             <summary class="cursor-pointer text-xs font-bold text-slate-200">Show one-time Supabase SQL setup</summary>
@@ -815,71 +828,57 @@ with check (
 );</code></pre>
                             <p class="mt-3 text-[11px] text-slate-400">Run this SQL only once. If you run it again, Supabase may report that a policy already exists. Uploaded images removed from the portfolio may remain in Storage until you delete them manually.</p>
                         </details>
+                    </div>
                 </div>
                 <div id="cms-tab-gist" class="space-y-6 hidden">
                     <div class="flex items-center gap-3">
                         <span class="text-2xl" aria-hidden="true">🔄</span>
                         <div>
                             <h3 class="text-lg font-bold text-white">Sync Setup</h3>
-                            <p class="text-xs text-slate-400">Connect a GitHub Gist so your published portfolio loads on every device.</p>
+                            <p class="text-xs text-slate-400">Connect GitHub Gist so your published portfolio can load on every device.</p>
                         </div>
                     </div>
                     <div class="rounded-xl border border-slate-700 bg-slate-800 p-4 space-y-3">
                         <p id="gist-sync-status" class="text-xs text-sky-300" role="status" aria-live="polite">Not synced — enter a GitHub token below.</p>
-                        <div>
-                            <label for="github-gist-token" class="block text-xs text-slate-300">GitHub Personal Access Token</label>
-                            <input id="github-gist-token" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…" class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 p-2.5 text-sm text-white">
-                        </div>
+                        <label for="github-gist-token" class="block text-xs text-slate-300">GitHub Personal Access Token</label>
+                        <input id="github-gist-token" type="password" autocomplete="off" spellcheck="false" placeholder="Paste token with gist scope" class="w-full rounded-lg border border-slate-700 bg-slate-900 p-2.5 text-sm text-white">
                         <div class="flex flex-wrap gap-2">
                             <button type="button" onclick="connectGitHubGist()" class="rounded-lg bg-sky-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-sky-400">Connect &amp; Sync</button>
                             <button type="button" onclick="syncPortfolioToGist()" class="rounded-lg bg-emerald-600 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-500">Sync current portfolio</button>
                             <button type="button" onclick="disconnectGitHubGist()" class="rounded-lg border border-slate-600 px-4 py-2 text-xs font-bold text-slate-200 hover:bg-slate-700">Forget token</button>
                         </div>
                         <div id="gist-id-instructions" class="hidden space-y-2 rounded-lg border border-sky-900 bg-slate-950 p-3">
-                            <p class="text-xs text-slate-300">The Gist is created. Paste this ID into <code class="text-sky-300">GITHUB_GIST_ID</code> near the top of the application script and publish the updated site so all visitors can load it.</p>
+                            <p class="text-xs text-slate-300">For all visitors to load this Gist, copy its ID into <code class="text-sky-300">GITHUB_GIST_ID</code> in the page script and publish the updated page.</p>
                             <input id="github-gist-id" readonly class="w-full rounded border border-slate-700 bg-slate-900 p-2 font-mono text-xs text-sky-200">
                         </div>
                     </div>
-
                     <details class="rounded-xl border border-slate-700 bg-slate-900 p-4">
-                        <summary class="cursor-pointer text-sm font-bold text-white">How to get a free GitHub token</summary>
+                        <summary class="cursor-pointer text-sm font-bold text-white">Get a free GitHub token</summary>
                         <ol class="mt-3 list-decimal space-y-1 pl-5 text-xs text-slate-300">
-                            <li>Sign in at <a href="https://github.com/settings/tokens" target="_blank" rel="noopener noreferrer" class="text-sky-300 underline">GitHub token settings</a>.</li>
-                            <li>Choose <strong>Generate new token (classic)</strong> and name it for this portfolio.</li>
-                            <li>Set an expiration date. A limited expiry is safer than “No expiration”.</li>
-                            <li>Select only the <code class="text-sky-300">gist</code> scope, then generate and copy the token once.</li>
-                            <li>Paste it above and click <strong>Connect &amp; Sync</strong>. The token stays in this browser tab’s session storage and is sent only to GitHub.</li>
+                            <li>Open <a href="https://github.com/settings/tokens" target="_blank" rel="noopener noreferrer" class="text-sky-300 underline">GitHub token settings</a>, then choose Generate new token (classic).</li>
+                            <li>Name the token, set a limited expiration date, select only <code>gist</code>, generate it, and copy it.</li>
+                            <li>Paste it above. It is kept in this browser tab’s session storage, not in the public page.</li>
                         </ol>
-                        <p class="mt-3 text-[11px] text-sky-200">Do not enter a token on a shared device. Page scripts can access this tab’s session storage; revoke the token in GitHub immediately if it may have been exposed.</p>
                     </details>
-
-                    <div class="rounded-xl border border-sky-900 bg-slate-900 p-4 space-y-2 text-xs text-slate-300">
-                        <h4 class="font-bold text-white">How sync and photo storage work</h4>
-                        <ul class="list-disc space-y-1 pl-5">
-                            <li>The portfolio JSON is stored in a <strong>public GitHub Gist</strong>, so every visitor can read it without your token. Portfolio content and photo URLs in a public Gist are public.</li>
-                            <li>A private Gist cannot be loaded by anonymous visitors across devices. Never embed your GitHub token in the public page or put it in a private GitHub repository.</li>
-                            <li>Uploaded photos are sent to Cloudinary using an unsigned upload preset, then their URLs are saved in the Gist. Cloudinary must be configured below before uploading new photos.</li>
-                        </ul>
-                    </div>
-
+                    <p class="rounded-xl border border-sky-900 bg-slate-900 p-4 text-xs text-slate-300">A public Gist is required for anonymous visitors to load the portfolio. Its content and image URLs are public. Never put your GitHub token in the website source. Use a Cloudinary unsigned image preset to upload new project photos.</p>
                     <div class="rounded-xl border border-slate-700 bg-slate-800 p-4 space-y-3">
                         <h4 class="text-sm font-bold text-white">Cloudinary photo uploads</h4>
-                        <p class="text-xs text-slate-400">Use your Cloudinary cloud name and an unsigned upload preset restricted to images and an upload size limit. These values are public configuration, not secrets.</p>
+                        <p class="text-xs text-slate-400">Enter your Cloudinary cloud name and an unsigned upload preset limited to images and a safe upload size.</p>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <label class="text-xs text-slate-400">Cloud name
-                                <input id="cloudinary-cloud-name" type="text" autocomplete="off" class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 p-2.5 text-sm text-white">
+                                <input id="cloudinary-cloud-name" class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 p-2.5 text-sm text-white">
                             </label>
                             <label class="text-xs text-slate-400">Unsigned upload preset
-                                <input id="cloudinary-upload-preset" type="text" autocomplete="off" class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 p-2.5 text-sm text-white">
+                                <input id="cloudinary-upload-preset" class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 p-2.5 text-sm text-white">
                             </label>
                         </div>
                         <button type="button" onclick="saveCloudinarySettings()" class="rounded-lg border border-slate-600 px-4 py-2 text-xs font-bold text-slate-200 hover:bg-slate-700">Save photo settings in this browser</button>
                         <details class="rounded-lg border border-slate-700 p-3">
                             <summary class="cursor-pointer text-xs font-semibold text-slate-200">Where to find Cloudinary settings</summary>
                             <ol class="mt-2 list-decimal space-y-1 pl-5 text-[11px] text-slate-400">
-                                <li>Open your Cloudinary dashboard and copy the cloud name.</li>
+                                <li>Copy the cloud name from your Cloudinary dashboard.</li>
                                 <li>In Settings → Upload, create an upload preset and enable unsigned uploads.</li>
-                                <li>Restrict the preset to image formats and set an upload-size limit, then paste its name above.</li>
+                                <li>Restrict it to image formats and a reasonable upload size, then paste the preset name above.</li>
                             </ol>
                         </details>
                     </div>
@@ -890,7 +889,6 @@ with check (
 
     <!-- Application Script Logic -->
     <script>
-        // These browser values are public; never put a Supabase service-role key here.
         const SUPABASE_CONFIG = {
             url: '',
             anonKey: ''
@@ -899,21 +897,19 @@ with check (
         const GITHUB_GIST_FILENAME = 'portfolio-data.json';
         const GITHUB_GIST_DESCRIPTION = 'Civil engineering portfolio public content';
         const CLOUDINARY_CONFIG = {
-            cloudName: '',
-            uploadPreset: ''
+            cloudName: 'dh4toi5ns',
+            uploadPreset: 'portfolio_unsigned'
         };
-        const LEGACY_PORTFOLIO_NAME = 'Eng. David Vance';
-        const CURRENT_PORTFOLIO_NAME = 'Eng. Clement KABAYIZA';
 
         // Initial Default Data
         const INITIAL_DATA = {
             profile: {
-                name: "Eng. David Vance",
+                name: "Eng. Clement KABAYIZA",
                 title: "Senior Structural & Civil Engineer",
                 headline: "Building Resilient Infrastructure & Modern High-Rises",
                 bio: "Over 12 years of structural engineering excellence, site supervision, concrete testing innovation, and managing mega-infrastructure projects up to $65M budget.",
                 phone: "15550192831",
-                email: "david.vance@eng-solutions.com",
+                email: "clement.kabayiza@gmail.com",
                 location: "Metropolitan Civil District, HQ",
                 stats: {
                     years: "12",
@@ -1046,15 +1042,6 @@ with check (
                 saveDataToStorage();
             }
             appData.projects.forEach(normalizeProjectPhotos);
-            migratePortfolioName(appData);
-        }
-
-        function migratePortfolioName(data) {
-            if (data?.profile?.name === LEGACY_PORTFOLIO_NAME) {
-                data.profile.name = CURRENT_PORTFOLIO_NAME;
-                return true;
-            }
-            return false;
         }
 
         function normalizeProjectPhotos(project) {
@@ -1093,100 +1080,57 @@ with check (
             }
         }
 
-        function isSupabaseConfigured() {
-            return Boolean(
-                typeof SUPABASE_CONFIG.url === 'string' &&
-                /^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/i.test(SUPABASE_CONFIG.url.trim()) &&
-                typeof SUPABASE_CONFIG.anonKey === 'string' &&
-                SUPABASE_CONFIG.anonKey.trim()
-            );
-        }
-
-        function getSupabaseBaseUrl() {
-            if (!isSupabaseConfigured()) {
-                throw new Error('Supabase is not configured. Add the project URL and public API key to SUPABASE_CONFIG in the page source.');
-            }
-            return SUPABASE_CONFIG.url.trim().replace(/\/+$/, '');
-        }
-
-        function setCloudStorageStatus(message, isError = false) {
+        function setCloudStatus(message, isError = false) {
             const status = document.getElementById('cloud-storage-status');
             if (!status) return;
             status.textContent = message;
             status.className = `text-xs ${isError ? 'text-rose-300' : 'text-emerald-300'}`;
         }
 
-        function getGitHubToken() {
-            return sessionStorage.getItem('civil_portfolio_github_gist_token') || '';
-        }
-
-        function getGitHubGistId() {
-            return GITHUB_GIST_ID.trim() || localStorage.getItem('civil_portfolio_gist_id') || '';
-        }
-
-        function setGitHubGistStatus(message, isError = false) {
+        function setGistStatus(message, isError = false) {
             const status = document.getElementById('gist-sync-status');
             if (!status) return;
             status.textContent = message;
             status.className = `text-xs ${isError ? 'text-rose-300' : 'text-emerald-300'}`;
         }
 
-        function showGitHubGistId(gistId) {
-            const instructions = document.getElementById('gist-id-instructions');
-            const gistIdInput = document.getElementById('github-gist-id');
-            if (!instructions || !gistIdInput) return;
-            gistIdInput.value = gistId;
-            instructions.classList.remove('hidden');
+        function getGistId() {
+            return GITHUB_GIST_ID.trim() || localStorage.getItem('civil_portfolio_gist_id') || '';
         }
 
         async function loadPortfolioFromGist() {
-            const gistId = getGitHubGistId();
+            const gistId = GITHUB_GIST_ID.trim();
             if (!gistId) {
-                setGitHubGistStatus('Not synced — connect a GitHub token below. After the first sync, add the Gist ID to the page source for all visitors.', true);
+                setGistStatus('Not synced — connect GitHub in the CMS. Add the Gist ID to the page source so visitors can load it.', true);
                 return false;
             }
-            if (!/^[a-f0-9]{20,40}$/i.test(gistId)) {
-                setGitHubGistStatus('The GITHUB_GIST_ID setting is invalid. Copy the Gist ID from the Sync Setup tab.', true);
-                return false;
-            }
-
             try {
                 const response = await fetch(`https://api.github.com/gists/${encodeURIComponent(gistId)}`, {
-                    headers: {
-                        Accept: 'application/vnd.github+json',
-                        'X-GitHub-Api-Version': '2022-11-28'
-                    }
+                    headers: {Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'}
                 });
-                if (!response.ok) {
-                    const detail = await response.text();
-                    throw new Error(`GitHub could not load the portfolio Gist (${response.status}): ${detail || response.statusText}`);
-                }
                 const gist = await response.json();
-                if (gist.public !== true) {
-                    throw new Error('This Gist is private. Public visitors cannot load a private Gist; create a public portfolio Gist instead.');
+                if (!response.ok) throw new Error(gist.message || `GitHub request failed (${response.status}).`);
+                if (!gist.public) throw new Error('This Gist is private; anonymous visitors cannot load it.');
+                const file = gist.files && gist.files[GITHUB_GIST_FILENAME];
+                if (!file) throw new Error(`The Gist is missing ${GITHUB_GIST_FILENAME}.`);
+                let content = file.content;
+                if (!content && file.raw_url) {
+                    const rawResponse = await fetch(file.raw_url);
+                    if (!rawResponse.ok) throw new Error(`Could not read the Gist file (${rawResponse.status}).`);
+                    content = await rawResponse.text();
                 }
-                const portfolioFile = gist.files && gist.files[GITHUB_GIST_FILENAME];
-                if (!portfolioFile) throw new Error(`The Gist does not contain ${GITHUB_GIST_FILENAME}.`);
-
-                let gistContent = portfolioFile.content;
-                if (!gistContent && portfolioFile.raw_url) {
-                    const rawResponse = await fetch(portfolioFile.raw_url);
-                    if (!rawResponse.ok) throw new Error(`Could not read the portfolio file from the Gist (${rawResponse.status}).`);
-                    gistContent = await rawResponse.text();
+                const data = JSON.parse(content);
+                if (!data.profile || !Array.isArray(data.projects) || !Array.isArray(data.experiments)) {
+                    throw new Error('The Gist does not contain valid portfolio data.');
                 }
-                const cloudData = JSON.parse(gistContent);
-                if (!cloudData || !cloudData.profile || !Array.isArray(cloudData.projects) || !Array.isArray(cloudData.experiments)) {
-                    throw new Error('The Gist file does not contain valid portfolio data.');
-                }
-                cloudData.projects.forEach(normalizeProjectPhotos);
-                migratePortfolioName(cloudData);
-                appData = cloudData;
+                data.projects.forEach(normalizeProjectPhotos);
+                appData = data;
                 saveDataToStorage();
-                setGitHubGistStatus('Synced — loaded the latest public portfolio data from GitHub Gist.');
+                setGistStatus('Synced — loaded the latest portfolio from the public GitHub Gist.');
                 return true;
             } catch (error) {
                 console.error('Unable to load portfolio from GitHub Gist:', error);
-                setGitHubGistStatus(`Could not load Gist; showing the saved browser copy. ${error.message}`, true);
+                setGistStatus(`Could not load the Gist; using this browser's saved copy. ${error.message}`, true);
                 return false;
             }
         }
@@ -1195,163 +1139,123 @@ with check (
             const tokenInput = document.getElementById('github-gist-token');
             const token = tokenInput.value.trim();
             if (!token) {
-                setGitHubGistStatus('Paste your GitHub token before connecting.', true);
+                setGistStatus('Paste a GitHub token with the gist scope first.', true);
                 return false;
             }
-
-            setGitHubGistStatus('Checking GitHub token…');
+            setGistStatus('Checking GitHub token…');
             try {
                 const response = await fetch('https://api.github.com/user', {
-                    headers: {
-                        Accept: 'application/vnd.github+json',
-                        Authorization: `Bearer ${token}`,
-                        'X-GitHub-Api-Version': '2022-11-28'
-                    }
+                    headers: {Accept: 'application/vnd.github+json', Authorization: `Bearer ${token}`, 'X-GitHub-Api-Version': '2022-11-28'}
                 });
                 const user = await response.json();
-                if (!response.ok || !user.login) {
-                    throw new Error(user.message || 'GitHub rejected this token. Check it and confirm it has the gist scope.');
-                }
+                if (!response.ok || !user.login) throw new Error(user.message || 'GitHub rejected the token. Check that it has the gist scope.');
                 sessionStorage.setItem('civil_portfolio_github_gist_token', token);
                 tokenInput.value = '';
-                const synced = await syncPortfolioToGist(false);
-                if (!synced) return false;
-                setGitHubGistStatus(`Connected to GitHub as ${user.login}. The token remains in this tab's session storage.`);
-                return true;
+                return await syncPortfolioToGist(false);
             } catch (error) {
                 sessionStorage.removeItem('civil_portfolio_github_gist_token');
-                console.error('GitHub Gist connection failed:', error);
-                setGitHubGistStatus(`Could not connect GitHub: ${error.message}`, true);
+                console.error('GitHub token validation failed:', error);
+                setGistStatus(`Could not connect: ${error.message}`, true);
                 return false;
             }
         }
 
         async function disconnectGitHubGist() {
             sessionStorage.removeItem('civil_portfolio_github_gist_token');
-            const tokenInput = document.getElementById('github-gist-token');
-            if (tokenInput) tokenInput.value = '';
-            setGitHubGistStatus('Token forgotten in this tab. The public portfolio can still load the configured Gist.');
-        }
-
-        function getCloudinarySettings() {
-            let savedSettings = {};
-            try {
-                savedSettings = JSON.parse(localStorage.getItem('civil_portfolio_cloudinary_config') || '{}');
-            } catch (error) {
-                console.error('Unable to read Cloudinary settings:', error);
-            }
-            return {
-                cloudName: (savedSettings.cloudName || CLOUDINARY_CONFIG.cloudName || '').trim(),
-                uploadPreset: (savedSettings.uploadPreset || CLOUDINARY_CONFIG.uploadPreset || '').trim()
-            };
+            document.getElementById('github-gist-token').value = '';
+            setGistStatus('GitHub token forgotten in this browser tab.');
         }
 
         function loadCloudinarySettings() {
-            const settings = getCloudinarySettings();
-            const cloudNameInput = document.getElementById('cloudinary-cloud-name');
-            const uploadPresetInput = document.getElementById('cloudinary-upload-preset');
-            if (cloudNameInput) cloudNameInput.value = settings.cloudName;
-            if (uploadPresetInput) uploadPresetInput.value = settings.uploadPreset;
+            let saved = {};
+            try {
+                saved = JSON.parse(localStorage.getItem('civil_portfolio_cloudinary_config') || '{}');
+            } catch (error) {
+                console.error('Unable to read Cloudinary settings:', error);
+            }
+            const settings = {
+                cloudName: (saved.cloudName || CLOUDINARY_CONFIG.cloudName || '').trim(),
+                uploadPreset: (saved.uploadPreset || CLOUDINARY_CONFIG.uploadPreset || '').trim()
+            };
+            const cloudName = document.getElementById('cloudinary-cloud-name');
+            const preset = document.getElementById('cloudinary-upload-preset');
+            if (cloudName) cloudName.value = settings.cloudName;
+            if (preset) preset.value = settings.uploadPreset;
         }
 
         function saveCloudinarySettings() {
             const cloudName = document.getElementById('cloudinary-cloud-name').value.trim();
             const uploadPreset = document.getElementById('cloudinary-upload-preset').value.trim();
             if (cloudName && !/^[a-z0-9_-]+$/i.test(cloudName)) {
-                setGitHubGistStatus('Cloudinary cloud name contains invalid characters.', true);
+                setGistStatus('Cloudinary cloud name is invalid.', true);
                 return false;
             }
             try {
                 localStorage.setItem('civil_portfolio_cloudinary_config', JSON.stringify({cloudName, uploadPreset}));
-                setGitHubGistStatus('Cloudinary upload settings saved in this browser.');
+                setGistStatus('Cloudinary photo settings saved in this browser.');
                 return true;
             } catch (error) {
                 console.error('Unable to save Cloudinary settings:', error);
-                setGitHubGistStatus(`Could not save Cloudinary settings: ${error.message}`, true);
+                setGistStatus(`Could not save photo settings: ${error.message}`, true);
                 return false;
             }
         }
 
-        async function uploadProjectPhotosToCloudinary() {
-            const settings = getCloudinarySettings();
-            const photos = appData.projects.flatMap(project => getProjectPhotos(project).map(photo => ({project, photo})));
-            const pendingUploads = photos.filter(item => item.photo.src.startsWith('data:'));
-            if (!pendingUploads.length) return;
-            if (!settings.cloudName || !settings.uploadPreset) {
-                throw new Error('Your project contains photos that are not online yet. Enter the Cloudinary cloud name and unsigned upload preset in Sync Setup first.');
+        async function uploadPhotosToCloudinary() {
+            const saved = JSON.parse(localStorage.getItem('civil_portfolio_cloudinary_config') || '{}');
+            const cloudName = (saved.cloudName || CLOUDINARY_CONFIG.cloudName || '').trim();
+            const uploadPreset = (saved.uploadPreset || CLOUDINARY_CONFIG.uploadPreset || '').trim();
+            const pending = appData.projects.flatMap(project => getProjectPhotos(project).map(photo => ({photo})))
+                .filter(item => item.photo.src.startsWith('data:'));
+            if (!pending.length) return;
+            if (!cloudName || !uploadPreset) {
+                throw new Error('Configure your Cloudinary cloud name and unsigned upload preset before syncing uploaded photos.');
             }
-
-            for (const {project, photo} of pendingUploads) {
-                const imageResponse = await fetch(photo.src);
-                const imageBlob = await imageResponse.blob();
-                if (!['image/jpeg', 'image/png', 'image/webp'].includes(imageBlob.type.toLowerCase())) {
-                    throw new Error(`Unsupported photo format for "${photo.caption}". Use JPG, PNG, or WebP.`);
+            for (const {photo} of pending) {
+                const blob = await (await fetch(photo.src)).blob();
+                if (!['image/jpeg', 'image/png', 'image/webp'].includes(blob.type.toLowerCase())) {
+                    throw new Error(`Unsupported image type for ${photo.caption}. Use JPG, PNG, or WebP.`);
                 }
-                const formData = new FormData();
-                formData.append('file', imageBlob, photo.caption || 'portfolio-photo.jpg');
-                formData.append('upload_preset', settings.uploadPreset);
-                formData.append('folder', 'portfolio-projects');
-
-                const response = await fetch(`https://api.cloudinary.com/v1_1/${encodeURIComponent(settings.cloudName)}/image/upload`, {
-                    method: 'POST',
-                    body: formData
-                });
+                const form = new FormData();
+                form.append('file', blob, photo.caption || 'portfolio-photo.jpg');
+                form.append('upload_preset', uploadPreset);
+                form.append('folder', 'portfolio-projects');
+                const response = await fetch(`https://api.cloudinary.com/v1_1/${encodeURIComponent(cloudName)}/image/upload`, {method: 'POST', body: form});
                 const result = await response.json();
-                if (!response.ok || !result.secure_url) {
-                    throw new Error(result.error?.message || `Cloudinary upload failed for "${photo.caption}" (${response.status}).`);
-                }
+                if (!response.ok || !result.secure_url) throw new Error(result.error?.message || `Cloudinary upload failed (${response.status}).`);
                 photo.src = result.secure_url;
             }
         }
 
         async function syncPortfolioToGist(showAlert = true) {
-            if (githubGistSyncInProgress) {
-                setGitHubGistStatus('A GitHub sync is already running. Please wait for it to finish.');
-                return false;
-            }
-            const token = getGitHubToken();
+            if (githubGistSyncInProgress) return false;
+            const token = sessionStorage.getItem('civil_portfolio_github_gist_token') || '';
             if (!token) {
-                setGitHubGistStatus('Not synced — enter a GitHub token with the gist scope and click Connect & Sync.', true);
+                setGistStatus('Not synced — enter a GitHub token with the gist scope and click Connect & Sync.', true);
                 return false;
             }
-
             githubGistSyncInProgress = true;
-            setGitHubGistStatus('Uploading photos and syncing portfolio data…');
+            setGistStatus('Uploading photos and syncing portfolio…');
             try {
                 const cloudNameInput = document.getElementById('cloudinary-cloud-name');
-                const uploadPresetInput = document.getElementById('cloudinary-upload-preset');
-                if (cloudNameInput && uploadPresetInput && (cloudNameInput.value.trim() || uploadPresetInput.value.trim())) {
-                    if (!saveCloudinarySettings()) throw new Error('Could not save the Cloudinary upload settings.');
+                if (cloudNameInput?.value.trim() || document.getElementById('cloudinary-upload-preset')?.value.trim()) {
+                    if (!saveCloudinarySettings()) throw new Error('Could not save Cloudinary settings.');
                 }
-                await uploadProjectPhotosToCloudinary();
-                const portfolioJson = JSON.stringify(appData, null, 2);
-                if (new Blob([portfolioJson]).size > 900 * 1024) {
-                    throw new Error('The portfolio JSON is too large for a reliable Gist sync. Use hosted photo URLs and remove unused content.');
-                }
-                if (!saveDataToStorage()) {
-                    throw new Error('The local backup could not be updated, so the portfolio was not synced.');
-                }
-                const gistId = getGitHubGistId();
+                await uploadPhotosToCloudinary();
+                const content = JSON.stringify(appData, null, 2);
+                if (new Blob([content]).size > 900 * 1024) throw new Error('Portfolio data is too large for Gist. Upload photos to Cloudinary and remove unused content.');
+                if (!saveDataToStorage()) throw new Error('Could not update the local backup; portfolio was not synced.');
+
+                const gistId = getGistId();
                 if (gistId) {
-                    const existingResponse = await fetch(`https://api.github.com/gists/${encodeURIComponent(gistId)}`, {
-                        headers: {
-                            Accept: 'application/vnd.github+json',
-                            Authorization: `Bearer ${token}`,
-                            'X-GitHub-Api-Version': '2022-11-28'
-                        }
+                    const check = await fetch(`https://api.github.com/gists/${encodeURIComponent(gistId)}`, {
+                        headers: {Accept: 'application/vnd.github+json', Authorization: `Bearer ${token}`, 'X-GitHub-Api-Version': '2022-11-28'}
                     });
-                    const existingGist = await existingResponse.json();
-                    if (!existingResponse.ok) {
-                        throw new Error(existingGist.message || `Could not verify the existing Gist (${existingResponse.status}).`);
-                    }
-                    if (existingGist.public !== true) {
-                        throw new Error('The target Gist is private. Create a public portfolio Gist so visitors can load it.');
-                    }
+                    const existing = await check.json();
+                    if (!check.ok) throw new Error(existing.message || `Could not check the existing Gist (${check.status}).`);
+                    if (!existing.public) throw new Error('The existing Gist is private. Public visitors require a public Gist.');
                 }
-                const endpoint = gistId
-                    ? `https://api.github.com/gists/${encodeURIComponent(gistId)}`
-                    : 'https://api.github.com/gists';
-                const response = await fetch(endpoint, {
+                const response = await fetch(gistId ? `https://api.github.com/gists/${encodeURIComponent(gistId)}` : 'https://api.github.com/gists', {
                     method: gistId ? 'PATCH' : 'POST',
                     headers: {
                         Accept: 'application/vnd.github+json',
@@ -1359,257 +1263,126 @@ with check (
                         'Content-Type': 'application/json',
                         'X-GitHub-Api-Version': '2022-11-28'
                     },
-                    body: JSON.stringify(gistId ? {
-                        files: {[GITHUB_GIST_FILENAME]: {content: portfolioJson}}
-                    } : {
-                        description: GITHUB_GIST_DESCRIPTION,
-                        public: true,
-                        files: {[GITHUB_GIST_FILENAME]: {content: portfolioJson}}
-                    })
+                    body: JSON.stringify(gistId
+                        ? {files: {[GITHUB_GIST_FILENAME]: {content}}}
+                        : {description: GITHUB_GIST_DESCRIPTION, public: true, files: {[GITHUB_GIST_FILENAME]: {content}}})
                 });
                 const result = await response.json();
-                if (!response.ok || !result.id) {
-                    throw new Error(result.message || `GitHub Gist sync failed (${response.status}).`);
-                }
-                if (result.public !== true) {
-                    throw new Error('The target Gist is private. Public visitors need a public Gist to load this portfolio.');
-                }
+                if (!response.ok || !result.id) throw new Error(result.message || `GitHub Gist save failed (${response.status}).`);
+                if (!result.public) throw new Error('The Gist is private. Public visitors need a public Gist.');
                 localStorage.setItem('civil_portfolio_gist_id', result.id);
-                if (!GITHUB_GIST_ID.trim()) showGitHubGistId(result.id);
-                setGitHubGistStatus(`Synced successfully at ${new Date().toLocaleTimeString()}. Gist ID: ${result.id}.`);
-                if (showAlert) alert(`Portfolio and photos synced to the public GitHub Gist.\n\nGist ID: ${result.id}${GITHUB_GIST_ID.trim() ? '' : '\n\nAdd this ID to GITHUB_GIST_ID in index.html and publish the file so all visitors can load it.'}`);
+                if (!GITHUB_GIST_ID.trim()) {
+                    document.getElementById('github-gist-id').value = result.id;
+                    document.getElementById('gist-id-instructions').classList.remove('hidden');
+                }
+                setGistStatus(`Synced to GitHub Gist at ${new Date().toLocaleTimeString()}.`);
+                if (showAlert) alert(`Portfolio synced to public GitHub Gist.${GITHUB_GIST_ID.trim() ? '' : `\nAdd Gist ID ${result.id} to GITHUB_GIST_ID in index.html and publish it so visitors can load it.`}`);
                 return true;
             } catch (error) {
                 console.error('Unable to sync portfolio to GitHub Gist:', error);
-                setGitHubGistStatus(`Sync failed: ${error.message}`, true);
-                if (showAlert) alert(`GitHub sync failed. The browser copy remains available. ${error.message}`);
+                setGistStatus(`Sync failed: ${error.message}`, true);
+                if (showAlert) alert(`GitHub sync failed. Your browser copy remains available. ${error.message}`);
                 return false;
             } finally {
                 githubGistSyncInProgress = false;
             }
         }
 
+        function isSupabaseConfigured() {
+            return /^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/i.test(SUPABASE_CONFIG.url.trim()) && Boolean(SUPABASE_CONFIG.anonKey.trim());
+        }
+
         async function loadPortfolioFromCloud() {
             if (!isSupabaseConfigured()) {
-                setCloudStorageStatus('Cloud storage is not configured. Showing the copy saved in this browser.', true);
+                setCloudStatus('Cloud storage is not configured. Showing the copy saved in this browser.', true);
                 return false;
             }
             try {
-                const response = await fetch(`${getSupabaseBaseUrl()}/rest/v1/portfolio_content?id=eq.main&select=content`, {
-                    headers: {
-                        apikey: SUPABASE_CONFIG.anonKey.trim(),
-                        Authorization: `Bearer ${SUPABASE_CONFIG.anonKey.trim()}`
-                    }
+                const response = await fetch(`${SUPABASE_CONFIG.url.trim().replace(/\/+$/, '')}/rest/v1/portfolio_content?id=eq.main&select=content`, {
+                    headers: {apikey: SUPABASE_CONFIG.anonKey.trim(), Authorization: `Bearer ${SUPABASE_CONFIG.anonKey.trim()}`}
                 });
-                if (!response.ok) {
-                    const detail = await response.text();
-                    throw new Error(`Cloud load failed (${response.status}): ${detail || response.statusText}`);
-                }
+                if (!response.ok) throw new Error(`Supabase read failed (${response.status}): ${await response.text()}`);
                 const rows = await response.json();
-                const cloudData = Array.isArray(rows) && rows.length ? rows[0].content : null;
-                if (!cloudData || !cloudData.profile || !Array.isArray(cloudData.projects) || !Array.isArray(cloudData.experiments)) {
-                    setCloudStorageStatus('Cloud storage is connected but has no portfolio copy yet. Sign in and save once to publish the current portfolio.');
-                    return false;
-                }
-                cloudData.projects.forEach(normalizeProjectPhotos);
-                appData = cloudData;
+                const data = rows[0]?.content;
+                if (!data || !Array.isArray(data.projects)) return false;
+                data.projects.forEach(normalizeProjectPhotos);
+                appData = data;
                 saveDataToStorage();
-                setCloudStorageStatus('Loaded the latest portfolio and photos from Supabase cloud storage.');
+                setCloudStatus('Loaded the latest portfolio from Supabase.');
                 return true;
             } catch (error) {
-                console.error('Unable to load portfolio from Supabase:', error);
-                setCloudStorageStatus(`Could not load the cloud copy. Showing this browser's saved copy. ${error.message}`, true);
+                console.error('Unable to load Supabase portfolio:', error);
+                setCloudStatus(`Could not load Supabase data: ${error.message}`, true);
                 return false;
             }
         }
 
         async function connectCloudStorage() {
             if (!isSupabaseConfigured()) {
-                setCloudStorageStatus('Add your Supabase Project URL and public/anon API key to SUPABASE_CONFIG in the page source first.', true);
+                setCloudStatus('Configure the Supabase URL and public anon key in the page script first.', true);
                 return false;
             }
-            const email = document.getElementById('cloud-admin-email').value.trim();
-            const passwordInput = document.getElementById('cloud-admin-password');
-            const password = passwordInput.value;
-            if (!email || !password) {
-                setCloudStorageStatus('Enter the Supabase admin email and password to sign in.', true);
-                return false;
-            }
-
-            setCloudStorageStatus('Signing in to Supabase…');
             try {
-                const response = await fetch(`${getSupabaseBaseUrl()}/auth/v1/token?grant_type=password`, {
+                const response = await fetch(`${SUPABASE_CONFIG.url.trim().replace(/\/+$/, '')}/auth/v1/token?grant_type=password`, {
                     method: 'POST',
-                    headers: {
-                        apikey: SUPABASE_CONFIG.anonKey.trim(),
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({email, password})
+                    headers: {apikey: SUPABASE_CONFIG.anonKey.trim(), 'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        email: document.getElementById('cloud-admin-email').value.trim(),
+                        password: document.getElementById('cloud-admin-password').value
+                    })
                 });
                 const result = await response.json();
-                if (!response.ok) throw new Error(result.msg || result.message || result.error_description || 'Sign-in failed. Check the email, password, and Supabase Auth settings.');
-                if (!result.access_token || !result.refresh_token || !result.user?.id) {
-                    throw new Error('Supabase returned an incomplete sign-in session.');
-                }
-                cloudAuthSession = {
-                    accessToken: result.access_token,
-                    refreshToken: result.refresh_token,
-                    expiresAt: Date.now() + (Number(result.expires_in) || 3600) * 1000,
-                    userId: result.user.id
-                };
-                passwordInput.value = '';
-                setCloudStorageStatus(`Signed in as ${result.user.email || email}. Save Changes will publish to Supabase.`);
+                if (!response.ok || !result.access_token) throw new Error(result.msg || result.message || 'Supabase sign-in failed.');
+                cloudAuthSession = {accessToken: result.access_token, refreshToken: result.refresh_token};
+                document.getElementById('cloud-admin-password').value = '';
+                setCloudStatus('Signed in. Save changes to publish them to Supabase.');
                 return true;
             } catch (error) {
-                cloudAuthSession = null;
                 console.error('Supabase sign-in failed:', error);
-                setCloudStorageStatus(`Cloud sign-in failed: ${error.message}`, true);
+                setCloudStatus(`Sign-in failed: ${error.message}`, true);
                 return false;
             }
         }
 
-        async function getCloudAccessToken() {
-            if (!cloudAuthSession) {
-                throw new Error('Sign in to Supabase from the Cloud Storage tab before saving permanently.');
-            }
-            if (cloudAuthSession.expiresAt - Date.now() > 60000) return cloudAuthSession.accessToken;
-
-            const response = await fetch(`${getSupabaseBaseUrl()}/auth/v1/token?grant_type=refresh_token`, {
-                method: 'POST',
-                headers: {
-                    apikey: SUPABASE_CONFIG.anonKey.trim(),
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({refresh_token: cloudAuthSession.refreshToken})
-            });
-            const result = await response.json();
-            if (!response.ok || !result.access_token || !result.refresh_token) {
-                cloudAuthSession = null;
-                throw new Error(result.msg || result.message || 'Your cloud sign-in expired. Sign in again.');
-            }
-            cloudAuthSession = {
-                accessToken: result.access_token,
-                refreshToken: result.refresh_token,
-                expiresAt: Date.now() + (Number(result.expires_in) || 3600) * 1000,
-                userId: result.user?.id || cloudAuthSession.userId
-            };
-            return cloudAuthSession.accessToken;
-        }
-
-        async function signOutCloudStorage() {
-            if (!cloudAuthSession) {
-                setCloudStorageStatus('You are already signed out of Supabase.');
-                return;
-            }
-            try {
-                const accessToken = await getCloudAccessToken();
-                const response = await fetch(`${getSupabaseBaseUrl()}/auth/v1/logout`, {
-                    method: 'POST',
-                    headers: {
-                        apikey: SUPABASE_CONFIG.anonKey.trim(),
-                        Authorization: `Bearer ${accessToken}`
-                    }
-                });
-                if (!response.ok) {
-                    const detail = await response.text();
-                    throw new Error(`Sign-out failed (${response.status}): ${detail || response.statusText}`);
-                }
-                cloudAuthSession = null;
-                setCloudStorageStatus('Signed out of Supabase. The public portfolio continues to use its saved cloud copy.');
-            } catch (error) {
-                console.error('Unable to sign out of Supabase:', error);
-                setCloudStorageStatus(`Could not sign out: ${error.message}`, true);
-            }
-        }
-
-        async function uploadProjectPhotosToCloud(accessToken) {
-            const baseUrl = getSupabaseBaseUrl();
-            const bucket = 'portfolio-images';
-            for (const project of appData.projects) {
-                for (const photo of getProjectPhotos(project)) {
-                    if (!photo.src.startsWith('data:')) continue;
-                    const imageResponse = await fetch(photo.src);
-                    const imageBlob = await imageResponse.blob();
-                    const mimeType = imageBlob.type.toLowerCase();
-                    const extension = {'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp'}[mimeType];
-                    if (!extension) throw new Error(`Unsupported uploaded image format for "${photo.caption}". Use JPG, PNG, or WebP.`);
-
-                    const path = `projects/${encodeURIComponent(String(project.id || 'project'))}/${encodeURIComponent(String(photo.id))}.${extension}`;
-                    const uploadResponse = await fetch(`${baseUrl}/storage/v1/object/${bucket}/${path}`, {
-                        method: 'POST',
-                        headers: {
-                            apikey: SUPABASE_CONFIG.anonKey.trim(),
-                            Authorization: `Bearer ${accessToken}`,
-                            'Content-Type': mimeType
-                        },
-                        body: imageBlob
-                    });
-                    if (!uploadResponse.ok) {
-                        const detail = await uploadResponse.text();
-                        throw new Error(`Photo upload failed for "${photo.caption}" (${uploadResponse.status}): ${detail || uploadResponse.statusText}`);
-                    }
-                    photo.src = `${baseUrl}/storage/v1/object/public/${bucket}/${path}`;
-                }
-            }
+        function signOutCloudStorage() {
+            cloudAuthSession = null;
+            setCloudStatus('Signed out of Supabase.');
         }
 
         async function syncPortfolioToCloud(showAlert = true) {
-            if (cloudSyncInProgress) {
-                setCloudStorageStatus('A cloud save is already in progress. Please wait for it to finish.');
+            if (!isSupabaseConfigured() || !cloudAuthSession) {
+                setCloudStatus('Configure Supabase and sign in before saving to cloud.', true);
                 return false;
             }
-            cloudSyncInProgress = true;
-            setCloudStorageStatus('Saving portfolio and photos to Supabase…');
             try {
-                const accessToken = await getCloudAccessToken();
-                await uploadProjectPhotosToCloud(accessToken);
-                if (!saveDataToStorage()) throw new Error('The local backup could not be updated.');
-
-                const response = await fetch(`${getSupabaseBaseUrl()}/rest/v1/portfolio_content?on_conflict=id`, {
+                const response = await fetch(`${SUPABASE_CONFIG.url.trim().replace(/\/+$/, '')}/rest/v1/portfolio_content?on_conflict=id`, {
                     method: 'POST',
                     headers: {
                         apikey: SUPABASE_CONFIG.anonKey.trim(),
-                        Authorization: `Bearer ${accessToken}`,
+                        Authorization: `Bearer ${cloudAuthSession.accessToken}`,
                         'Content-Type': 'application/json',
                         Prefer: 'resolution=merge-duplicates,return=minimal'
                     },
                     body: JSON.stringify({id: 'main', content: appData, updated_at: new Date().toISOString()})
                 });
-                if (!response.ok) {
-                    const detail = await response.text();
-                    throw new Error(`Portfolio cloud save failed (${response.status}): ${detail || response.statusText}`);
-                }
-                setCloudStorageStatus(`Cloud save complete at ${new Date().toLocaleTimeString()}. Your published portfolio can now load this copy.`);
-                if (showAlert) alert('Portfolio and uploaded photos saved to Supabase cloud storage.');
+                if (!response.ok) throw new Error(`Supabase save failed (${response.status}): ${await response.text()}`);
+                setCloudStatus('Portfolio saved to Supabase.');
+                if (showAlert) alert('Portfolio saved to Supabase cloud storage.');
                 return true;
             } catch (error) {
-                console.error('Unable to save portfolio to Supabase:', error);
-                setCloudStorageStatus(`Cloud save failed: ${error.message}`, true);
-                if (showAlert) alert(`Cloud save failed. Your browser copy is still available. ${error.message}`);
+                console.error('Unable to save Supabase portfolio:', error);
+                setCloudStatus(`Cloud save failed: ${error.message}`, true);
+                if (showAlert) alert(`Supabase save failed: ${error.message}`);
                 return false;
-            } finally {
-                cloudSyncInProgress = false;
             }
         }
 
-        async function resetDataToDefault() {
+        function resetDataToDefault() {
             if (confirm("Reset portfolio back to original demo values?")) {
                 appData = JSON.parse(JSON.stringify(INITIAL_DATA));
-                if (!saveDataToStorage()) return;
+                saveDataToStorage();
                 renderPortfolio();
-                if ((getGitHubGistId() || getGitHubToken()) && getGitHubToken()) {
-                    const savedToCloud = await syncPortfolioToGist(false);
-                    alert(savedToCloud
-                        ? 'Portfolio reset to defaults and synced to GitHub Gist.'
-                        : 'Portfolio reset in this browser, but GitHub sync failed. Check Sync Setup and try again.');
-                } else if (isSupabaseConfigured() && cloudAuthSession) {
-                    const savedToCloud = await syncPortfolioToCloud(false);
-                    alert(savedToCloud
-                        ? 'Portfolio reset to defaults and saved to Supabase cloud storage.'
-                        : 'Portfolio reset in this browser, but the cloud save failed. Check Cloud Storage and try again.');
-                } else {
-                    alert('Portfolio reset in this browser only. Sign in to Supabase and save from the Cloud Storage tab to update the cloud copy.');
-                }
+                alert("Portfolio data reset to default demo content!");
             }
         }
 
@@ -1696,7 +1469,7 @@ with check (
             }
             const fileReader = new FileReader();
             fileReader.onerror = () => alert('Unable to read the selected backup file.');
-            fileReader.onload = async (e) => {
+            fileReader.onload = (e) => {
                 try {
                     const parsed = JSON.parse(e.target.result);
                     const profileFields = ['name', 'title', 'headline', 'bio', 'phone', 'email', 'location'];
@@ -1711,7 +1484,6 @@ with check (
                             parsed.emailjs && typeof parsed.emailjs === 'object' ? parsed.emailjs : {}
                         );
                         parsed.projects.forEach(normalizeProjectPhotos);
-                        migratePortfolioName(parsed);
                         const previousData = appData;
                         appData = parsed;
                         if (!saveDataToStorage()) {
@@ -1721,19 +1493,7 @@ with check (
                         initEmailJS();
                         renderPortfolio();
                         populateCMSForm();
-                        if ((getGitHubGistId() || getGitHubToken()) && getGitHubToken()) {
-                            const savedToCloud = await syncPortfolioToGist(false);
-                            alert(savedToCloud
-                                ? 'Portfolio data imported and synced to GitHub Gist.'
-                                : 'Portfolio data was imported in this browser, but GitHub sync failed. Check Sync Setup and try again.');
-                        } else if (isSupabaseConfigured() && cloudAuthSession) {
-                            const savedToCloud = await syncPortfolioToCloud(false);
-                            alert(savedToCloud
-                                ? 'Portfolio data imported and saved to Supabase cloud storage.'
-                                : 'Portfolio data was imported in this browser, but cloud saving failed. Check Cloud Storage and try again.');
-                        } else {
-                            alert('Portfolio data imported into this browser. Sign in under Sync Setup or Cloud Storage to publish it online.');
-                        }
+                        alert("Portfolio data imported successfully!");
                     } else {
                         alert("This file is not a valid portfolio backup. Choose a .json file exported from the portfolio dashboard.");
                     }
@@ -1826,9 +1586,60 @@ with check (
         }
 
         // Render Portfolio
+        function updateSearchMetadata() {
+            const profile = appData.profile;
+            const pageTitle = `${profile.name} | ${profile.title}`;
+            const descriptionText = `${profile.bio} Explore project experience, civil and structural engineering services, and technical research.`
+                .replace(/\s+/g, ' ')
+                .trim();
+            const description = descriptionText.length > 160
+                ? `${descriptionText.slice(0, 157).trimEnd()}...`
+                : descriptionText;
+            const pageUrl = window.location.protocol === 'http:' || window.location.protocol === 'https:'
+                ? `${window.location.origin}${window.location.pathname}`
+                : '';
+            const coverPhoto = appData.projects
+                .flatMap(project => getProjectPhotos(project))
+                .find(photo => /^https?:\/\//i.test(photo.src));
+
+            document.title = pageTitle;
+            document.querySelector('meta[name="author"]').content = profile.name;
+            document.getElementById('meta-description').content = description;
+            document.getElementById('og-title').content = pageTitle;
+            document.getElementById('og-description').content = description;
+            document.getElementById('twitter-title').content = pageTitle;
+            document.getElementById('twitter-description').content = description;
+            document.getElementById('canonical-url').href = pageUrl;
+            document.getElementById('og-url').content = pageUrl;
+            document.getElementById('og-image').content = coverPhoto ? coverPhoto.src : '';
+            document.getElementById('twitter-image').content = coverPhoto ? coverPhoto.src : '';
+
+            const structuredData = {
+                '@context': 'https://schema.org',
+                '@type': 'Person',
+                name: profile.name,
+                jobTitle: profile.title,
+                description,
+                knowsAbout: [
+                    'Civil engineering',
+                    'Structural engineering',
+                    'Infrastructure projects',
+                    'Structural design',
+                    'Construction project management',
+                    'Materials testing'
+                ]
+            };
+            if (pageUrl) structuredData.url = pageUrl;
+            if (profile.email) structuredData.email = profile.email;
+            if (profile.phone) structuredData.telephone = `+${profile.phone}`;
+            if (coverPhoto) structuredData.image = coverPhoto.src;
+            document.getElementById('person-structured-data').textContent = JSON.stringify(structuredData);
+        }
+
         function renderPortfolio() {
             const p = appData.profile;
 
+            updateSearchMetadata();
             document.getElementById('nav-engineer-name').textContent = p.name;
             document.getElementById('nav-engineer-title').textContent = p.title;
             document.getElementById('footer-engineer-name').textContent = p.name;
@@ -2387,26 +2198,26 @@ with check (
             if (!saveDataToStorage()) return;
             initEmailJS();
             renderPortfolio();
-            if (getGitHubGistId() || getGitHubToken()) {
+            if (sessionStorage.getItem('civil_portfolio_github_gist_token') || GITHUB_GIST_ID.trim()) {
                 if (!await syncPortfolioToGist(false)) {
-                    alert('Your changes are saved in this browser, but GitHub sync failed. Open Sync Setup, check the status, and try again.');
+                    alert('Changes are saved in this browser, but GitHub sync failed. Open Sync Setup to check the status.');
                     return;
                 }
                 closeCMSModal();
-                alert('Portfolio changes and uploaded photos are saved in this browser and synced to GitHub Gist.');
+                alert('Portfolio changes were saved and synced to GitHub Gist.');
                 return;
             }
             if (isSupabaseConfigured()) {
                 if (!await syncPortfolioToCloud(false)) {
-                    alert('Your changes are saved in this browser, but the cloud save failed. Open Cloud Storage, check the status, and try again.');
+                    alert('Changes are saved in this browser, but Supabase sync failed. Open Cloud Storage to check the status.');
                     return;
                 }
                 closeCMSModal();
-                alert('All portfolio changes and uploaded photos are saved in this browser and Supabase cloud storage.');
+                alert('Portfolio changes were saved to Supabase.');
                 return;
             }
             closeCMSModal();
-            alert('Changes are saved only in this browser. Configure Supabase in the Cloud Storage tab to save online and share the updated portfolio with visitors.');
+            alert('Changes are saved only in this browser. Connect GitHub Gist or configure Supabase to publish online.');
         }
     </script>
 </body>
