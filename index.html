@@ -49,8 +49,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- EmailJS SDK CDN -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         body { font-family: 'Inter', sans-serif; transition: background-color 0.3s ease, color 0.3s ease; }
         .font-mono-code { font-family: 'JetBrains Mono', monospace; }
@@ -436,11 +434,11 @@
         </section>
     </main>
 
-    <!-- FOOTER WITH INTEGRATED EMAILJS CONTACT FORM & SECRET ADMIN TRIGGERS -->
+    <!-- CONTACT FORM & SECRET ADMIN TRIGGERS -->
     <footer id="contact-footer" class="bg-slate-950 text-slate-100 border-t border-slate-800 pt-16 pb-12 transition-colors relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
             
-            <!-- Contact Card Banner with EmailJS Form -->
+            <!-- Contact Card Banner -->
             <div class="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/80 rounded-3xl p-8 sm:p-10 shadow-2xl relative overflow-hidden">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     
@@ -472,31 +470,31 @@
                         </div>
                     </div>
 
-                    <!-- EmailJS Integrated Form -->
+                    <!-- Direct email form -->
                     <div class="lg:col-span-6 bg-slate-950/90 p-6 rounded-2xl border border-slate-800 space-y-4">
                         <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code flex items-center gap-2">
-                            <i class="fa-solid fa-paper-plane"></i> Direct Email Inquiry (EmailJS Integrated)
+                            <i class="fa-solid fa-paper-plane"></i> Send an Email Inquiry
                         </h3>
 
-                        <form id="emailjs-contact-form" onsubmit="sendEmailJSMessage(event)" class="space-y-3">
+                        <form id="contact-form" onsubmit="sendContactMessage(event)" class="space-y-3">
                             <div>
                                 <label class="block text-[11px] text-slate-400 mb-1">Your Name</label>
-                                <input type="text" id="emailjs-from-name" required placeholder="Enter Your Email" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-sky-500">
+                                <input type="text" id="contact-from-name" required placeholder="Enter your name" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-sky-500">
                             </div>
                             <div>
                                 <label class="block text-[11px] text-slate-400 mb-1">Your Email</label>
-                                <input type="email" id="emailjs-from-email" required placeholder="your.email@company.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-sky-500">
+                                <input type="email" id="contact-from-email" required placeholder="your.email@company.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-sky-500">
                             </div>
                             <div>
                                 <label class="block text-[11px] text-slate-400 mb-1">Project Details / Message</label>
-                                <textarea id="emailjs-message" rows="3" required placeholder="Describe structural requirements, site location, timeline..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-sky-500"></textarea>
+                                <textarea id="contact-message" rows="3" required placeholder="Describe structural requirements, site location, timeline..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-sky-500"></textarea>
                             </div>
 
-                            <button type="submit" id="emailjs-submit-btn" class="w-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold py-2.5 rounded-xl text-xs transition-all flex items-center justify-center space-x-2">
+                            <button type="submit" class="w-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold py-2.5 rounded-xl text-xs transition-all flex items-center justify-center space-x-2">
                                 <i class="fa-solid fa-paper-plane"></i>
-                                <span>Send Inquiry</span>
+                                <span>Open Email App</span>
                             </button>
-                            <div id="emailjs-status-msg" class="text-[11px] text-center hidden"></div>
+                            <p id="contact-form-status" class="text-[11px] text-center text-slate-400" role="status">This opens your device’s email app to send the message.</p>
                         </form>
                     </div>
 
@@ -561,7 +559,7 @@
                     <div class="p-2 bg-sky-500 text-slate-950 rounded-lg"><i class="fa-solid fa-sliders"></i></div>
                     <div>
                         <h2 class="text-lg font-bold text-white">Engineering Portfolio CMS Dashboard</h2>
-                        <p class="text-xs text-slate-400">Modify content dynamically with LocalStorage & EmailJS settings</p>
+                        <p class="text-xs text-slate-400">Edit your portfolio and publish updates to your shared online site.</p>
                     </div>
                 </div>
                 <div class="flex items-center space-x-3">
@@ -597,10 +595,7 @@
                     <button id="cms-tab-btn-hero" onclick="switchCMSTab('hero')" class="pb-3 border-b-2 border-sky-500 text-sky-500 whitespace-nowrap">Personal & Bio</button>
                     <button id="cms-tab-btn-projects" onclick="switchCMSTab('projects')" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-white whitespace-nowrap">Projects Manager</button>
                     <button id="cms-tab-btn-experiments" onclick="switchCMSTab('experiments')" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-white whitespace-nowrap">Experiments & Testing</button>
-                    <button id="cms-tab-btn-emailjs" onclick="switchCMSTab('emailjs')" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-white whitespace-nowrap">EmailJS Configuration</button>
-                    <button id="cms-tab-btn-backup" onclick="switchCMSTab('backup')" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-white whitespace-nowrap">JSON Export / Import</button>
-                    <button id="cms-tab-btn-cloud" onclick="switchCMSTab('cloud')" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-white whitespace-nowrap">Cloud Storage</button>
-                    <button id="cms-tab-btn-gist" onclick="switchCMSTab('gist')" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-white whitespace-nowrap">Sync Setup</button>
+                    <button id="cms-tab-btn-publish" onclick="switchCMSTab('publish')" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-white whitespace-nowrap">Publish Online</button>
                 </div>
 
                 <!-- TAB 1: Personal & Bio Edit -->
@@ -699,71 +694,11 @@
                     </div>
                 </div>
 
-                <!-- TAB 4: EmailJS Integration Settings -->
-                <div id="cms-tab-emailjs" class="space-y-6 hidden">
-                    <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code">EmailJS API Settings</h3>
-                    <div class="rounded-xl border border-slate-700 bg-slate-900 p-4 text-xs text-slate-300 space-y-2 leading-relaxed">
-                        <p class="font-bold text-white">Set up EmailJS</p>
-                        <ol class="list-decimal pl-5 space-y-1">
-                            <li>Sign up at EmailJS and add an Email Service for the inbox where you want to receive inquiries.</li>
-                            <li>Create an Email Template. Set Reply-To to <code class="text-sky-300">{{from_email}}</code> and include <code class="text-sky-300">{{from_name}}</code> and <code class="text-sky-300">{{message}}</code> in the subject/body. Set the recipient to your inbox in EmailJS.</li>
-                            <li>In EmailJS, copy your Service ID, Template ID, and Public Key. Paste each into its matching field below and press Save Changes.</li>
-                            <li>Open the public contact form and send a test. Check the inbox and spam folder. If sending is not configured, the visitor is prompted to use their email app.</li>
-                        </ol>
-                        <p class="text-sky-300">Only use the EmailJS Public Key here. Never put an EmailJS Private Key or email account password in this page.</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <label class="block text-xs text-slate-400 mb-1">EmailJS Service ID</label>
-                            <input type="text" id="cms-input-emailjs-service" placeholder="service_xxxxxx" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-slate-400 mb-1">EmailJS Template ID</label>
-                            <input type="text" id="cms-input-emailjs-template" placeholder="template_xxxxxx" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-slate-400 mb-1">EmailJS Public Key</label>
-                            <input type="text" id="cms-input-emailjs-key" placeholder="user_xxxxxxxxxxxx" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-sm">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TAB 5: JSON Export / Import Backup Tool -->
-                <div id="cms-tab-backup" class="space-y-6 hidden">
-                    <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code">Hosting & Data Backup Tool</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">This is a JSON backup (a <code>.json</code> file), not a JavaScript <code>.js</code> file. It contains your profile, projects, uploaded photos, experiments, and EmailJS settings. Import replaces the current saved portfolio in this browser, so export a backup first.</p>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-                        <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4">
-                            <h4 class="font-bold text-white text-sm flex items-center gap-2">
-                                <i class="fa-solid fa-download text-sky-500"></i> Export JSON Backup
-                            </h4>
-                            <p class="text-xs text-slate-400">Download a copy of all currently saved portfolio content and settings to keep somewhere safe.</p>
-                            <button onclick="exportDataJSON()" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2">
-                                <i class="fa-solid fa-file-export"></i> Download Portfolio
-                            </button>
-                            <p class="text-[11px] text-slate-500">Use this regularly before making major edits. Keep the downloaded file somewhere safe.</p>
-                        </div>
-
-                        <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4">
-                            <h4 class="font-bold text-white text-sm flex items-center gap-2">
-                                <i class="fa-solid fa-upload text-emerald-400"></i> Import JSON Backup
-                            </h4>
-                            <p class="text-xs text-slate-400">Choose a JSON backup file previously downloaded from this dashboard. This replaces current data in this browser.</p>
-                            <input type="file" id="import-json-file" accept=".json" class="hidden" onchange="importDataJSON(event)">
-                            <button onclick="document.getElementById('import-json-file').click()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2">
-                                <i class="fa-solid fa-file-import"></i> Upload JSON File
-                            </button>
-                            <p class="text-[11px] text-slate-500">After choosing the file, wait for the success message; your portfolio preview will update. Imported data is stored only in this browser.</p>
-                        </div>
-                    </div>
-
-                    <div id="cms-tab-cloud" class="space-y-6 hidden">
-                        <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code">Supabase Cloud Storage</h3>
-                        <p class="text-xs leading-relaxed text-slate-300">Use Supabase for shared portfolio data and Cloudinary for uploaded photos. After this one-time setup, saving from the admin dashboard publishes updates for your other devices and site visitors. GitHub is not required.</p>
+                    <div id="cms-tab-publish" class="space-y-6 hidden">
+                        <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code">Shared Online Publishing</h3>
+                        <p class="text-xs leading-relaxed text-slate-300">Supabase stores portfolio content for every device; Cloudinary stores project photos. Save Changes publishes through Supabase once you sign in. No GitHub token or JSON import/export is needed.</p>
                         <div class="rounded-xl border border-slate-700 bg-slate-800 p-4 space-y-3">
-                            <p id="cloud-storage-status" class="text-xs text-amber-300" role="status" aria-live="polite">Checking cloud storage configuration…</p>
+                            <p id="cloud-storage-status" class="text-xs text-amber-300" role="status" aria-live="polite">Checking online publishing configuration…</p>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <label class="text-xs text-slate-400">Supabase admin email
                                     <input id="cloud-admin-email" type="email" autocomplete="username" class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 p-2.5 text-sm text-white">
@@ -773,22 +708,22 @@
                                 </label>
                             </div>
                             <div class="flex flex-wrap gap-2">
-                                <button type="button" onclick="connectCloudStorage()" class="rounded-lg bg-sky-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-sky-400">Sign in to cloud storage</button>
+                                <button type="button" onclick="connectCloudStorage()" class="rounded-lg bg-sky-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-sky-400">Sign in to publish</button>
                                 <button type="button" onclick="signOutCloudStorage()" class="rounded-lg border border-slate-600 px-4 py-2 text-xs font-bold text-slate-200 hover:bg-slate-700">Sign out</button>
-                                <button type="button" onclick="syncPortfolioToCloud()" class="rounded-lg bg-emerald-600 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-500">Save current portfolio to cloud</button>
+                                <button type="button" onclick="syncPortfolioToCloud()" class="rounded-lg bg-emerald-600 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-500">Publish current portfolio</button>
                             </div>
                         </div>
                         <div class="rounded-xl border border-sky-900 bg-slate-900 p-4 space-y-2 text-xs text-slate-300">
                             <h4 class="font-bold text-white">One-time setup checklist</h4>
                             <ol class="list-decimal space-y-1 pl-5">
                                 <li>Create a free Supabase project and copy its Project URL and public/anon API key.</li>
-                                <li>Paste both values into <code class="text-sky-300">SUPABASE_CONFIG</code> near the top of this page’s application script, then publish the updated site.</li>
+                                <li>Paste the Project URL and public anon/publishable key into <code class="text-sky-300">SUPABASE_CONFIG</code> near the top of this page, then publish the updated site once. These are public browser settings, not secret credentials.</li>
                                 <li>Create one confirmed admin user in Supabase Authentication. Keep public sign-ups disabled.</li>
                                 <li>Replace <code class="text-sky-300">YOUR-ADMIN-USER-UUID</code> in the SQL below with that user’s UID, then run it once in Supabase SQL Editor.</li>
-                                <li>Open the CMS → Cloud Storage and sign in with that Supabase admin email/password. This is separate from the portfolio dashboard password.</li>
+                                <li>Open the CMS → Publish Online and sign in with that Supabase admin email/password. This is separate from the portfolio dashboard password.</li>
                                 <li>Use Save Changes. The portfolio will load the latest cloud version after refresh on devices using the same published site.</li>
                             </ol>
-                            <p class="text-sky-200">The Supabase public/anon key is safe for browser code only when RLS is enabled. Never put a service-role/secret key here. The existing portfolio password alone cannot securely authorize database writes from a static page.</p>
+                            <p class="text-sky-200">Never place a Supabase service-role key, GitHub token, or account password in the website or a public repository. The dashboard password alone cannot securely authorize cloud database writes; Supabase admin sign-in and the RLS policies below protect publishing.</p>
                         </div>
                         <details class="rounded-xl border border-slate-700 bg-slate-950 p-4">
                             <summary class="cursor-pointer text-xs font-bold text-slate-200">Show one-time Supabase SQL setup</summary>
@@ -799,6 +734,10 @@
 );
 
 alter table public.portfolio_content enable row level security;
+
+drop policy if exists "Public can read portfolio" on public.portfolio_content;
+drop policy if exists "Portfolio admin can insert" on public.portfolio_content;
+drop policy if exists "Portfolio admin can update" on public.portfolio_content;
 
 create policy "Public can read portfolio"
 on public.portfolio_content for select to anon, authenticated
@@ -811,62 +750,9 @@ with check (id = 'main' and auth.uid() = 'YOUR-ADMIN-USER-UUID'::uuid);
 create policy "Portfolio admin can update"
 on public.portfolio_content for update to authenticated
 using (id = 'main' and auth.uid() = 'YOUR-ADMIN-USER-UUID'::uuid)
-with check (id = 'main' and auth.uid() = 'YOUR-ADMIN-USER-UUID'::uuid);
-
-insert into storage.buckets (id, name, public)
-values ('portfolio-images', 'portfolio-images', true)
-on conflict (id) do update set public = true;
-
-create policy "Public can view portfolio photos"
-on storage.objects for select to anon, authenticated
-using (bucket_id = 'portfolio-images');
-
-create policy "Portfolio admin can upload photos"
-on storage.objects for insert to authenticated
-with check (
-  bucket_id = 'portfolio-images'
-  and auth.uid() = 'YOUR-ADMIN-USER-UUID'::uuid
-);</code></pre>
-                            <p class="mt-3 text-[11px] text-slate-400">Run this SQL only once. If you run it again, Supabase may report that a policy already exists. Uploaded images removed from the portfolio may remain in Storage until you delete them manually.</p>
+with check (id = 'main' and auth.uid() = 'YOUR-ADMIN-USER-UUID'::uuid);</code></pre>
+                            <p class="mt-3 text-[11px] text-slate-400">This SQL can be run again safely. Images are uploaded to Cloudinary, not Supabase Storage.</p>
                         </details>
-                    </div>
-                </div>
-                <div id="cms-tab-gist" class="space-y-6 hidden">
-                    <div class="flex items-center gap-3">
-                        <span class="text-2xl" aria-hidden="true">🔄</span>
-                        <div>
-                            <h3 class="text-lg font-bold text-white">Sync Setup</h3>
-                            <p class="text-xs text-slate-400">Connect GitHub Gist so your published portfolio can load on every device.</p>
-                        </div>
-                    </div>
-                    <div class="rounded-xl border border-slate-700 bg-slate-800 p-4 space-y-3">
-                        <p id="gist-sync-status" class="text-xs text-sky-300" role="status" aria-live="polite">Not synced — connect GitHub to publish portfolio changes.</p>
-                        <label for="github-gist-id-setting" class="block text-xs text-slate-300">Public portfolio Gist ID
-                            <input id="github-gist-id-setting" type="text" autocomplete="off" spellcheck="false" placeholder="Filled after your first successful sync" class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 p-2.5 font-mono text-sm text-white">
-                        </label>
-                        <p class="text-[11px] text-slate-400">The Gist ID is public, not a secret. “Use this Gist” saves it for this browser. To make every visitor load the latest saved version, also add the ID to <code class="text-sky-300">GITHUB_GIST_ID</code> in index.html and publish the page.</p>
-                        <button type="button" onclick="saveGitHubGistId()" class="rounded-lg border border-slate-600 px-4 py-2 text-xs font-bold text-slate-200 hover:bg-slate-700">Use this Gist on this device</button>
-                        <label for="github-gist-token" class="block text-xs text-slate-300">GitHub Personal Access Token</label>
-                        <input id="github-gist-token" type="password" autocomplete="off" spellcheck="false" placeholder="Paste token with gist scope" class="w-full rounded-lg border border-slate-700 bg-slate-900 p-2.5 text-sm text-white">
-                        <div class="flex flex-wrap gap-2">
-                            <button type="button" onclick="connectGitHubGist()" class="rounded-lg bg-sky-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-sky-400">Connect &amp; Sync</button>
-                            <button type="button" onclick="syncPortfolioToGist()" class="rounded-lg bg-emerald-600 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-500">Sync current portfolio</button>
-                            <button type="button" onclick="disconnectGitHubGist()" class="rounded-lg border border-slate-600 px-4 py-2 text-xs font-bold text-slate-200 hover:bg-slate-700">Forget token</button>
-                        </div>
-                        <div id="gist-id-instructions" class="hidden space-y-2 rounded-lg border border-sky-900 bg-slate-950 p-3">
-                            <p class="text-xs text-slate-300">The Gist ID is saved in this browser. Add it to <code class="text-sky-300">GITHUB_GIST_ID</code> in index.html and publish the updated page for every visitor.</p>
-                            <input id="github-gist-id" readonly class="w-full rounded border border-slate-700 bg-slate-900 p-2 font-mono text-xs text-sky-200">
-                        </div>
-                    </div>
-                    <details class="rounded-xl border border-slate-700 bg-slate-900 p-4">
-                        <summary class="cursor-pointer text-sm font-bold text-white">Get a free GitHub token</summary>
-                        <ol class="mt-3 list-decimal space-y-1 pl-5 text-xs text-slate-300">
-                            <li>Open <a href="https://github.com/settings/tokens" target="_blank" rel="noopener noreferrer" class="text-sky-300 underline">GitHub token settings</a>, then choose Generate new token (classic).</li>
-                            <li>Name the token, set a limited expiration date, select only <code>gist</code>, generate it, and copy it.</li>
-                            <li>Paste it above. It is kept in this browser tab’s session storage, not in the public page.</li>
-                        </ol>
-                    </details>
-                    <p class="rounded-xl border border-sky-900 bg-slate-900 p-4 text-xs text-slate-300">A public Gist is required for anonymous visitors to load the portfolio. Its content and image URLs are public. Never put your GitHub token in the website source. Use a Cloudinary unsigned image preset to upload new project photos.</p>
                     <div class="rounded-xl border border-slate-700 bg-slate-800 p-4 space-y-3">
                         <h4 class="text-sm font-bold text-white">Cloudinary photo uploads</h4>
                         <p class="text-xs text-slate-400">Enter your Cloudinary cloud name and an unsigned upload preset limited to images and a safe upload size.</p>
@@ -883,7 +769,7 @@ with check (
                             <summary class="cursor-pointer text-xs font-semibold text-slate-200">Where to find Cloudinary settings</summary>
                             <ol class="mt-2 list-decimal space-y-1 pl-5 text-[11px] text-slate-400">
                                 <li>Copy the cloud name from your Cloudinary dashboard.</li>
-                                <li>In Settings → Upload, create an upload preset and enable unsigned uploads.</li>
+                                <li>In Settings → Upload, create an unsigned upload preset.</li>
                                 <li>Restrict it to image formats and a reasonable upload size, then paste the preset name above.</li>
                             </ol>
                         </details>
@@ -892,6 +778,7 @@ with check (
             </div>
         </div>
     </div>
+    </div>
 
     <!-- Application Script Logic -->
     <script>
@@ -899,9 +786,6 @@ with check (
             url: '',
             anonKey: ''
         };
-        const GITHUB_GIST_ID = '';
-        const GITHUB_GIST_FILENAME = 'portfolio-data.json';
-        const GITHUB_GIST_DESCRIPTION = 'Civil engineering portfolio public content';
         const CLOUDINARY_CONFIG = {
             cloudName: 'dh4toi5ns',
             uploadPreset: 'portfolio_unsigned'
@@ -923,11 +807,6 @@ with check (
                     budget: "65",
                     safety: "0"
                 }
-            },
-            emailjs: {
-                serviceId: "",
-                templateId: "",
-                publicKey: ""
             },
             projects: [
                 {
@@ -994,7 +873,6 @@ with check (
         let activeProjectPhotoIndex = 0;
         let cloudAuthSession = null;
         let cloudSyncInProgress = false;
-        let githubGistSyncInProgress = false;
 
         // On DOM Load
         window.addEventListener('DOMContentLoaded', async () => {
@@ -1002,12 +880,11 @@ with check (
             initTheme();
             loadAppData();
             loadCloudinarySettings();
-            if (!await loadPortfolioFromCloud()) await loadPortfolioFromGist();
+            await loadPortfolioFromCloud();
             renderPortfolio();
             initBlueprintCanvas();
             initKeyboardShortcuts();
             initCounters();
-            initEmailJS();
         });
 
         // Theme Switcher Logic
@@ -1216,16 +1093,16 @@ with check (
             const cloudName = document.getElementById('cloudinary-cloud-name').value.trim();
             const uploadPreset = document.getElementById('cloudinary-upload-preset').value.trim();
             if (cloudName && !/^[a-z0-9_-]+$/i.test(cloudName)) {
-                setGistStatus('Cloudinary cloud name is invalid.', true);
+                setCloudStatus('Cloudinary cloud name is invalid.', true);
                 return false;
             }
             try {
                 localStorage.setItem('civil_portfolio_cloudinary_config', JSON.stringify({cloudName, uploadPreset}));
-                setGistStatus('Cloudinary photo settings saved in this browser.');
+                setCloudStatus('Cloudinary photo settings saved in this browser.');
                 return true;
             } catch (error) {
                 console.error('Unable to save Cloudinary settings:', error);
-                setGistStatus(`Could not save photo settings: ${error.message}`, true);
+                setCloudStatus(`Could not save photo settings: ${error.message}`, true);
                 return false;
             }
         }
@@ -1325,7 +1202,7 @@ with check (
 
         async function loadPortfolioFromCloud() {
             if (!isSupabaseConfigured()) {
-                setCloudStatus('Cloud storage is not configured. Showing the copy saved in this browser.', true);
+                setCloudStatus('Online publishing is not configured. Showing this browser’s saved copy.', true);
                 return false;
             }
             try {
@@ -1335,7 +1212,10 @@ with check (
                 if (!response.ok) throw new Error(`Supabase read failed (${response.status}): ${await response.text()}`);
                 const rows = await response.json();
                 const data = rows[0]?.content;
-                if (!data || !Array.isArray(data.projects)) return false;
+                if (!data || !Array.isArray(data.projects)) {
+                    setCloudStatus('Supabase is connected, but no portfolio has been published yet. Sign in and choose “Publish current portfolio” in the dashboard.', true);
+                    return false;
+                }
                 data.projects.forEach(normalizeProjectPhotos);
                 appData = data;
                 saveDataToStorage();
@@ -1385,11 +1265,11 @@ with check (
         }
 
         async function getSupabaseAccessToken() {
-            if (!cloudAuthSession) throw new Error('Sign in with your Supabase admin email and password in Cloud Storage.');
+            if (!cloudAuthSession) throw new Error('Sign in with your Supabase admin email and password under Publish Online.');
             if (cloudAuthSession.expiresAt - Date.now() > 60000) return cloudAuthSession.accessToken;
             if (!cloudAuthSession.refreshToken) {
                 cloudAuthSession = null;
-                throw new Error('Your Supabase session expired. Sign in again in Cloud Storage.');
+                throw new Error('Your Supabase session expired. Sign in again under Publish Online.');
             }
 
             const response = await fetch(`${SUPABASE_CONFIG.url.trim().replace(/\/+$/, '')}/auth/v1/token?grant_type=refresh_token`, {
@@ -1432,7 +1312,7 @@ with check (
                 });
                 if (!response.ok) throw new Error(`Supabase save failed (${response.status}): ${await response.text()}`);
                 setCloudStatus('Portfolio saved to Supabase.');
-                if (showAlert) alert('Portfolio saved to Supabase cloud storage.');
+                if (showAlert) alert('Portfolio published online.');
                 return true;
             } catch (error) {
                 console.error('Unable to save Supabase portfolio:', error);
@@ -1451,124 +1331,15 @@ with check (
             }
         }
 
-        // EmailJS Initialization & Form Handling
-        function initEmailJS() {
-            if (appData.emailjs && appData.emailjs.publicKey && window.emailjs) {
-                try {
-                    emailjs.init(appData.emailjs.publicKey);
-                } catch (err) {
-                    console.log("EmailJS Init Notice:", err);
-                }
-            }
-        }
-
-        function sendEmailJSMessage(e) {
+        function sendContactMessage(e) {
             e.preventDefault();
-            const statusMsg = document.getElementById('emailjs-status-msg');
-            const submitBtn = document.getElementById('emailjs-submit-btn');
-
-            const fromName = document.getElementById('emailjs-from-name').value;
-            const fromEmail = document.getElementById('emailjs-from-email').value;
-            const message = document.getElementById('emailjs-message').value;
-
-            statusMsg.classList.remove('hidden', 'text-rose-400', 'text-emerald-400');
-            statusMsg.classList.add('text-sky-400');
-            statusMsg.textContent = "Sending inquiry...";
-            submitBtn.disabled = true;
-
-            const serviceId = appData.emailjs?.serviceId;
-            const templateId = appData.emailjs?.templateId;
-
-            if (serviceId && templateId && window.emailjs) {
-                emailjs.send(serviceId, templateId, {
-                    from_name: fromName,
-                    from_email: fromEmail,
-                    message: message,
-                    to_email: appData.profile.email
-                })
-                .then(() => {
-                    statusMsg.className = "text-[11px] text-center text-emerald-400 font-bold mt-2";
-                    statusMsg.textContent = "Inquiry sent successfully! Thank you.";
-                    document.getElementById('emailjs-contact-form').reset();
-                    submitBtn.disabled = false;
-                })
-                .catch((err) => {
-                    statusMsg.className = "text-[11px] text-center text-rose-400 font-bold mt-2";
-                    statusMsg.textContent = "Unable to dispatch email. Opening mail client instead...";
-                    submitBtn.disabled = false;
-                    setTimeout(() => {
-                        window.location.href = `mailto:${appData.profile.email}?subject=Project Inquiry from ${encodeURIComponent(fromName)}&body=${encodeURIComponent(message)}`;
-                    }, 1200);
-                });
-            } else {
-                // Fallback direct mailto if EmailJS parameters are unconfigured
-                statusMsg.className = "text-[11px] text-center text-sky-400 font-bold mt-2";
-                statusMsg.textContent = "Redirecting to Mail Client...";
-                setTimeout(() => {
-                    window.location.href = `mailto:${appData.profile.email}?subject=Structural Inquiry from ${encodeURIComponent(fromName)}&body=${encodeURIComponent(message)}`;
-                    statusMsg.classList.add('hidden');
-                    submitBtn.disabled = false;
-                    document.getElementById('emailjs-contact-form').reset();
-                }, 1000);
-            }
-        }
-
-        // JSON Import / Export Backup Operations
-        function exportDataJSON() {
-            const backupUrl = URL.createObjectURL(new Blob([JSON.stringify(appData, null, 2)], {type: 'application/json'}));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.href = backupUrl;
-            downloadAnchor.download = `${appData.profile.name.trim().replace(/[^\w-]+/g, '_')}_Portfolio_Backup.json`;
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-            setTimeout(() => URL.revokeObjectURL(backupUrl), 1000);
-        }
-
-        function importDataJSON(event) {
-            const file = event.target.files && event.target.files[0];
-            if (!file) return;
-            if (!confirm('Import this JSON backup and replace the portfolio saved in this browser?')) {
-                event.target.value = '';
-                return;
-            }
-            const fileReader = new FileReader();
-            fileReader.onerror = () => alert('Unable to read the selected backup file.');
-            fileReader.onload = (e) => {
-                try {
-                    const parsed = JSON.parse(e.target.result);
-                    const profileFields = ['name', 'title', 'headline', 'bio', 'phone', 'email', 'location'];
-                    const statFields = ['years', 'projects', 'budget', 'safety'];
-                    const validProfile = parsed && parsed.profile && parsed.profile.stats &&
-                        profileFields.every(field => parsed.profile[field] !== undefined) &&
-                        statFields.every(field => parsed.profile.stats[field] !== undefined);
-                    if (validProfile && Array.isArray(parsed.projects) && Array.isArray(parsed.experiments)) {
-                        parsed.emailjs = Object.assign(
-                            {},
-                            INITIAL_DATA.emailjs,
-                            parsed.emailjs && typeof parsed.emailjs === 'object' ? parsed.emailjs : {}
-                        );
-                        parsed.projects.forEach(normalizeProjectPhotos);
-                        const previousData = appData;
-                        appData = parsed;
-                        if (!saveDataToStorage()) {
-                            appData = previousData;
-                            return;
-                        }
-                        initEmailJS();
-                        renderPortfolio();
-                        populateCMSForm();
-                        alert("Portfolio data imported successfully!");
-                    } else {
-                        alert("This file is not a valid portfolio backup. Choose a .json file exported from the portfolio dashboard.");
-                    }
-                } catch (err) {
-                    console.error('Unable to import portfolio backup:', err);
-                    alert("Could not read this backup as JSON. Check that the file is a valid portfolio .json backup.");
-                }
-            };
-            fileReader.readAsText(file);
-            event.target.value = '';
+            const name = document.getElementById('contact-from-name').value.trim();
+            const email = document.getElementById('contact-from-email').value.trim();
+            const message = document.getElementById('contact-message').value.trim();
+            const subject = `Portfolio inquiry from ${name}`;
+            const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
+            document.getElementById('contact-form-status').textContent = 'Opening your default email app. If it does not open, email the address shown on this page.';
+            window.location.href = `mailto:${encodeURIComponent(appData.profile.email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         }
 
         // Secret Admin Access (Triple Click, Gear Icon, Keyboard Shortcut)
@@ -2021,18 +1792,12 @@ with check (
             document.getElementById('cms-input-stat-budget').value = p.stats.budget;
             document.getElementById('cms-input-stat-safety').value = p.stats.safety;
 
-            if (appData.emailjs) {
-                document.getElementById('cms-input-emailjs-service').value = appData.emailjs.serviceId || '';
-                document.getElementById('cms-input-emailjs-template').value = appData.emailjs.templateId || '';
-                document.getElementById('cms-input-emailjs-key').value = appData.emailjs.publicKey || '';
-            }
-
             renderCMSProjectsList();
             renderCMSExperimentsList();
         }
 
         function switchCMSTab(tab) {
-            const tabs = ['hero', 'projects', 'experiments', 'emailjs', 'backup', 'cloud', 'gist'];
+            const tabs = ['hero', 'projects', 'experiments', 'publish'];
             tabs.forEach(t => {
                 document.getElementById(`cms-tab-${t}`).classList.add('hidden');
                 document.getElementById(`cms-tab-btn-${t}`).className = "pb-3 border-b-2 border-transparent text-slate-400 hover:text-white whitespace-nowrap";
@@ -2255,11 +2020,6 @@ with check (
             appData.profile.stats.budget = document.getElementById('cms-input-stat-budget').value;
             appData.profile.stats.safety = document.getElementById('cms-input-stat-safety').value;
 
-            if (!appData.emailjs) appData.emailjs = {};
-            appData.emailjs.serviceId = document.getElementById('cms-input-emailjs-service').value.trim();
-            appData.emailjs.templateId = document.getElementById('cms-input-emailjs-template').value.trim();
-            appData.emailjs.publicKey = document.getElementById('cms-input-emailjs-key').value.trim();
-
             if (isSupabaseConfigured() && cloudAuthSession) {
                 try {
                     await uploadPhotosToCloudinary();
@@ -2271,38 +2031,24 @@ with check (
                 }
             }
             if (!saveDataToStorage()) return;
-            initEmailJS();
             renderPortfolio();
             if (isSupabaseConfigured()) {
                 if (!cloudAuthSession) {
-                    setCloudStatus('Changes are saved in this browser. Sign in with the Supabase admin email/password in Cloud Storage to publish them online.', true);
-                    alert('Changes are saved only in this browser. Open Cloud Storage and sign in with your Supabase admin email/password to publish them for other devices.');
+                    setCloudStatus('Changes are saved in this browser. Sign in with your Supabase admin email/password under Publish Online to publish them.', true);
+                    alert('Changes are saved only in this browser. Open Publish Online and sign in with your Supabase admin email/password to publish them for other devices.');
                     return;
                 }
                 if (!await syncPortfolioToCloud(false)) {
-                    alert('Changes are saved in this browser, but Supabase sync failed. Open Cloud Storage to check the status.');
+                    alert('Changes are saved in this browser, but online publishing failed. Open Publish Online to check the status.');
                     return;
                 }
                 closeCMSModal();
                 alert('Portfolio changes were saved to Supabase and uploaded photos were stored in Cloudinary.');
                 return;
             }
-            if (sessionStorage.getItem('civil_portfolio_github_gist_token')) {
-                if (!await syncPortfolioToGist(false)) {
-                    const gistStatus = document.getElementById('gist-sync-status')?.textContent.trim();
-                    alert(`Changes are saved in this browser, but GitHub sync failed.\n\n${gistStatus || 'Open Sync Setup to check the status.'}`);
-                    return;
-                }
-                closeCMSModal();
-                alert('Portfolio changes were saved and synced to GitHub Gist.');
-                return;
-            }
-            const gistId = getGistId();
-            const syncMessage = gistId
-                ? 'A Gist is selected, but GitHub is not connected in this browser. Open Sync Setup, enter a GitHub token with the gist scope, and select Connect & Sync.'
-                : 'No public Gist is configured. Open Sync Setup, connect GitHub, and sync once to create one. Then publish its Gist ID in GITHUB_GIST_ID so every visitor loads the saved changes.';
-            setGistStatus(syncMessage, true);
-            alert(`Changes are saved only in this browser; other devices and visitors will not see them yet.\n\n${syncMessage}`);
+            const publishMessage = 'Supabase is not configured. Changes are saved in this browser only. Complete the one-time setup in Publish Online to share them with all devices.';
+            setCloudStatus(publishMessage, true);
+            alert(publishMessage);
         }
     </script>
 </body>
