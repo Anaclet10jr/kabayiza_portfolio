@@ -761,7 +761,7 @@
 
                     <div id="cms-tab-cloud" class="space-y-6 hidden">
                         <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code">Supabase Cloud Storage</h3>
-                        <p class="text-xs leading-relaxed text-slate-300">Cloud storage keeps your portfolio and uploaded photos online so the published site and your other devices can load the same saved work. Browser storage remains as a local backup.</p>
+                        <p class="text-xs leading-relaxed text-slate-300">Use Supabase for shared portfolio data and Cloudinary for uploaded photos. After this one-time setup, saving from the admin dashboard publishes updates for your other devices and site visitors. GitHub is not required.</p>
                         <div class="rounded-xl border border-slate-700 bg-slate-800 p-4 space-y-3">
                             <p id="cloud-storage-status" class="text-xs text-amber-300" role="status" aria-live="polite">Checking cloud storage configuration…</p>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -785,9 +785,10 @@
                                 <li>Paste both values into <code class="text-sky-300">SUPABASE_CONFIG</code> near the top of this page’s application script, then publish the updated site.</li>
                                 <li>Create one confirmed admin user in Supabase Authentication. Keep public sign-ups disabled.</li>
                                 <li>Replace <code class="text-sky-300">YOUR-ADMIN-USER-UUID</code> in the SQL below with that user’s UID, then run it once in Supabase SQL Editor.</li>
-                                <li>Open the CMS, sign in here using that Supabase admin email/password, then save. The website will load the cloud copy for visitors.</li>
+                                <li>Open the CMS → Cloud Storage and sign in with that Supabase admin email/password. This is separate from the portfolio dashboard password.</li>
+                                <li>Use Save Changes. The portfolio will load the latest cloud version after refresh on devices using the same published site.</li>
                             </ol>
-                            <p class="text-amber-200">The API key used in a static website is public by design. Never use a service-role/secret key here. Security comes from the SQL row policies and the authenticated admin UID.</p>
+                            <p class="text-sky-200">The Supabase public/anon key is safe for browser code only when RLS is enabled. Never put a service-role/secret key here. The existing portfolio password alone cannot securely authorize database writes from a static page.</p>
                         </div>
                         <details class="rounded-xl border border-slate-700 bg-slate-950 p-4">
                             <summary class="cursor-pointer text-xs font-bold text-slate-200">Show one-time Supabase SQL setup</summary>
@@ -839,7 +840,12 @@ with check (
                         </div>
                     </div>
                     <div class="rounded-xl border border-slate-700 bg-slate-800 p-4 space-y-3">
-                        <p id="gist-sync-status" class="text-xs text-sky-300" role="status" aria-live="polite">Not synced — enter a GitHub token below.</p>
+                        <p id="gist-sync-status" class="text-xs text-sky-300" role="status" aria-live="polite">Not synced — connect GitHub to publish portfolio changes.</p>
+                        <label for="github-gist-id-setting" class="block text-xs text-slate-300">Public portfolio Gist ID
+                            <input id="github-gist-id-setting" type="text" autocomplete="off" spellcheck="false" placeholder="Filled after your first successful sync" class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 p-2.5 font-mono text-sm text-white">
+                        </label>
+                        <p class="text-[11px] text-slate-400">The Gist ID is public, not a secret. “Use this Gist” saves it for this browser. To make every visitor load the latest saved version, also add the ID to <code class="text-sky-300">GITHUB_GIST_ID</code> in index.html and publish the page.</p>
+                        <button type="button" onclick="saveGitHubGistId()" class="rounded-lg border border-slate-600 px-4 py-2 text-xs font-bold text-slate-200 hover:bg-slate-700">Use this Gist on this device</button>
                         <label for="github-gist-token" class="block text-xs text-slate-300">GitHub Personal Access Token</label>
                         <input id="github-gist-token" type="password" autocomplete="off" spellcheck="false" placeholder="Paste token with gist scope" class="w-full rounded-lg border border-slate-700 bg-slate-900 p-2.5 text-sm text-white">
                         <div class="flex flex-wrap gap-2">
@@ -848,7 +854,7 @@ with check (
                             <button type="button" onclick="disconnectGitHubGist()" class="rounded-lg border border-slate-600 px-4 py-2 text-xs font-bold text-slate-200 hover:bg-slate-700">Forget token</button>
                         </div>
                         <div id="gist-id-instructions" class="hidden space-y-2 rounded-lg border border-sky-900 bg-slate-950 p-3">
-                            <p class="text-xs text-slate-300">For all visitors to load this Gist, copy its ID into <code class="text-sky-300">GITHUB_GIST_ID</code> in the page script and publish the updated page.</p>
+                            <p class="text-xs text-slate-300">The Gist ID is saved in this browser. Add it to <code class="text-sky-300">GITHUB_GIST_ID</code> in index.html and publish the updated page for every visitor.</p>
                             <input id="github-gist-id" readonly class="w-full rounded border border-slate-700 bg-slate-900 p-2 font-mono text-xs text-sky-200">
                         </div>
                     </div>
@@ -996,7 +1002,7 @@ with check (
             initTheme();
             loadAppData();
             loadCloudinarySettings();
-            if (!await loadPortfolioFromGist()) await loadPortfolioFromCloud();
+            if (!await loadPortfolioFromCloud()) await loadPortfolioFromGist();
             renderPortfolio();
             initBlueprintCanvas();
             initKeyboardShortcuts();
@@ -1098,10 +1104,29 @@ with check (
             return GITHUB_GIST_ID.trim() || localStorage.getItem('civil_portfolio_gist_id') || '';
         }
 
+        function saveGitHubGistId() {
+            const input = document.getElementById('github-gist-id-setting');
+            const gistId = input.value.trim().replace(/^https?:\/\/gist\.github\.com\/(?:[^/]+\/)?/i, '').replace(/\/+$/, '');
+            if (!/^[a-f0-9]{20,40}$/i.test(gistId)) {
+                setGistStatus('Enter a valid public Gist ID or gist.github.com URL.', true);
+                return false;
+            }
+            try {
+                localStorage.setItem('civil_portfolio_gist_id', gistId);
+                input.value = gistId;
+                setGistStatus('Gist ID saved in this browser. Reload this page to load the latest public portfolio from it.');
+                return true;
+            } catch (error) {
+                console.error('Unable to save GitHub Gist ID:', error);
+                setGistStatus(`Could not save the Gist ID: ${error.message}`, true);
+                return false;
+            }
+        }
+
         async function loadPortfolioFromGist() {
-            const gistId = GITHUB_GIST_ID.trim();
+            const gistId = getGistId();
             if (!gistId) {
-                setGistStatus('Not synced — connect GitHub in the CMS. Add the Gist ID to the page source so visitors can load it.', true);
+                setGistStatus('No public Gist is configured. Connect GitHub in Sync Setup, then publish its Gist ID for visitors to load cloud changes.', true);
                 return false;
             }
             try {
@@ -1126,6 +1151,8 @@ with check (
                 data.projects.forEach(normalizeProjectPhotos);
                 appData = data;
                 saveDataToStorage();
+                const gistIdInput = document.getElementById('github-gist-id-setting');
+                if (gistIdInput) gistIdInput.value = gistId;
                 setGistStatus('Synced — loaded the latest portfolio from the public GitHub Gist.');
                 return true;
             } catch (error) {
@@ -1181,6 +1208,8 @@ with check (
             const preset = document.getElementById('cloudinary-upload-preset');
             if (cloudName) cloudName.value = settings.cloudName;
             if (preset) preset.value = settings.uploadPreset;
+            const gistIdInput = document.getElementById('github-gist-id-setting');
+            if (gistIdInput) gistIdInput.value = getGistId();
         }
 
         function saveCloudinarySettings() {
@@ -1271,6 +1300,8 @@ with check (
                 if (!response.ok || !result.id) throw new Error(result.message || `GitHub Gist save failed (${response.status}).`);
                 if (!result.public) throw new Error('The Gist is private. Public visitors need a public Gist.');
                 localStorage.setItem('civil_portfolio_gist_id', result.id);
+                const gistIdSetting = document.getElementById('github-gist-id-setting');
+                if (gistIdSetting) gistIdSetting.value = result.id;
                 if (!GITHUB_GIST_ID.trim()) {
                     document.getElementById('github-gist-id').value = result.id;
                     document.getElementById('gist-id-instructions').classList.remove('hidden');
@@ -1333,7 +1364,11 @@ with check (
                 });
                 const result = await response.json();
                 if (!response.ok || !result.access_token) throw new Error(result.msg || result.message || 'Supabase sign-in failed.');
-                cloudAuthSession = {accessToken: result.access_token, refreshToken: result.refresh_token};
+                cloudAuthSession = {
+                    accessToken: result.access_token,
+                    refreshToken: result.refresh_token,
+                    expiresAt: Date.now() + (Number(result.expires_in) || 3600) * 1000
+                };
                 document.getElementById('cloud-admin-password').value = '';
                 setCloudStatus('Signed in. Save changes to publish them to Supabase.');
                 return true;
@@ -1349,17 +1384,47 @@ with check (
             setCloudStatus('Signed out of Supabase.');
         }
 
+        async function getSupabaseAccessToken() {
+            if (!cloudAuthSession) throw new Error('Sign in with your Supabase admin email and password in Cloud Storage.');
+            if (cloudAuthSession.expiresAt - Date.now() > 60000) return cloudAuthSession.accessToken;
+            if (!cloudAuthSession.refreshToken) {
+                cloudAuthSession = null;
+                throw new Error('Your Supabase session expired. Sign in again in Cloud Storage.');
+            }
+
+            const response = await fetch(`${SUPABASE_CONFIG.url.trim().replace(/\/+$/, '')}/auth/v1/token?grant_type=refresh_token`, {
+                method: 'POST',
+                headers: {apikey: SUPABASE_CONFIG.anonKey.trim(), 'Content-Type': 'application/json'},
+                body: JSON.stringify({refresh_token: cloudAuthSession.refreshToken})
+            });
+            const result = await response.json();
+            if (!response.ok || !result.access_token || !result.refresh_token) {
+                cloudAuthSession = null;
+                throw new Error(result.msg || result.message || 'Your Supabase session expired. Sign in again.');
+            }
+            cloudAuthSession = {
+                accessToken: result.access_token,
+                refreshToken: result.refresh_token,
+                expiresAt: Date.now() + (Number(result.expires_in) || 3600) * 1000
+            };
+            return cloudAuthSession.accessToken;
+        }
+
         async function syncPortfolioToCloud(showAlert = true) {
             if (!isSupabaseConfigured() || !cloudAuthSession) {
                 setCloudStatus('Configure Supabase and sign in before saving to cloud.', true);
                 return false;
             }
             try {
+                setCloudStatus('Uploading new photos and saving portfolio to Supabase…');
+                await uploadPhotosToCloudinary();
+                if (!saveDataToStorage()) throw new Error('Could not update the browser backup, so cloud saving was stopped.');
+                const accessToken = await getSupabaseAccessToken();
                 const response = await fetch(`${SUPABASE_CONFIG.url.trim().replace(/\/+$/, '')}/rest/v1/portfolio_content?on_conflict=id`, {
                     method: 'POST',
                     headers: {
                         apikey: SUPABASE_CONFIG.anonKey.trim(),
-                        Authorization: `Bearer ${cloudAuthSession.accessToken}`,
+                        Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'application/json',
                         Prefer: 'resolution=merge-duplicates,return=minimal'
                     },
@@ -2195,29 +2260,49 @@ with check (
             appData.emailjs.templateId = document.getElementById('cms-input-emailjs-template').value.trim();
             appData.emailjs.publicKey = document.getElementById('cms-input-emailjs-key').value.trim();
 
+            if (isSupabaseConfigured() && cloudAuthSession) {
+                try {
+                    await uploadPhotosToCloudinary();
+                } catch (error) {
+                    console.error('Unable to upload portfolio photos:', error);
+                    setCloudStatus(`Photo upload failed: ${error.message}`, true);
+                    alert(`The portfolio was not published because a photo could not be uploaded.\n\n${error.message}`);
+                    return;
+                }
+            }
             if (!saveDataToStorage()) return;
             initEmailJS();
             renderPortfolio();
-            if (sessionStorage.getItem('civil_portfolio_github_gist_token') || GITHUB_GIST_ID.trim()) {
+            if (isSupabaseConfigured()) {
+                if (!cloudAuthSession) {
+                    setCloudStatus('Changes are saved in this browser. Sign in with the Supabase admin email/password in Cloud Storage to publish them online.', true);
+                    alert('Changes are saved only in this browser. Open Cloud Storage and sign in with your Supabase admin email/password to publish them for other devices.');
+                    return;
+                }
+                if (!await syncPortfolioToCloud(false)) {
+                    alert('Changes are saved in this browser, but Supabase sync failed. Open Cloud Storage to check the status.');
+                    return;
+                }
+                closeCMSModal();
+                alert('Portfolio changes were saved to Supabase and uploaded photos were stored in Cloudinary.');
+                return;
+            }
+            if (sessionStorage.getItem('civil_portfolio_github_gist_token')) {
                 if (!await syncPortfolioToGist(false)) {
-                    alert('Changes are saved in this browser, but GitHub sync failed. Open Sync Setup to check the status.');
+                    const gistStatus = document.getElementById('gist-sync-status')?.textContent.trim();
+                    alert(`Changes are saved in this browser, but GitHub sync failed.\n\n${gistStatus || 'Open Sync Setup to check the status.'}`);
                     return;
                 }
                 closeCMSModal();
                 alert('Portfolio changes were saved and synced to GitHub Gist.');
                 return;
             }
-            if (isSupabaseConfigured()) {
-                if (!await syncPortfolioToCloud(false)) {
-                    alert('Changes are saved in this browser, but Supabase sync failed. Open Cloud Storage to check the status.');
-                    return;
-                }
-                closeCMSModal();
-                alert('Portfolio changes were saved to Supabase.');
-                return;
-            }
-            closeCMSModal();
-            alert('Changes are saved only in this browser. Connect GitHub Gist or configure Supabase to publish online.');
+            const gistId = getGistId();
+            const syncMessage = gistId
+                ? 'A Gist is selected, but GitHub is not connected in this browser. Open Sync Setup, enter a GitHub token with the gist scope, and select Connect & Sync.'
+                : 'No public Gist is configured. Open Sync Setup, connect GitHub, and sync once to create one. Then publish its Gist ID in GITHUB_GIST_ID so every visitor loads the saved changes.';
+            setGistStatus(syncMessage, true);
+            alert(`Changes are saved only in this browser; other devices and visitors will not see them yet.\n\n${syncMessage}`);
         }
     </script>
 </body>
