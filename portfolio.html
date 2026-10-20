@@ -106,13 +106,11 @@
                     <span class="hidden sm:inline">Share Portfolio</span>
                 </button>
 
-                
-
                 <!-- Session Admin Banner Trigger (Hidden until authenticated) -->
-                <!-- <button id="session-admin-btn" onclick="openCMSDashboard()" class="hidden bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-2 rounded-xl text-xs flex items-center space-x-1 shadow-lg animate-pulse">
+                <button id="session-admin-btn" type="button" onclick="openCMSDashboard()" class="hidden bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-2 rounded-xl text-xs items-center space-x-1 shadow-lg">
                     <i class="fa-solid fa-sliders"></i>
                     <span>CMS Dashboard</span>
-                </button> -->
+                </button>
             </div>
         </div>
     </header>
@@ -487,9 +485,10 @@
                     <span>•</span> -->
                     
                     <!-- Secret Access Method 2: Discreet Gear Icon Button in Bottom Corner -->
-                    <button onclick="openAdminModal()"
-    class="w-8 h-8 rounded-full bg-slate-900 hover:bg-slate-700 flex items-center justify-center transition-colors"
-    title="Admin Portal Access">
+                    <button type="button" onclick="openAdminModal()"
+    class="w-8 h-8 rounded-full bg-slate-900 hover:bg-slate-700 text-slate-400 hover:text-amber-400 flex items-center justify-center transition-colors"
+    title="Admin Portal Access" aria-label="Open admin login">
+    <i class="fa-solid fa-gear text-xs" aria-hidden="true"></i>
 </button>
                 </div>
 
@@ -498,18 +497,19 @@
     </footer>
 
     <!-- Secret Admin Login Modal -->
-    <div id="admin-login-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div id="admin-login-modal" style="display:none" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-bold text-white flex items-center gap-2">
                     <i class="fa-solid fa-shield-halved text-amber-500"></i> Admin Security Access
                 </h3>
-                <button onclick="closeAdminLoginModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+                <button type="button" onclick="closeAdminLoginModal()" class="text-slate-400 hover:text-white" aria-label="Close admin login"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <p class="text-xs text-slate-400 mb-4">Owners Suggestion(<span class="text-amber-400 font-mono">Authorized Access Only</span>).</p>
+            <p class="text-xs text-slate-400 mb-4">Enter your administrator password to continue.</p>
             <form onsubmit="handleAdminLogin(event)" class="space-y-4">
                 <div>
-                    <input type="password" id="admin-pin-input" placeholder="Enter PIN Code" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-amber-500 text-center text-lg tracking-widest font-mono" required>
+                    <input type="password" id="admin-pin-input" autocomplete="current-password" placeholder="Enter administrator password" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-amber-500 text-center text-lg tracking-widest font-mono" required>
+                    <p id="admin-login-error" class="hidden text-rose-400 text-xs text-center mt-2" role="alert">Incorrect password. Please try again.</p>
                 </div>
                 <button type="submit" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-2.5 rounded-xl transition-all">
                     Authenticate Session
@@ -519,7 +519,7 @@
     </div>
 
     <!-- Main Admin CMS Modal -->
-    <div id="admin-cms-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 hidden overflow-y-auto p-4 sm:p-6 lg:p-8">
+    <div id="admin-cms-modal" style="display:none" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 hidden overflow-y-auto p-4 sm:p-6 lg:p-8">
         <div class="max-w-5xl mx-auto bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl overflow-hidden my-8">
             
             <div class="bg-slate-800 px-6 py-4 border-b border-slate-700 flex items-center justify-between sticky top-0 z-20">
@@ -612,15 +612,23 @@
 
                 <!-- TAB 2: Projects Manager -->
                 <div id="cms-tab-projects" class="space-y-6 hidden">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider font-mono-code">Portfolio Projects</h3>
-                        <button onclick="addNewProjectForm()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1">
+                    <div class="flex flex-wrap items-center justify-between gap-3">
+                        <div>
+                            <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider font-mono-code">Recent Projects & Executed Works</h3>
+                            <p class="text-xs text-slate-400 mt-1">Edit project details below. New projects appear first. Save Changes to publish your edits.</p>
+                        </div>
+                        <button type="button" onclick="addNewProjectForm()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1">
                             <i class="fa-solid fa-plus"></i> Add Project
                         </button>
                     </div>
 
                     <div id="cms-projects-list" class="space-y-4">
                         <!-- Dynamic list of project edit blocks -->
+                    </div>
+                    <div class="flex justify-end border-t border-slate-800 pt-4">
+                        <button type="button" onclick="saveAllCMSData()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2">
+                            <i class="fa-solid fa-floppy-disk"></i> Save Project Changes
+                        </button>
                     </div>
                 </div>
 
@@ -962,11 +970,20 @@
         }
 
         function openAdminModal() {
-            document.getElementById('admin-login-modal').classList.remove('hidden');
+            const modal = document.getElementById('admin-login-modal');
+            modal.classList.remove('hidden');
+            modal.style.display = 'flex';
+            document.getElementById('admin-login-error').classList.add('hidden');
+            document.getElementById('admin-pin-input').value = '';
+            document.getElementById('admin-pin-input').focus();
         }
 
         function closeAdminLoginModal() {
-            document.getElementById('admin-login-modal').classList.add('hidden');
+            const modal = document.getElementById('admin-login-modal');
+            modal.classList.add('hidden');
+            modal.style.display = 'none';
+            document.getElementById('admin-pin-input').value = '';
+            document.getElementById('admin-login-error').classList.add('hidden');
         }
 
         function handleAdminLogin(e) {
@@ -974,21 +991,31 @@
             const pin = document.getElementById('admin-pin-input').value;
             if (pin === 'Kabayiza10@') {
                 closeAdminLoginModal();
-                document.getElementById('admin-pin-input').value = '';
                 document.getElementById('session-admin-btn').classList.remove('hidden');
-                openCMSDashboard();
+                document.getElementById('session-admin-btn').classList.add('flex');
+                showCMSDashboard();
             } else {
-                alert('Invalid Security PIN Code.');
+                const error = document.getElementById('admin-login-error');
+                error.classList.remove('hidden');
+                document.getElementById('admin-pin-input').select();
             }
         }
 
         function openCMSDashboard() {
+            openAdminModal();
+        }
+
+        function showCMSDashboard() {
             populateCMSForm();
-            document.getElementById('admin-cms-modal').classList.remove('hidden');
+            const modal = document.getElementById('admin-cms-modal');
+            modal.classList.remove('hidden');
+            modal.style.display = 'block';
         }
 
         function closeCMSModal() {
-            document.getElementById('admin-cms-modal').classList.add('hidden');
+            const modal = document.getElementById('admin-cms-modal');
+            modal.classList.add('hidden');
+            modal.style.display = 'none';
         }
 
         // Render Portfolio
@@ -1020,20 +1047,28 @@
             renderExperiments();
         }
 
+        function escapeHTML(value) {
+            const characters = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'};
+            return String(value == null ? '' : value).replace(/[&<>"']/g, character => characters[character]);
+        }
+
         // Projects Filtering and Rendering
         function renderProjectFilters() {
             const filterContainer = document.getElementById('project-filters');
             const categories = ["All", ...new Set(appData.projects.map(item => item.category))];
 
             filterContainer.innerHTML = categories.map(cat => `
-                <button onclick="setCategory('${cat}')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                <button type="button" data-category="${escapeHTML(cat)}" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
                     activeCategory === cat 
                     ? 'bg-amber-500 text-slate-950 shadow-md' 
                     : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700'
                 }">
-                    ${cat}
+                    ${escapeHTML(cat)}
                 </button>
             `).join('');
+            filterContainer.querySelectorAll('[data-category]').forEach(button => {
+                button.addEventListener('click', () => setCategory(button.dataset.category));
+            });
         }
 
         function setCategory(cat) {
@@ -1060,28 +1095,28 @@
                 return `
                 <div class="bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:border-amber-500 transition-all">
                     <div class="relative h-60 overflow-hidden bg-slate-950">
-                        <img src="${proj.imageUrl}" alt="${proj.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/800x500/1e293b/d97706?text=Site+Photo'">
+                        <img src="${escapeHTML(proj.imageUrl)}" alt="${escapeHTML(proj.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/800x500/1e293b/d97706?text=Site+Photo'">
                         <div class="absolute top-4 left-4 bg-amber-500 text-slate-950 px-3 py-1 rounded-full text-[10px] font-black tracking-wider uppercase">
-                            ${proj.category}
+                            ${escapeHTML(proj.category)}
                         </div>
                     </div>
                     <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
                         <div>
-                            <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mb-2">${proj.title}</h3>
+                            <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mb-2">${escapeHTML(proj.title)}</h3>
                             <div class="grid grid-cols-2 gap-2 text-xs text-slate-600 dark:text-slate-300 mb-4 bg-slate-50 dark:bg-slate-900/60 p-3 rounded-xl border border-slate-200 dark:border-slate-700/50">
-                                <div><span class="text-slate-400">Location:</span> <span class="font-semibold text-slate-900 dark:text-white">${proj.location}</span></div>
-                                <div><span class="text-slate-400">Budget:</span> <span class="font-semibold text-amber-600 dark:text-amber-400">${proj.budget}</span></div>
-                                <div><span class="text-slate-400">Duration:</span> <span class="font-semibold text-slate-900 dark:text-white">${proj.duration}</span></div>
-                                <div><span class="text-slate-400">Materials:</span> <span class="font-semibold text-slate-900 dark:text-white">${proj.materials}</span></div>
+                                <div><span class="text-slate-400">Location:</span> <span class="font-semibold text-slate-900 dark:text-white">${escapeHTML(proj.location)}</span></div>
+                                <div><span class="text-slate-400">Budget:</span> <span class="font-semibold text-amber-600 dark:text-amber-400">${escapeHTML(proj.budget)}</span></div>
+                                <div><span class="text-slate-400">Duration:</span> <span class="font-semibold text-slate-900 dark:text-white">${escapeHTML(proj.duration)}</span></div>
+                                <div><span class="text-slate-400">Materials:</span> <span class="font-semibold text-slate-900 dark:text-white">${escapeHTML(proj.materials)}</span></div>
                             </div>
                             <div class="text-xs space-y-1">
                                 <span class="font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider block">Engineering Solution:</span>
-                                <p class="leading-relaxed text-slate-600 dark:text-slate-300">${proj.challenges}</p>
+                                <p class="leading-relaxed text-slate-600 dark:text-slate-300">${escapeHTML(proj.challenges)}</p>
                             </div>
                         </div>
 
                         <div class="pt-3 border-t border-slate-200 dark:border-slate-700/60 flex items-center justify-between">
-                            <a href="${waLink}" target="_blank" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 text-xs font-bold flex items-center gap-1.5">
+                            <a href="${escapeHTML(waLink)}" target="_blank" rel="noopener noreferrer" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 text-xs font-bold flex items-center gap-1.5">
                                 <i class="fa-brands fa-whatsapp text-sm"></i> Share / Inquire on WhatsApp
                             </a>
                         </div>
@@ -1252,23 +1287,29 @@
 
         function renderCMSProjectsList() {
             const container = document.getElementById('cms-projects-list');
+            if (appData.projects.length === 0) {
+                container.innerHTML = '<p class="rounded-xl border border-slate-700 bg-slate-800 p-6 text-center text-sm text-slate-400">No projects yet. Select “Add Project” to create your first recent work entry.</p>';
+                return;
+            }
             container.innerHTML = appData.projects.map((p, idx) => `
-                <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 space-y-3 relative">
-                    <button onclick="deleteProject(${idx})" class="absolute top-4 right-4 text-rose-400 hover:text-rose-300 text-xs font-bold">
+                <article class="bg-slate-800 p-4 rounded-xl border border-slate-700 space-y-3">
+                    <div class="flex items-center justify-between gap-3">
+                        <div class="font-bold text-xs text-amber-400 uppercase tracking-wider font-mono-code">Recent Project #${idx + 1} — Edit details</div>
+                        <button type="button" onclick="deleteProject(${idx})" class="text-rose-400 hover:text-rose-300 text-xs font-bold">
                         <i class="fa-solid fa-trash"></i> Delete
-                    </button>
-                    <div class="font-bold text-xs text-amber-400 uppercase tracking-wider font-mono-code">Project #${idx + 1}</div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <input type="text" value="${p.title}" onchange="appData.projects[${idx}].title=this.value" placeholder="Title" class="bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
-                        <input type="text" value="${p.category}" onchange="appData.projects[${idx}].category=this.value" placeholder="Category" class="bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
-                        <input type="text" value="${p.location}" onchange="appData.projects[${idx}].location=this.value" placeholder="Location" class="bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
-                        <input type="text" value="${p.budget}" onchange="appData.projects[${idx}].budget=this.value" placeholder="Budget" class="bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
-                        <input type="text" value="${p.duration}" onchange="appData.projects[${idx}].duration=this.value" placeholder="Duration" class="bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
-                        <input type="text" value="${p.materials}" onchange="appData.projects[${idx}].materials=this.value" placeholder="Materials Used" class="bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
+                        </button>
                     </div>
-                    <input type="text" value="${p.imageUrl}" onchange="appData.projects[${idx}].imageUrl=this.value" placeholder="Image URL" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
-                    <textarea onchange="appData.projects[${idx}].challenges=this.value" placeholder="Challenges & Solutions" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs" rows="2">${p.challenges}</textarea>
-                </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <label class="text-[11px] text-slate-400">Project title<input type="text" value="${escapeHTML(p.title)}" onchange="appData.projects[${idx}].title=this.value" placeholder="Project title" class="mt-1 w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs"></label>
+                        <label class="text-[11px] text-slate-400">Category<input type="text" value="${escapeHTML(p.category)}" onchange="appData.projects[${idx}].category=this.value" placeholder="Category" class="mt-1 w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs"></label>
+                        <label class="text-[11px] text-slate-400">Location<input type="text" value="${escapeHTML(p.location)}" onchange="appData.projects[${idx}].location=this.value" placeholder="Location" class="mt-1 w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs"></label>
+                        <label class="text-[11px] text-slate-400">Budget<input type="text" value="${escapeHTML(p.budget)}" onchange="appData.projects[${idx}].budget=this.value" placeholder="Budget" class="mt-1 w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs"></label>
+                        <label class="text-[11px] text-slate-400">Duration<input type="text" value="${escapeHTML(p.duration)}" onchange="appData.projects[${idx}].duration=this.value" placeholder="Duration" class="mt-1 w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs"></label>
+                        <label class="text-[11px] text-slate-400">Materials used<input type="text" value="${escapeHTML(p.materials)}" onchange="appData.projects[${idx}].materials=this.value" placeholder="Materials used" class="mt-1 w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs"></label>
+                    </div>
+                    <label class="block text-[11px] text-slate-400">Project image URL<input type="url" value="${escapeHTML(p.imageUrl)}" onchange="appData.projects[${idx}].imageUrl=this.value" placeholder="https://..." class="mt-1 w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs"></label>
+                    <label class="block text-[11px] text-slate-400">Work summary / challenge and solution<textarea onchange="appData.projects[${idx}].challenges=this.value" placeholder="Describe the work completed and its impact" class="mt-1 w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs" rows="3">${escapeHTML(p.challenges)}</textarea></label>
+                </article>
             `).join('');
         }
 
