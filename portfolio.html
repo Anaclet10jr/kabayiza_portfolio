@@ -13,8 +13,8 @@
                 extend: {
                     colors: {
                         brand: {
-                            gold: '#D97706',
-                            goldDark: '#B45309',
+                            signal: '#0284C7',
+                            signalDark: '#0369A1',
                             navy: '#0F172A',
                             blueprint: '#1E3A8A',
                             blueprintLight: '#2563EB',
@@ -65,9 +65,24 @@
         }
         .animate-crane-arm { transform-origin: 40px 120px; animation: craneSwing 6s ease-in-out infinite; }
         .animate-cable { animation: cableExtend 4s ease-in-out infinite; }
+        @keyframes projectGalleryScroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+        .project-gallery-track {
+            width: max-content;
+            animation: projectGalleryScroll 55s linear infinite;
+        }
+        .project-gallery-strip:hover .project-gallery-track,
+        .project-gallery-strip:focus-within .project-gallery-track {
+            animation-play-state: paused;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .project-gallery-track { animation: none; }
+        }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-900 relative">
+<body class="bg-slate-900 text-slate-100 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col selection:bg-sky-500 selection:text-slate-900 relative">
 
     <!-- Interactive Canvas Blueprint Cursor Background -->
     <canvas id="blueprintCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40 dark:opacity-30"></canvas>
@@ -77,26 +92,26 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-lg bg-amber-500 flex items-center justify-center text-slate-950 font-bold text-xl shadow-lg shadow-amber-500/20">
+                <div class="w-10 h-10 rounded-lg bg-sky-500 flex items-center justify-center text-slate-950 font-bold text-xl shadow-lg shadow-sky-500/20">
                     <i class="fa-solid fa-hard-hat"></i>
                 </div>
                 <div>
                     <h1 id="nav-engineer-name" class="font-extrabold text-lg tracking-tight text-slate-900 dark:text-white">Eng. David Vance</h1>
-                    <p id="nav-engineer-title" class="text-xs text-amber-600 dark:text-amber-500 font-semibold tracking-wider uppercase">Senior Structural Engineer</p>
+                    <p id="nav-engineer-title" class="text-xs text-sky-600 dark:text-sky-500 font-semibold tracking-wider uppercase">Senior Structural Engineer</p>
                 </div>
             </div>
 
             <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-600 dark:text-slate-300">
-                <a href="#about" class="hover:text-amber-500 transition-colors">Capabilities</a>
-                <a href="#projects" class="hover:text-amber-500 transition-colors">Executed Works</a>
-                <a href="#experiments" class="hover:text-amber-500 transition-colors">R&D / Testing</a>
-                <a href="#certifications" class="hover:text-amber-500 transition-colors">Credentials</a>
-                <a href="#contact-footer" class="hover:text-amber-500 transition-colors">Contact</a>
+                <a href="#about" class="hover:text-sky-500 transition-colors">Capabilities</a>
+                <a href="#projects" class="hover:text-sky-500 transition-colors">Executed Works</a>
+                <a href="#experiments" class="hover:text-sky-500 transition-colors">R&D / Testing</a>
+                <a href="#certifications" class="hover:text-sky-500 transition-colors">Credentials</a>
+                <a href="#contact-footer" class="hover:text-sky-500 transition-colors">Contact</a>
             </nav>
 
             <div class="flex items-center space-x-3">
                 <!-- Light / Dark Mode Toggle Button -->
-                <button onclick="toggleTheme()" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-400 border border-slate-200 dark:border-slate-700 hover:scale-105 transition-all" title="Toggle Light/Dark Theme">
+                <button onclick="toggleTheme()" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-sky-400 border border-slate-200 dark:border-slate-700 hover:scale-105 transition-all" title="Toggle Light/Dark Theme">
                     <i id="theme-icon" class="fa-solid fa-moon text-lg"></i>
                 </button>
 
@@ -107,7 +122,7 @@
                 </button>
 
                 <!-- Session Admin Banner Trigger (Hidden until authenticated) -->
-                <button id="session-admin-btn" type="button" onclick="openCMSDashboard()" class="hidden bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-2 rounded-xl text-xs items-center space-x-1 shadow-lg">
+                <button id="session-admin-btn" type="button" onclick="openCMSDashboard()" class="hidden bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-3 py-2 rounded-xl text-xs items-center space-x-1 shadow-lg">
                     <i class="fa-solid fa-sliders"></i>
                     <span>CMS Dashboard</span>
                 </button>
@@ -122,7 +137,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                     
                     <div class="lg:col-span-7 space-y-6">
-                        <div class="inline-flex items-center space-x-2 bg-amber-500/10 border border-amber-500/30 rounded-full px-4 py-1.5 text-amber-600 dark:text-amber-400 text-xs font-bold tracking-wide">
+                        <div class="inline-flex items-center space-x-2 bg-sky-500/10 border border-sky-500/30 rounded-full px-4 py-1.5 text-sky-600 dark:text-sky-400 text-xs font-bold tracking-wide">
                             <i class="fa-solid fa-circle-check"></i>
                             <span>Licensed Structural Engineer (PE / CEng)</span>
                         </div>
@@ -141,12 +156,12 @@
                                 <i class="fa-brands fa-whatsapp text-lg"></i>
                                 <span>WhatsApp Direct</span>
                             </a>
-                            <a id="hero-email-btn" href="#contact-footer" class="flex items-center space-x-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold px-6 py-3.5 rounded-xl shadow-lg shadow-amber-500/20 transition-all transform hover:-translate-y-0.5">
+                            <a id="hero-email-btn" href="#contact-footer" class="flex items-center space-x-2 bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold px-6 py-3.5 rounded-xl shadow-lg shadow-sky-500/20 transition-all transform hover:-translate-y-0.5">
                                 <i class="fa-solid fa-envelope text-lg"></i>
                                 <span>Send Mail</span>
                             </a>
                             <button onclick="downloadCV()" class="flex items-center space-x-2 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 font-semibold px-5 py-3.5 rounded-xl transition-all shadow-sm">
-                                <i class="fa-solid fa-file-pdf text-amber-500"></i>
+                                <i class="fa-solid fa-file-pdf text-sky-500"></i>
                                 <span>Download Resume</span>
                             </button>
                         </div>
@@ -157,7 +172,7 @@
                         <!-- Tower Crane & Blueprint Illustration SVG -->
                         <div class="bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-xl relative overflow-hidden transition-colors">
                             <div class="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-slate-700/60 pb-3">
-                                <div class="text-xs font-mono-code font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider flex items-center gap-2">
+                                <div class="text-xs font-mono-code font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider flex items-center gap-2">
                                     <i class="fa-solid fa-drafting-compass"></i> Structural CAD Live Model
                                 </div>
                                 <span class="text-[10px] bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 font-mono-code px-2 py-0.5 rounded">BUILDING_REVIT_2026</span>
@@ -177,13 +192,13 @@
                                     <line x1="50" y1="150" x2="120" y2="150" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2 2"/>
                                     <line x1="85" y1="60" x2="85" y2="170" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2 2"/>
 
-                                    <rect x="180" y="20" width="8" height="150" fill="#f59e0b"/>
+                                    <rect x="180" y="20" width="8" height="150" fill="#0ea5e9"/>
                                     <path d="M 180 20 L 188 35 M 180 35 L 188 50 M 180 50 L 188 65 M 180 65 L 188 80 M 180 80 L 188 95" stroke="#78350f" stroke-width="1"/>
 
                                     <g class="animate-crane-arm">
-                                        <line x1="100" y1="20" x2="230" y2="20" stroke="#f59e0b" stroke-width="3"/>
-                                        <line x1="184" y1="5" x2="230" y2="20" stroke="#f59e0b" stroke-width="1.5"/>
-                                        <line x1="184" y1="5" x2="140" y2="20" stroke="#f59e0b" stroke-width="1.5"/>
+                                        <line x1="100" y1="20" x2="230" y2="20" stroke="#0ea5e9" stroke-width="3"/>
+                                        <line x1="184" y1="5" x2="230" y2="20" stroke="#0ea5e9" stroke-width="1.5"/>
+                                        <line x1="184" y1="5" x2="140" y2="20" stroke="#0ea5e9" stroke-width="1.5"/>
                                         
                                         <g class="animate-cable">
                                             <line x1="130" y1="20" x2="130" y2="70" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2 1"/>
@@ -200,15 +215,15 @@
                         <div class="bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-xl transition-colors">
                             <div class="grid grid-cols-2 gap-4">
                                 <div class="bg-slate-50 dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
-                                    <div class="text-3xl font-extrabold text-amber-600 dark:text-amber-500 font-mono-code"><span class="counter" id="stat-years-disp" data-target="12">12</span>+</div>
+                                    <div class="text-3xl font-extrabold text-sky-600 dark:text-sky-500 font-mono-code"><span class="counter" id="stat-years-disp" data-target="12">12</span>+</div>
                                     <div class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-semibold">Years Experience</div>
                                 </div>
                                 <div class="bg-slate-50 dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
-                                    <div class="text-3xl font-extrabold text-amber-600 dark:text-amber-500 font-mono-code"><span class="counter" id="stat-projects-disp" data-target="48">48</span>+</div>
+                                    <div class="text-3xl font-extrabold text-sky-600 dark:text-sky-500 font-mono-code"><span class="counter" id="stat-projects-disp" data-target="48">48</span>+</div>
                                     <div class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-semibold">Completed Works</div>
                                 </div>
                                 <div class="bg-slate-50 dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
-                                    <div class="text-3xl font-extrabold text-amber-600 dark:text-amber-500 font-mono-code">$<span class="counter" id="stat-budget-disp" data-target="65">65</span>M+</div>
+                                    <div class="text-3xl font-extrabold text-sky-600 dark:text-sky-500 font-mono-code">$<span class="counter" id="stat-budget-disp" data-target="65">65</span>M+</div>
                                     <div class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-semibold">Managed Budget</div>
                                 </div>
                                 <div class="bg-slate-50 dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
@@ -228,53 +243,53 @@
         <section id="about" class="py-16 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 transition-colors">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center max-w-3xl mx-auto mb-12">
-                    <h2 class="text-xs font-bold text-amber-600 dark:text-amber-500 tracking-widest uppercase">Specializations</h2>
+                    <h2 class="text-xs font-bold text-sky-600 dark:text-sky-500 tracking-widest uppercase">Specializations</h2>
                     <p class="text-3xl font-extrabold text-slate-900 dark:text-white mt-2">Core Technical Engineering Services</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 transition-all group">
-                        <div class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-600 dark:text-amber-500 mb-4 group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors">
+                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-sky-500 transition-all group">
+                        <div class="w-12 h-12 bg-sky-500/10 rounded-xl flex items-center justify-center text-sky-600 dark:text-sky-500 mb-4 group-hover:bg-sky-500 group-hover:text-slate-950 transition-colors">
                             <i class="fa-solid fa-building text-xl"></i>
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Structural Analysis & Design</h3>
                         <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Reinforced concrete & structural steel design using ETABS, SAP2000, and STAAD Pro following Eurocode & ACI standards.</p>
                     </div>
 
-                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 transition-all group">
-                        <div class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-600 dark:text-amber-500 mb-4 group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors">
+                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-sky-500 transition-all group">
+                        <div class="w-12 h-12 bg-sky-500/10 rounded-xl flex items-center justify-center text-sky-600 dark:text-sky-500 mb-4 group-hover:bg-sky-500 group-hover:text-slate-950 transition-colors">
                             <i class="fa-solid fa-clipboard-check text-xl"></i>
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Site Management & QA/QC</h3>
                         <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Rigorous site supervision, safety compliance monitoring, quality assurance audits, and subcontractor supervision.</p>
                     </div>
 
-                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 transition-all group">
-                        <div class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-600 dark:text-amber-500 mb-4 group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors">
+                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-sky-500 transition-all group">
+                        <div class="w-12 h-12 bg-sky-500/10 rounded-xl flex items-center justify-center text-sky-600 dark:text-sky-500 mb-4 group-hover:bg-sky-500 group-hover:text-slate-950 transition-colors">
                             <i class="fa-solid fa-flask-vial text-xl"></i>
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Geotechnical & Materials Testing</h3>
                         <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Concrete cylinder compressive testing, soil bearing capacity assessments, slump tests, and asphalt mix verifications.</p>
                     </div>
 
-                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 transition-all group">
-                        <div class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-600 dark:text-amber-500 mb-4 group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors">
+                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-sky-500 transition-all group">
+                        <div class="w-12 h-12 bg-sky-500/10 rounded-xl flex items-center justify-center text-sky-600 dark:text-sky-500 mb-4 group-hover:bg-sky-500 group-hover:text-slate-950 transition-colors">
                             <i class="fa-solid fa-cubes text-xl"></i>
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">BIM & CAD Engineering</h3>
                         <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">3D structural modeling, clash detection using Revit Structure, and precision execution drawing generation in AutoCAD.</p>
                     </div>
 
-                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 transition-all group">
-                        <div class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-600 dark:text-amber-500 mb-4 group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors">
+                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-sky-500 transition-all group">
+                        <div class="w-12 h-12 bg-sky-500/10 rounded-xl flex items-center justify-center text-sky-600 dark:text-sky-500 mb-4 group-hover:bg-sky-500 group-hover:text-slate-950 transition-colors">
                             <i class="fa-solid fa-calculator text-xl"></i>
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">BOQ & Cost Estimation</h3>
                         <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Bill of Quantities preparation, rebar schedule calculation, structural material takeoff, and cost optimization.</p>
                     </div>
 
-                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 transition-all group">
-                        <div class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-600 dark:text-amber-500 mb-4 group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors">
+                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-sky-500 transition-all group">
+                        <div class="w-12 h-12 bg-sky-500/10 rounded-xl flex items-center justify-center text-sky-600 dark:text-sky-500 mb-4 group-hover:bg-sky-500 group-hover:text-slate-950 transition-colors">
                             <i class="fa-solid fa-toolbox text-xl"></i>
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Retrofitting & Rehabilitation</h3>
@@ -289,7 +304,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
                     <div>
-                        <h2 class="text-xs font-bold text-amber-600 dark:text-amber-500 tracking-widest uppercase">Field Works Showcase</h2>
+                        <h2 class="text-xs font-bold text-sky-600 dark:text-sky-500 tracking-widest uppercase">Field Works Showcase</h2>
                         <p class="text-3xl font-extrabold text-slate-900 dark:text-white mt-2">Executed Engineering Projects</p>
                     </div>
                     
@@ -297,6 +312,10 @@
                     <div id="project-filters" class="flex flex-wrap gap-2 mt-4 md:mt-0">
                         <!-- Populated dynamically -->
                     </div>
+                </div>
+
+                <div id="project-gallery-strip" class="project-gallery-strip overflow-hidden mb-10 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-900/5 dark:bg-slate-950/50" aria-label="Moving project photo gallery">
+                    <div id="project-gallery-track" class="project-gallery-track flex gap-4 p-4"></div>
                 </div>
 
                 <!-- Projects Grid -->
@@ -310,7 +329,7 @@
         <section id="experiments" class="py-20 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 transition-colors">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center max-w-3xl mx-auto mb-12">
-                    <span class="inline-block bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-amber-500/20">
+                    <span class="inline-block bg-sky-500/10 text-sky-600 dark:text-sky-400 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-sky-500/20">
                         R&D / Empirical Testing
                     </span>
                     <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white">Worked Experiments & Material Research</h2>
@@ -322,14 +341,14 @@
                     <div class="flex flex-col md:flex-row items-center justify-between gap-6">
                         <div class="space-y-2 max-w-md">
                             <h4 class="font-bold text-slate-900 dark:text-white text-lg flex items-center gap-2">
-                                <i class="fa-solid fa-gauge-high text-amber-500"></i> Hydraulic Compression Stress Simulator
+                                <i class="fa-solid fa-gauge-high text-sky-500"></i> Hydraulic Compression Stress Simulator
                             </h4>
                             <p class="text-xs text-slate-500 dark:text-slate-400">Simulate cylinder load testing on engineered UHPC concrete samples.</p>
                         </div>
                         <div class="flex flex-wrap items-center gap-6 w-full md:w-auto">
                             <div class="flex-grow">
-                                <label class="block text-xs font-mono-code text-slate-500 dark:text-slate-400 mb-1">Load Pressure (MPa): <span id="loadVal" class="text-amber-500 font-bold">60</span> MPa</label>
-                                <input type="range" id="loadRange" min="0" max="150" value="60" oninput="updateStressMeter(this.value)" class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
+                                <label class="block text-xs font-mono-code text-slate-500 dark:text-slate-400 mb-1">Load Pressure (MPa): <span id="loadVal" class="text-sky-500 font-bold">60</span> MPa</label>
+                                <input type="range" id="loadRange" min="0" max="150" value="60" oninput="updateStressMeter(this.value)" class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-sky-500">
                             </div>
                             <div class="bg-white dark:bg-slate-950 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-800 text-center min-w-[120px]">
                                 <span class="text-[10px] uppercase font-bold text-slate-400 block">Status</span>
@@ -352,25 +371,25 @@
                     
                     <div class="lg:col-span-5 space-y-6">
                         <h2 class="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                            <i class="fa-solid fa-award text-amber-500"></i> Credentials & Registrations
+                            <i class="fa-solid fa-award text-sky-500"></i> Credentials & Registrations
                         </h2>
                         <div class="space-y-4">
                             <div class="bg-white dark:bg-slate-800/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex items-start space-x-4">
-                                <div class="p-2.5 bg-amber-500/10 text-amber-500 rounded-lg"><i class="fa-solid fa-certificate"></i></div>
+                                <div class="p-2.5 bg-sky-500/10 text-sky-500 rounded-lg"><i class="fa-solid fa-certificate"></i></div>
                                 <div>
                                     <h4 class="font-bold text-slate-900 dark:text-white">Certified Professional Structural Engineer (PE)</h4>
                                     <p class="text-xs text-slate-500 dark:text-slate-400">Board of Professional Engineers • Reg #PE-884291</p>
                                 </div>
                             </div>
                             <div class="bg-white dark:bg-slate-800/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex items-start space-x-4">
-                                <div class="p-2.5 bg-amber-500/10 text-amber-500 rounded-lg"><i class="fa-solid fa-shield-halved"></i></div>
+                                <div class="p-2.5 bg-sky-500/10 text-sky-500 rounded-lg"><i class="fa-solid fa-shield-halved"></i></div>
                                 <div>
                                     <h4 class="font-bold text-slate-900 dark:text-white">OSHA 30-Hour Construction Safety Certification</h4>
                                     <p class="text-xs text-slate-500 dark:text-slate-400">Occupational Safety and Health Administration</p>
                                 </div>
                             </div>
                             <div class="bg-white dark:bg-slate-800/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex items-start space-x-4">
-                                <div class="p-2.5 bg-amber-500/10 text-amber-500 rounded-lg"><i class="fa-solid fa-layer-group"></i></div>
+                                <div class="p-2.5 bg-sky-500/10 text-sky-500 rounded-lg"><i class="fa-solid fa-layer-group"></i></div>
                                 <div>
                                     <h4 class="font-bold text-slate-900 dark:text-white">Autodesk Certified Professional: Revit Structure</h4>
                                     <p class="text-xs text-slate-500 dark:text-slate-400">BIM Level 2 Modeling & Interoperability</p>
@@ -381,18 +400,18 @@
 
                     <div class="lg:col-span-7 space-y-6">
                         <h2 class="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                            <i class="fa-solid fa-quote-left text-amber-500"></i> Client Endorsements
+                            <i class="fa-solid fa-quote-left text-sky-500"></i> Client Endorsements
                         </h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="bg-white dark:bg-slate-800/40 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
                                 <p class="text-slate-600 dark:text-slate-300 text-sm italic mb-4">"Eng. David Vance delivered our 14-story commercial tower 2 months ahead of schedule without a single compromise on structural integrity."</p>
                                 <div class="text-xs font-bold text-slate-900 dark:text-white">Marcus Sterling</div>
-                                <div class="text-xs text-amber-600 dark:text-amber-500">Project Director, Horizon Real Estate</div>
+                                <div class="text-xs text-sky-600 dark:text-sky-500">Project Director, Horizon Real Estate</div>
                             </div>
                             <div class="bg-white dark:bg-slate-800/40 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
                                 <p class="text-slate-600 dark:text-slate-300 text-sm italic mb-4">"His concrete mix optimization experiment saved our highway bridge project over $180,000 in material costs while exceeding compressive standards."</p>
                                 <div class="text-xs font-bold text-slate-900 dark:text-white">Elena Rostova</div>
-                                <div class="text-xs text-amber-600 dark:text-amber-500">Chief Infrastructure Officer, Apex Municipal</div>
+                                <div class="text-xs text-sky-600 dark:text-sky-500">Chief Infrastructure Officer, Apex Municipal</div>
                             </div>
                         </div>
                     </div>
@@ -411,7 +430,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     
                     <div class="lg:col-span-6 space-y-4">
-                        <span class="text-amber-500 text-xs font-bold tracking-widest uppercase font-mono-code">Start A Project Consultation</span>
+                        <span class="text-sky-500 text-xs font-bold tracking-widest uppercase font-mono-code">Start A Project Consultation</span>
                         <h2 class="text-3xl font-extrabold text-white">Ready for Structural Precision on Your Next Site?</h2>
                         <p class="text-slate-300 text-sm leading-relaxed">Send project blueprints, RFIs, or schedule an onsite technical audit directly.</p>
                         
@@ -424,15 +443,15 @@
 
                         <div class="pt-4 border-t border-slate-800 space-y-2 text-xs text-slate-300">
                             <div class="flex items-center space-x-3">
-                                <i class="fa-solid fa-phone text-amber-500 w-4"></i>
+                                <i class="fa-solid fa-phone text-sky-500 w-4"></i>
                                 <span id="contact-phone-disp">+1 (555) 019-2831</span>
                             </div>
                             <div class="flex items-center space-x-3">
-                                <i class="fa-solid fa-envelope text-amber-500 w-4"></i>
+                                <i class="fa-solid fa-envelope text-sky-500 w-4"></i>
                                 <span id="contact-email-disp">david.vance@eng-solutions.com</span>
                             </div>
                             <div class="flex items-center space-x-3">
-                                <i class="fa-solid fa-location-dot text-amber-500 w-4"></i>
+                                <i class="fa-solid fa-location-dot text-sky-500 w-4"></i>
                                 <span id="contact-location-disp">Metropolitan Civil District, HQ</span>
                             </div>
                         </div>
@@ -440,25 +459,25 @@
 
                     <!-- EmailJS Integrated Form -->
                     <div class="lg:col-span-6 bg-slate-950/90 p-6 rounded-2xl border border-slate-800 space-y-4">
-                        <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider font-mono-code flex items-center gap-2">
+                        <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code flex items-center gap-2">
                             <i class="fa-solid fa-paper-plane"></i> Direct Email Inquiry (EmailJS Integrated)
                         </h3>
 
                         <form id="emailjs-contact-form" onsubmit="sendEmailJSMessage(event)" class="space-y-3">
                             <div>
                                 <label class="block text-[11px] text-slate-400 mb-1">Your Name</label>
-                                <input type="text" id="emailjs-from-name" required placeholder="Enter Your Email" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-500">
+                                <input type="text" id="emailjs-from-name" required placeholder="Enter Your Email" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-sky-500">
                             </div>
                             <div>
                                 <label class="block text-[11px] text-slate-400 mb-1">Your Email</label>
-                                <input type="email" id="emailjs-from-email" required placeholder="your.email@company.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-500">
+                                <input type="email" id="emailjs-from-email" required placeholder="your.email@company.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-sky-500">
                             </div>
                             <div>
                                 <label class="block text-[11px] text-slate-400 mb-1">Project Details / Message</label>
-                                <textarea id="emailjs-message" rows="3" required placeholder="Describe structural requirements, site location, timeline..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-500"></textarea>
+                                <textarea id="emailjs-message" rows="3" required placeholder="Describe structural requirements, site location, timeline..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-sky-500"></textarea>
                             </div>
 
-                            <button type="submit" id="emailjs-submit-btn" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold py-2.5 rounded-xl text-xs transition-all flex items-center justify-center space-x-2">
+                            <button type="submit" id="emailjs-submit-btn" class="w-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold py-2.5 rounded-xl text-xs transition-all flex items-center justify-center space-x-2">
                                 <i class="fa-solid fa-paper-plane"></i>
                                 <span>Send Inquiry</span>
                             </button>
@@ -474,7 +493,7 @@
                 
                 <!-- Secret Access Method 1: Triple-Click Copyright -->
                 <div onclick="handleSecretClick()" class="cursor-pointer select-none group flex items-center space-x-2" title="Triple click for Admin Access">
-                    <span class="w-2 h-2 rounded-full bg-amber-500/50 group-hover:bg-amber-500 transition-colors"></span>
+                    <span class="w-2 h-2 rounded-full bg-sky-500/50 group-hover:bg-sky-500 transition-colors"></span>
                     <span>&copy; <span id="year"></span> <span id="footer-engineer-name">Eng. Clement KABAYIZA</span>. All Engineering Rights Reserved.</span>
                 </div>
 
@@ -486,7 +505,7 @@
                     
                     <!-- Secret Access Method 2: Discreet Gear Icon Button in Bottom Corner -->
                     <button type="button" onclick="openAdminModal()"
-    class="w-8 h-8 rounded-full bg-slate-900 hover:bg-slate-700 text-slate-400 hover:text-amber-400 flex items-center justify-center transition-colors"
+    class="w-8 h-8 rounded-full bg-slate-900 hover:bg-slate-700 text-slate-400 hover:text-sky-400 flex items-center justify-center transition-colors"
     title="Admin Portal Access" aria-label="Open admin login">
     <i class="fa-solid fa-gear text-xs" aria-hidden="true"></i>
 </button>
@@ -501,17 +520,17 @@
         <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                    <i class="fa-solid fa-shield-halved text-amber-500"></i> Admin Security Access
+                    <i class="fa-solid fa-shield-halved text-sky-500"></i> Admin Security Access
                 </h3>
                 <button type="button" onclick="closeAdminLoginModal()" class="text-slate-400 hover:text-white" aria-label="Close admin login"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <p class="text-xs text-slate-400 mb-4">Enter your administrator password to continue.</p>
             <form onsubmit="handleAdminLogin(event)" class="space-y-4">
                 <div>
-                    <input type="password" id="admin-pin-input" autocomplete="current-password" placeholder="Enter administrator password" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-amber-500 text-center text-lg tracking-widest font-mono" required>
+                    <input type="password" id="admin-pin-input" autocomplete="current-password" placeholder="Enter administrator password" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-sky-500 text-center text-lg tracking-widest font-mono" required>
                     <p id="admin-login-error" class="hidden text-rose-400 text-xs text-center mt-2" role="alert">Incorrect password. Please try again.</p>
                 </div>
-                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-2.5 rounded-xl transition-all">
+                <button type="submit" class="w-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold py-2.5 rounded-xl transition-all">
                     Authenticate Session
                 </button>
             </form>
@@ -524,7 +543,7 @@
             
             <div class="bg-slate-800 px-6 py-4 border-b border-slate-700 flex items-center justify-between sticky top-0 z-20">
                 <div class="flex items-center space-x-3">
-                    <div class="p-2 bg-amber-500 text-slate-950 rounded-lg"><i class="fa-solid fa-sliders"></i></div>
+                    <div class="p-2 bg-sky-500 text-slate-950 rounded-lg"><i class="fa-solid fa-sliders"></i></div>
                     <div>
                         <h2 class="text-lg font-bold text-white">Engineering Portfolio CMS Dashboard</h2>
                         <p class="text-xs text-slate-400">Modify content dynamically with LocalStorage & EmailJS settings</p>
@@ -540,10 +559,28 @@
                 </div>
             </div>
 
+            <div id="project-photo-viewer" style="display:none" class="fixed inset-0 z-[70] hidden bg-slate-950/95 backdrop-blur-sm p-4 sm:p-8" role="dialog" aria-modal="true" aria-label="Project photo viewer">
+                <div class="mx-auto flex h-full max-w-6xl flex-col">
+                    <div class="flex items-center justify-between pb-3 text-white">
+                        <p id="project-photo-counter" class="text-sm text-slate-300"></p>
+                        <button type="button" onclick="closeProjectPhotoViewer()" class="rounded-full bg-white/10 p-3 hover:bg-white/20" aria-label="Close photo viewer"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="relative flex min-h-0 flex-1 items-center justify-center">
+                        <button type="button" onclick="showAdjacentProjectPhoto(-1)" class="absolute left-0 z-10 rounded-full bg-black/60 p-3 text-white hover:bg-black/80 sm:left-3" aria-label="Previous photo"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
+                        <img id="project-photo-viewer-image" src="" alt="" class="max-h-full max-w-full object-contain">
+                        <button type="button" onclick="showAdjacentProjectPhoto(1)" class="absolute right-0 z-10 rounded-full bg-black/60 p-3 text-white hover:bg-black/80 sm:right-3" aria-label="Next photo"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="pt-4 text-center text-white">
+                        <p id="project-photo-viewer-title" class="text-sm font-semibold text-sky-300"></p>
+                        <p id="project-photo-viewer-caption" class="mx-auto mt-1 max-w-3xl text-sm text-slate-200"></p>
+                    </div>
+                </div>
+            </div>
+
             <div class="p-6 space-y-8">
                 <!-- Navigation Tabs inside CMS -->
                 <div class="flex border-b border-slate-800 gap-4 text-sm font-bold overflow-x-auto pb-1">
-                    <button id="cms-tab-btn-hero" onclick="switchCMSTab('hero')" class="pb-3 border-b-2 border-amber-500 text-amber-500 whitespace-nowrap">Personal & Bio</button>
+                    <button id="cms-tab-btn-hero" onclick="switchCMSTab('hero')" class="pb-3 border-b-2 border-sky-500 text-sky-500 whitespace-nowrap">Personal & Bio</button>
                     <button id="cms-tab-btn-projects" onclick="switchCMSTab('projects')" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-white whitespace-nowrap">Projects Manager</button>
                     <button id="cms-tab-btn-experiments" onclick="switchCMSTab('experiments')" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-white whitespace-nowrap">Experiments & Testing</button>
                     <button id="cms-tab-btn-emailjs" onclick="switchCMSTab('emailjs')" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-white whitespace-nowrap">EmailJS Configuration</button>
@@ -552,7 +589,7 @@
 
                 <!-- TAB 1: Personal & Bio Edit -->
                 <div id="cms-tab-hero" class="space-y-6">
-                    <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider font-mono-code">Engineer Details & Metrics</h3>
+                    <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code">Engineer Details & Metrics</h3>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
@@ -614,10 +651,10 @@
                 <div id="cms-tab-projects" class="space-y-6 hidden">
                     <div class="flex flex-wrap items-center justify-between gap-3">
                         <div>
-                            <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider font-mono-code">Recent Projects & Executed Works</h3>
+                            <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code">Recent Projects & Executed Works</h3>
                             <p class="text-xs text-slate-400 mt-1">Edit project details below. New projects appear first. Save Changes to publish your edits.</p>
                         </div>
-                        <button type="button" onclick="addNewProjectForm()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1">
+                        <button type="button" onclick="addNewProjectForm()" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1">
                             <i class="fa-solid fa-plus"></i> Add Project
                         </button>
                     </div>
@@ -635,8 +672,8 @@
                 <!-- TAB 3: Experiments Manager -->
                 <div id="cms-tab-experiments" class="space-y-6 hidden">
                     <div class="flex items-center justify-between">
-                        <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider font-mono-code">Field Experiments</h3>
-                        <button onclick="addNewExperimentForm()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1">
+                        <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code">Field Experiments</h3>
+                        <button onclick="addNewExperimentForm()" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1">
                             <i class="fa-solid fa-plus"></i> Add Experiment
                         </button>
                     </div>
@@ -648,8 +685,17 @@
 
                 <!-- TAB 4: EmailJS Integration Settings -->
                 <div id="cms-tab-emailjs" class="space-y-6 hidden">
-                    <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider font-mono-code">EmailJS API Settings</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">Configure your free EmailJS account parameters below to receive visitor inquiry emails directly to your personal mailbox when hosted online.</p>
+                    <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code">EmailJS API Settings</h3>
+                    <div class="rounded-xl border border-slate-700 bg-slate-900 p-4 text-xs text-slate-300 space-y-2 leading-relaxed">
+                        <p class="font-bold text-white">Set up EmailJS</p>
+                        <ol class="list-decimal pl-5 space-y-1">
+                            <li>Sign up at EmailJS and add an Email Service for the inbox where you want to receive inquiries.</li>
+                            <li>Create an Email Template. Set Reply-To to <code class="text-sky-300">{{from_email}}</code> and include <code class="text-sky-300">{{from_name}}</code> and <code class="text-sky-300">{{message}}</code> in the subject/body. Set the recipient to your inbox in EmailJS.</li>
+                            <li>In EmailJS, copy your Service ID, Template ID, and Public Key. Paste each into its matching field below and press Save Changes.</li>
+                            <li>Open the public contact form and send a test. Check the inbox and spam folder. If sending is not configured, the visitor is prompted to use their email app.</li>
+                        </ol>
+                        <p class="text-sky-300">Only use the EmailJS Public Key here. Never put an EmailJS Private Key or email account password in this page.</p>
+                    </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
@@ -669,29 +715,31 @@
 
                 <!-- TAB 5: JSON Export / Import Backup Tool -->
                 <div id="cms-tab-backup" class="space-y-6 hidden">
-                    <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider font-mono-code">Hosting & Data Backup Tool</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">Export your entire portfolio state as a `.json` backup file or import a saved JSON configuration file when deploying onto GitHub Pages, Netlify, or Vercel.</p>
+                    <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code">Hosting & Data Backup Tool</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">This is a JSON backup (a <code>.json</code> file), not a JavaScript <code>.js</code> file. It contains your profile, projects, uploaded photos, experiments, and EmailJS settings. Import replaces the current saved portfolio in this browser, so export a backup first.</p>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
                         <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4">
                             <h4 class="font-bold text-white text-sm flex items-center gap-2">
-                                <i class="fa-solid fa-download text-amber-500"></i> Export JSON Backup
+                                <i class="fa-solid fa-download text-sky-500"></i> Export JSON Backup
                             </h4>
-                            <p class="text-xs text-slate-400">Download your currently edited projects, experiments, and settings as a raw JSON file.</p>
-                            <button onclick="exportDataJSON()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2">
+                            <p class="text-xs text-slate-400">Download a copy of all currently saved portfolio content and settings to keep somewhere safe.</p>
+                            <button onclick="exportDataJSON()" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2">
                                 <i class="fa-solid fa-file-export"></i> Download Portfolio
                             </button>
+                            <p class="text-[11px] text-slate-500">Use this regularly before making major edits. Keep the downloaded file somewhere safe.</p>
                         </div>
 
                         <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4">
                             <h4 class="font-bold text-white text-sm flex items-center gap-2">
                                 <i class="fa-solid fa-upload text-emerald-400"></i> Import JSON Backup
                             </h4>
-                            <p class="text-xs text-slate-400">Select a previously exported JSON backup file to overwrite active site data.</p>
+                            <p class="text-xs text-slate-400">Choose a JSON backup file previously downloaded from this dashboard. This replaces current data in this browser.</p>
                             <input type="file" id="import-json-file" accept=".json" class="hidden" onchange="importDataJSON(event)">
                             <button onclick="document.getElementById('import-json-file').click()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2">
                                 <i class="fa-solid fa-file-import"></i> Upload JSON File
                             </button>
+                            <p class="text-[11px] text-slate-500">After choosing the file, wait for the success message; your portfolio preview will update. Imported data is stored only in this browser.</p>
                         </div>
                     </div>
                 </div>
@@ -784,6 +832,8 @@
         let activeCategory = "All";
         let secretClickCount = 0;
         let secretClickTimer = null;
+        let projectGalleryItems = [];
+        let activeProjectPhotoIndex = 0;
 
         // On DOM Load
         window.addEventListener('DOMContentLoaded', () => {
@@ -802,7 +852,7 @@
             const savedTheme = localStorage.getItem('civil_theme') || 'dark';
             if (savedTheme === 'dark') {
                 document.documentElement.classList.add('dark');
-                document.getElementById('theme-icon').className = 'fa-solid fa-sun text-amber-400';
+                document.getElementById('theme-icon').className = 'fa-solid fa-sun text-sky-400';
             } else {
                 document.documentElement.classList.remove('dark');
                 document.getElementById('theme-icon').className = 'fa-solid fa-moon text-slate-700';
@@ -817,7 +867,7 @@
             } else {
                 document.documentElement.classList.add('dark');
                 localStorage.setItem('civil_theme', 'dark');
-                document.getElementById('theme-icon').className = 'fa-solid fa-sun text-amber-400';
+                document.getElementById('theme-icon').className = 'fa-solid fa-sun text-sky-400';
             }
         }
 
@@ -834,10 +884,43 @@
                 appData = JSON.parse(JSON.stringify(INITIAL_DATA));
                 saveDataToStorage();
             }
+            appData.projects.forEach(normalizeProjectPhotos);
+        }
+
+        function normalizeProjectPhotos(project) {
+            if (!Array.isArray(project.images)) {
+                project.images = project.imageUrl
+                    ? [{id: `${project.id || 'project'}-photo-0`, src: project.imageUrl, caption: project.title || 'Project photo', isCover: true}]
+                    : [];
+            }
+            project.images = project.images
+                .filter(photo => photo && typeof photo.src === 'string' && photo.src)
+                .map((photo, index) => ({
+                    id: photo.id || `${project.id || 'project'}-photo-${index}`,
+                    src: photo.src,
+                    caption: typeof photo.caption === 'string' ? photo.caption : project.title || 'Project photo',
+                    isCover: Boolean(photo.isCover)
+                }));
+            if (project.images.length && !project.images.some(photo => photo.isCover)) {
+                project.images[0].isCover = true;
+            }
+            delete project.imageUrl;
+            return project.images;
+        }
+
+        function getProjectPhotos(project) {
+            return normalizeProjectPhotos(project);
         }
 
         function saveDataToStorage() {
-            localStorage.setItem('civil_portfolio_data_v3', JSON.stringify(appData));
+            try {
+                localStorage.setItem('civil_portfolio_data_v3', JSON.stringify(appData));
+                return true;
+            } catch (error) {
+                console.error('Unable to save portfolio data to this browser:', error);
+                alert('Could not save portfolio data in this browser. Storage may be full. Use smaller photos or remove unused images, then try again.');
+                return false;
+            }
         }
 
         function resetDataToDefault() {
@@ -870,7 +953,7 @@
             const message = document.getElementById('emailjs-message').value;
 
             statusMsg.classList.remove('hidden', 'text-rose-400', 'text-emerald-400');
-            statusMsg.classList.add('text-amber-400');
+            statusMsg.classList.add('text-sky-400');
             statusMsg.textContent = "Sending inquiry...";
             submitBtn.disabled = true;
 
@@ -900,7 +983,7 @@
                 });
             } else {
                 // Fallback direct mailto if EmailJS parameters are unconfigured
-                statusMsg.className = "text-[11px] text-center text-amber-400 font-bold mt-2";
+                statusMsg.className = "text-[11px] text-center text-sky-400 font-bold mt-2";
                 statusMsg.textContent = "Redirecting to Mail Client...";
                 setTimeout(() => {
                     window.location.href = `mailto:${appData.profile.email}?subject=Structural Inquiry from ${encodeURIComponent(fromName)}&body=${encodeURIComponent(message)}`;
@@ -913,36 +996,60 @@
 
         // JSON Import / Export Backup Operations
         function exportDataJSON() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appData, null, 2));
+            const backupUrl = URL.createObjectURL(new Blob([JSON.stringify(appData, null, 2)], {type: 'application/json'}));
             const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `${appData.profile.name.replace(/\s+/g, '_')}_Portfolio_Backup.json`);
+            downloadAnchor.href = backupUrl;
+            downloadAnchor.download = `${appData.profile.name.trim().replace(/[^\w-]+/g, '_')}_Portfolio_Backup.json`;
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
             downloadAnchor.remove();
+            setTimeout(() => URL.revokeObjectURL(backupUrl), 1000);
         }
 
         function importDataJSON(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+            if (!confirm('Import this JSON backup and replace the portfolio saved in this browser?')) {
+                event.target.value = '';
+                return;
+            }
             const fileReader = new FileReader();
+            fileReader.onerror = () => alert('Unable to read the selected backup file.');
             fileReader.onload = (e) => {
                 try {
                     const parsed = JSON.parse(e.target.result);
-                    if (parsed && parsed.profile && parsed.projects) {
+                    const profileFields = ['name', 'title', 'headline', 'bio', 'phone', 'email', 'location'];
+                    const statFields = ['years', 'projects', 'budget', 'safety'];
+                    const validProfile = parsed && parsed.profile && parsed.profile.stats &&
+                        profileFields.every(field => parsed.profile[field] !== undefined) &&
+                        statFields.every(field => parsed.profile.stats[field] !== undefined);
+                    if (validProfile && Array.isArray(parsed.projects) && Array.isArray(parsed.experiments)) {
+                        parsed.emailjs = Object.assign(
+                            {},
+                            INITIAL_DATA.emailjs,
+                            parsed.emailjs && typeof parsed.emailjs === 'object' ? parsed.emailjs : {}
+                        );
+                        parsed.projects.forEach(normalizeProjectPhotos);
+                        const previousData = appData;
                         appData = parsed;
-                        saveDataToStorage();
+                        if (!saveDataToStorage()) {
+                            appData = previousData;
+                            return;
+                        }
+                        initEmailJS();
                         renderPortfolio();
                         populateCMSForm();
                         alert("Portfolio data imported successfully!");
                     } else {
-                        alert("Invalid portfolio JSON format.");
+                        alert("This file is not a valid portfolio backup. Choose a .json file exported from the portfolio dashboard.");
                     }
                 } catch (err) {
-                    alert("Error parsing uploaded JSON file.");
+                    console.error('Unable to import portfolio backup:', err);
+                    alert("Could not read this backup as JSON. Check that the file is a valid portfolio .json backup.");
                 }
             };
-            if (event.target.files[0]) {
-                fileReader.readAsText(event.target.files[0]);
-            }
+            fileReader.readAsText(file);
+            event.target.value = '';
         }
 
         // Secret Admin Access (Triple Click, Gear Icon, Keyboard Shortcut)
@@ -965,6 +1072,12 @@
                 if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'a') {
                     e.preventDefault();
                     openAdminModal();
+                } else if (!document.getElementById('project-photo-viewer').classList.contains('hidden') && e.key === 'Escape') {
+                    closeProjectPhotoViewer();
+                } else if (!document.getElementById('project-photo-viewer').classList.contains('hidden') && e.key === 'ArrowRight') {
+                    showAdjacentProjectPhoto(1);
+                } else if (!document.getElementById('project-photo-viewer').classList.contains('hidden') && e.key === 'ArrowLeft') {
+                    showAdjacentProjectPhoto(-1);
                 }
             });
         }
@@ -1043,6 +1156,7 @@
             document.getElementById('footer-wa-link').href = `https://wa.me/${p.phone}?text=${heroWaMsg}`;
 
             renderProjectFilters();
+            renderProjectGalleryStrip();
             renderProjects();
             renderExperiments();
         }
@@ -1060,7 +1174,7 @@
             filterContainer.innerHTML = categories.map(cat => `
                 <button type="button" data-category="${escapeHTML(cat)}" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
                     activeCategory === cat 
-                    ? 'bg-amber-500 text-slate-950 shadow-md' 
+                    ? 'bg-sky-500 text-slate-950 shadow-md' 
                     : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700'
                 }">
                     ${escapeHTML(cat)}
@@ -1077,6 +1191,72 @@
             renderProjects();
         }
 
+        function buildProjectGalleryItems() {
+            return appData.projects.flatMap(project => getProjectPhotos(project).map(photo => ({
+                projectId: project.id,
+                photoId: photo.id,
+                projectTitle: project.title,
+                src: photo.src,
+                caption: photo.caption || project.title
+            })));
+        }
+
+        function renderProjectGalleryStrip() {
+            const strip = document.getElementById('project-gallery-strip');
+            const track = document.getElementById('project-gallery-track');
+            projectGalleryItems = buildProjectGalleryItems();
+            if (!projectGalleryItems.length) {
+                strip.classList.add('hidden');
+                track.innerHTML = '';
+                return;
+            }
+
+            strip.classList.remove('hidden');
+            const cards = projectGalleryItems.map((photo, index) => `
+                <button type="button" data-gallery-index="${index}" class="relative h-40 w-60 flex-shrink-0 overflow-hidden rounded-xl bg-slate-900 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-400" aria-label="View ${escapeHTML(photo.projectTitle)} photo: ${escapeHTML(photo.caption)}">
+                    <img src="${escapeHTML(photo.src)}" alt="${escapeHTML(photo.caption)}" loading="lazy" class="h-full w-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e293b/0284c7?text=Project+Photo'">
+                    <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent px-3 pb-3 pt-8">
+                        <span class="block truncate text-[10px] font-semibold uppercase tracking-wide text-sky-300">${escapeHTML(photo.projectTitle)}</span>
+                        <span class="mt-0.5 block truncate text-xs text-white">${escapeHTML(photo.caption)}</span>
+                    </span>
+                </button>
+            `).join('');
+            track.innerHTML = `<div class="flex gap-4 pr-4">${cards}</div><div class="flex gap-4 pr-4" aria-hidden="true">${cards}</div>`;
+            track.querySelectorAll('[data-gallery-index]').forEach(button => {
+                button.addEventListener('click', () => openProjectPhotoViewer(Number(button.dataset.galleryIndex)));
+            });
+        }
+
+        function openProjectPhotoViewer(index) {
+            if (!projectGalleryItems.length) return;
+            activeProjectPhotoIndex = (index + projectGalleryItems.length) % projectGalleryItems.length;
+            updateProjectPhotoViewer();
+            const viewer = document.getElementById('project-photo-viewer');
+            viewer.classList.remove('hidden');
+            viewer.style.display = 'block';
+        }
+
+        function updateProjectPhotoViewer() {
+            const photo = projectGalleryItems[activeProjectPhotoIndex];
+            document.getElementById('project-photo-viewer-image').src = photo.src;
+            document.getElementById('project-photo-viewer-image').alt = photo.caption;
+            document.getElementById('project-photo-viewer-title').textContent = photo.projectTitle;
+            document.getElementById('project-photo-viewer-caption').textContent = photo.caption;
+            document.getElementById('project-photo-counter').textContent = `${activeProjectPhotoIndex + 1} / ${projectGalleryItems.length}`;
+        }
+
+        function showAdjacentProjectPhoto(direction) {
+            if (!projectGalleryItems.length) return;
+            activeProjectPhotoIndex = (activeProjectPhotoIndex + direction + projectGalleryItems.length) % projectGalleryItems.length;
+            updateProjectPhotoViewer();
+        }
+
+        function closeProjectPhotoViewer() {
+            const viewer = document.getElementById('project-photo-viewer');
+            viewer.classList.add('hidden');
+            viewer.style.display = 'none';
+        }
+
         function renderProjects() {
             const grid = document.getElementById('projects-grid');
             const filtered = activeCategory === "All" 
@@ -1091,12 +1271,20 @@
             grid.innerHTML = filtered.map(proj => {
                 const waProjMsg = encodeURIComponent(`Hello ${appData.profile.name}, I am interested in details regarding your project: "${proj.title}".`);
                 const waLink = `https://wa.me/${appData.profile.phone}?text=${waProjMsg}`;
+                const photos = getProjectPhotos(proj);
+                const cover = photos.find(photo => photo.isCover) || photos[0];
+                const coverSource = cover ? cover.src : 'https://placehold.co/800x500/1e293b/0284c7?text=Site+Photo';
+                const coverCaption = cover ? cover.caption : 'Project photo';
+                const galleryIndex = cover ? projectGalleryItems.findIndex(photo => photo.photoId === cover.id && photo.projectId === proj.id) : -1;
 
                 return `
-                <div class="bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:border-amber-500 transition-all">
+                <div class="bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:border-sky-500 transition-all">
                     <div class="relative h-60 overflow-hidden bg-slate-950">
-                        <img src="${escapeHTML(proj.imageUrl)}" alt="${escapeHTML(proj.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/800x500/1e293b/d97706?text=Site+Photo'">
-                        <div class="absolute top-4 left-4 bg-amber-500 text-slate-950 px-3 py-1 rounded-full text-[10px] font-black tracking-wider uppercase">
+                        <button type="button" ${galleryIndex >= 0 ? `data-gallery-index="${galleryIndex}"` : 'disabled'} class="absolute inset-0 h-full w-full text-left" aria-label="Open ${escapeHTML(proj.title)} photo">
+                            <img src="${escapeHTML(coverSource)}" alt="${escapeHTML(coverCaption)}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.onerror=null;this.src='https://placehold.co/800x500/1e293b/0284c7?text=Site+Photo'">
+                            <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent px-4 pb-3 pt-8 text-xs text-white">${escapeHTML(coverCaption)}</span>
+                        </button>
+                        <div class="absolute top-4 left-4 bg-sky-500 text-slate-950 px-3 py-1 rounded-full text-[10px] font-black tracking-wider uppercase">
                             ${escapeHTML(proj.category)}
                         </div>
                     </div>
@@ -1105,12 +1293,12 @@
                             <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mb-2">${escapeHTML(proj.title)}</h3>
                             <div class="grid grid-cols-2 gap-2 text-xs text-slate-600 dark:text-slate-300 mb-4 bg-slate-50 dark:bg-slate-900/60 p-3 rounded-xl border border-slate-200 dark:border-slate-700/50">
                                 <div><span class="text-slate-400">Location:</span> <span class="font-semibold text-slate-900 dark:text-white">${escapeHTML(proj.location)}</span></div>
-                                <div><span class="text-slate-400">Budget:</span> <span class="font-semibold text-amber-600 dark:text-amber-400">${escapeHTML(proj.budget)}</span></div>
+                                <div><span class="text-slate-400">Budget:</span> <span class="font-semibold text-sky-600 dark:text-sky-400">${escapeHTML(proj.budget)}</span></div>
                                 <div><span class="text-slate-400">Duration:</span> <span class="font-semibold text-slate-900 dark:text-white">${escapeHTML(proj.duration)}</span></div>
                                 <div><span class="text-slate-400">Materials:</span> <span class="font-semibold text-slate-900 dark:text-white">${escapeHTML(proj.materials)}</span></div>
                             </div>
                             <div class="text-xs space-y-1">
-                                <span class="font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider block">Engineering Solution:</span>
+                                <span class="font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider block">Engineering Solution:</span>
                                 <p class="leading-relaxed text-slate-600 dark:text-slate-300">${escapeHTML(proj.challenges)}</p>
                             </div>
                         </div>
@@ -1124,6 +1312,9 @@
                 </div>
                 `;
             }).join('');
+            grid.querySelectorAll('[data-gallery-index]').forEach(button => {
+                button.addEventListener('click', () => openProjectPhotoViewer(Number(button.dataset.galleryIndex)));
+            });
         }
 
         // Experiments Render
@@ -1142,8 +1333,8 @@
                     <div class="w-full md:w-3/5 space-y-2.5">
                         <h3 class="text-lg font-bold text-slate-900 dark:text-white leading-snug">${exp.title}</h3>
                         <div class="text-xs text-slate-600 dark:text-slate-300 space-y-1.5">
-                            <div><strong class="text-amber-600 dark:text-amber-400">Objective:</strong> ${exp.objective}</div>
-                            <div><strong class="text-amber-600 dark:text-amber-400">Method:</strong> ${exp.method}</div>
+                            <div><strong class="text-sky-600 dark:text-sky-400">Objective:</strong> ${exp.objective}</div>
+                            <div><strong class="text-sky-600 dark:text-sky-400">Method:</strong> ${exp.method}</div>
                             <div class="bg-white dark:bg-slate-800 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700">
                                 <strong class="text-emerald-600 dark:text-emerald-400">Result:</strong> ${exp.results}
                             </div>
@@ -1163,7 +1354,7 @@
                 status.className = "text-xs font-extrabold text-emerald-500";
             } else if (val < 120) {
                 status.textContent = "YIELD ZONE";
-                status.className = "text-xs font-extrabold text-amber-500 animate-pulse";
+                status.className = "text-xs font-extrabold text-sky-500 animate-pulse";
             } else {
                 status.textContent = "ULTIMATE CRUSH";
                 status.className = "text-xs font-extrabold text-rose-500 animate-bounce";
@@ -1214,7 +1405,7 @@
             function draw() {
                 ctx.clearRect(0, 0, width, height);
 
-                ctx.strokeStyle = '#f59e0b';
+                ctx.strokeStyle = '#0ea5e9';
                 ctx.lineWidth = 0.5;
                 ctx.beginPath();
                 ctx.moveTo(mouseX, 0);
@@ -1282,7 +1473,7 @@
             });
 
             document.getElementById(`cms-tab-${tab}`).classList.remove('hidden');
-            document.getElementById(`cms-tab-btn-${tab}`).className = "pb-3 border-b-2 border-amber-500 text-amber-500 whitespace-nowrap";
+            document.getElementById(`cms-tab-btn-${tab}`).className = "pb-3 border-b-2 border-sky-500 text-sky-500 whitespace-nowrap";
         }
 
         function renderCMSProjectsList() {
@@ -1294,7 +1485,7 @@
             container.innerHTML = appData.projects.map((p, idx) => `
                 <article class="bg-slate-800 p-4 rounded-xl border border-slate-700 space-y-3">
                     <div class="flex items-center justify-between gap-3">
-                        <div class="font-bold text-xs text-amber-400 uppercase tracking-wider font-mono-code">Recent Project #${idx + 1} — Edit details</div>
+                        <div class="font-bold text-xs text-sky-400 uppercase tracking-wider font-mono-code">Recent Project #${idx + 1} — Edit details</div>
                         <button type="button" onclick="deleteProject(${idx})" class="text-rose-400 hover:text-rose-300 text-xs font-bold">
                         <i class="fa-solid fa-trash"></i> Delete
                         </button>
@@ -1307,7 +1498,34 @@
                         <label class="text-[11px] text-slate-400">Duration<input type="text" value="${escapeHTML(p.duration)}" onchange="appData.projects[${idx}].duration=this.value" placeholder="Duration" class="mt-1 w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs"></label>
                         <label class="text-[11px] text-slate-400">Materials used<input type="text" value="${escapeHTML(p.materials)}" onchange="appData.projects[${idx}].materials=this.value" placeholder="Materials used" class="mt-1 w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs"></label>
                     </div>
-                    <label class="block text-[11px] text-slate-400">Project image URL<input type="url" value="${escapeHTML(p.imageUrl)}" onchange="appData.projects[${idx}].imageUrl=this.value" placeholder="https://..." class="mt-1 w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs"></label>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-300">Upload multiple project photos (JPG, PNG, WebP; max 12 MB each)</label>
+                        <input type="file" accept="image/jpeg,image/png,image/webp" multiple onchange="handleProjectImageUpload(event, ${idx})" class="mt-2 w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs file:mr-3 file:rounded file:border-0 file:bg-sky-600 file:px-3 file:py-1 file:font-semibold file:text-white">
+                        <p class="mt-1 text-[11px] text-slate-500">Choose the photo to use on the project card. Add a short caption for each photo; visitors can click a photo and browse the full gallery.</p>
+                    </div>
+                    ${getProjectPhotos(p).length ? `
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                            ${getProjectPhotos(p).map((photo, photoIdx) => `
+                                <div class="overflow-hidden rounded-xl border ${photo.isCover ? 'border-sky-400' : 'border-slate-700'} bg-slate-900">
+                                    <img src="${escapeHTML(photo.src)}" alt="${escapeHTML(photo.caption)}" class="h-36 w-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e293b/0284c7?text=Project+Photo'">
+                                    <div class="space-y-2 p-3">
+                                        <label class="block text-[11px] text-slate-400">Photo description
+                                            <input type="text" value="${escapeHTML(photo.caption)}" onchange="updateProjectPhotoCaption(${idx}, ${photoIdx}, this.value)" placeholder="Describe this photo" class="mt-1 w-full bg-slate-800 border border-slate-700 rounded p-2 text-white text-xs">
+                                        </label>
+                                        <div class="flex items-center justify-between gap-2">
+                                            <label class="flex items-center gap-2 text-[11px] text-slate-300">
+                                                <input type="radio" name="project-cover-${idx}" ${photo.isCover ? 'checked' : ''} onchange="selectProjectCover(${idx}, ${photoIdx})" class="accent-sky-500">
+                                                Show on project card
+                                            </label>
+                                            <button type="button" onclick="removeProjectPhoto(${idx}, ${photoIdx})" class="text-[11px] font-semibold text-rose-400 hover:text-rose-300">
+                                                <i class="fa-solid fa-trash" aria-hidden="true"></i> Remove
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : '<p class="rounded-lg border border-dashed border-slate-700 p-4 text-center text-xs text-slate-500">No photos yet. Upload one or more above.</p>'}
                     <label class="block text-[11px] text-slate-400">Work summary / challenge and solution<textarea onchange="appData.projects[${idx}].challenges=this.value" placeholder="Describe the work completed and its impact" class="mt-1 w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs" rows="3">${escapeHTML(p.challenges)}</textarea></label>
                 </article>
             `).join('');
@@ -1322,10 +1540,103 @@
                 budget: "$5,000,000",
                 duration: "12 Months",
                 materials: "Reinforced Concrete C40",
-                imageUrl: "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=800&q=80",
+                images: [],
                 challenges: "Details regarding specific engineering challenges solved."
             });
             renderCMSProjectsList();
+        }
+
+        async function handleProjectImageUpload(event, projectIndex) {
+            const files = Array.from(event.target.files || []);
+            const project = appData.projects[projectIndex];
+            event.target.value = '';
+            if (!files.length || !project) return;
+
+            const invalidFile = files.find(file =>
+                !['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 12 * 1024 * 1024
+            );
+            if (invalidFile) {
+                alert(`${invalidFile.name}: choose a JPG, PNG, or WebP image no larger than 12 MB.`);
+                return;
+            }
+
+            try {
+                const uploadedPhotos = await Promise.all(files.map(createOptimizedProjectPhoto));
+                if (!appData.projects.includes(project)) return;
+                const photos = getProjectPhotos(project);
+                uploadedPhotos.forEach((photo, index) => {
+                    photo.isCover = photos.length === 0 && index === 0;
+                    photos.push(photo);
+                });
+                renderCMSProjectsList();
+                renderProjectGalleryStrip();
+                renderProjects();
+            } catch (error) {
+                console.error('Unable to process uploaded project photos:', error);
+                alert(error.message || 'Could not process the selected photos. Try smaller image files.');
+            }
+        }
+
+        function createOptimizedProjectPhoto(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onerror = () => reject(new Error(`Could not read ${file.name}.`));
+                reader.onload = () => {
+                    const image = new Image();
+                    image.onerror = () => reject(new Error(`Could not open ${file.name}.`));
+                    image.onload = () => {
+                        const maxDimension = 1400;
+                        const scale = Math.min(1, maxDimension / Math.max(image.naturalWidth, image.naturalHeight));
+                        const canvas = document.createElement('canvas');
+                        canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+                        canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+                        const context = canvas.getContext('2d');
+                        if (!context) {
+                            reject(new Error('Image processing is unavailable in this browser.'));
+                            return;
+                        }
+                        context.fillStyle = '#ffffff';
+                        context.fillRect(0, 0, canvas.width, canvas.height);
+                        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+                        const safeName = file.name.replace(/\.[^.]+$/, '').replace(/[_-]+/g, ' ').trim();
+                        resolve({
+                            id: `photo-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+                            src: canvas.toDataURL('image/jpeg', 0.72),
+                            caption: safeName || 'Project photo',
+                            isCover: false
+                        });
+                    };
+                    image.src = reader.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function updateProjectPhotoCaption(projectIndex, photoIndex, caption) {
+            const photo = getProjectPhotos(appData.projects[projectIndex])[photoIndex];
+            if (!photo) return;
+            photo.caption = caption.trim() || 'Project photo';
+            renderCMSProjectsList();
+            renderProjectGalleryStrip();
+            renderProjects();
+        }
+
+        function selectProjectCover(projectIndex, photoIndex) {
+            const photos = getProjectPhotos(appData.projects[projectIndex]);
+            photos.forEach((photo, index) => { photo.isCover = index === photoIndex; });
+            renderCMSProjectsList();
+            renderProjectGalleryStrip();
+            renderProjects();
+        }
+
+        function removeProjectPhoto(projectIndex, photoIndex) {
+            const project = appData.projects[projectIndex];
+            const photos = getProjectPhotos(project);
+            const [removed] = photos.splice(photoIndex, 1);
+            if (removed && removed.isCover && photos.length) photos[0].isCover = true;
+            renderCMSProjectsList();
+            renderProjectGalleryStrip();
+            renderProjects();
         }
 
         function deleteProject(idx) {
@@ -1342,7 +1653,7 @@
                     <button onclick="deleteExperiment(${idx})" class="absolute top-4 right-4 text-rose-400 hover:text-rose-300 text-xs font-bold">
                         <i class="fa-solid fa-trash"></i> Delete
                     </button>
-                    <div class="font-bold text-xs text-amber-400 uppercase tracking-wider font-mono-code">Experiment #${idx + 1}</div>
+                    <div class="font-bold text-xs text-sky-400 uppercase tracking-wider font-mono-code">Experiment #${idx + 1}</div>
                     <input type="text" value="${e.title}" onchange="appData.experiments[${idx}].title=this.value" placeholder="Title" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <input type="text" value="${e.objective}" onchange="appData.experiments[${idx}].objective=this.value" placeholder="Objective" class="bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
@@ -1395,12 +1706,11 @@
             appData.emailjs.templateId = document.getElementById('cms-input-emailjs-template').value.trim();
             appData.emailjs.publicKey = document.getElementById('cms-input-emailjs-key').value.trim();
 
-            saveDataToStorage();
+            if (!saveDataToStorage()) return;
             initEmailJS();
             renderPortfolio();
-            initCounters();
             closeCMSModal();
-            alert("All portfolio changes saved successfully!");
+            alert("All portfolio changes saved in this browser.");
         }
     </script>
 </body>
