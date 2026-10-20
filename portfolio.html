@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civil & Structural Engineer Portfolio & CMS</title>
+    <!-- Tailwind CSS CDN with dark mode support -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            signal: '#0284C7',
+                            signalDark: '#0369A1',
+                            navy: '#0F172A',
+                            blueprint: '#1E3A8A',
+                            blueprintLight: '#2563EB',
+                            slate: '#334155',
+                            industrial: '#1E293B'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- EmailJS SDK CDN -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s ease, color 0.3s ease; }
+        .font-mono-code { font-family: 'JetBrains Mono', monospace; }
+        
+        /* Blueprint grid pattern for Light/Dark modes */
+        .blueprint-bg-dark {
+            background-image: 
+                linear-gradient(to right, rgba(59, 130, 246, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(59, 130, 246, 0.08) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+        .blueprint-bg-light {
+            background-image: 
+                linear-gradient(to right, rgba(30, 58, 138, 0.06) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(30, 58, 138, 0.06) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        /* Engineering Crane Keyframe Animations */
+        @keyframes craneSwing {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+        @keyframes cableExtend {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(12px); }
+        }
+        .animate-crane-arm { transform-origin: 40px 120px; animation: craneSwing 6s ease-in-out infinite; }
+        .animate-cable { animation: cableExtend 4s ease-in-out infinite; }
+    </style>
+</head>
+<body class="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col selection:bg-sky-500 selection:text-slate-900 relative">
+
+    <!-- Interactive Canvas Blueprint Cursor Background -->
+    <canvas id="blueprintCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40 dark:opacity-30"></canvas>
+
+    <!-- Header / Navigation -->
+    <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-lg bg-sky-500 flex items-center justify-center text-slate-950 font-bold text-xl shadow-lg shadow-sky-500/20">
+                    <i class="fa-solid fa-hard-hat"></i>
+                </div>
+                <div>
+                    <h1 id="nav-engineer-name" class="font-extrabold text-lg tracking-tight text-slate-900 dark:text-white">Eng. David Vance</h1>
+                    <p id="nav-engineer-title" class="text-xs text-sky-600 dark:text-sky-500 font-semibold tracking-wider uppercase">Senior Structural Engineer</p>
+                </div>
+            </div>
+
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-600 dark:text-slate-300">
+                <a href="#about" class="hover:text-sky-500 transition-colors">Capabilities</a>
+                <a href="#projects" class="hover:text-sky-500 transition-colors">Executed Works</a>
+                <a href="#experiments" class="hover:text-sky-500 transition-colors">R&D / Testing</a>
+                <a href="#certifications" class="hover:text-sky-500 transition-colors">Credentials</a>
+                <a href="#contact-footer" class="hover:text-sky-500 transition-colors">Contact</a>
+            </nav>
+
+            <div class="flex items-center space-x-3">
+                <button id="mobile-menu-toggle" type="button" onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700" aria-controls="mobile-navigation" aria-expanded="false" aria-label="Open navigation menu">
+                    <i id="mobile-menu-icon" class="fa-solid fa-bars" aria-hidden="true"></i>
+                </button>
+                <!-- Light / Dark Mode Toggle Button -->
+                <button onclick="toggleTheme()" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-sky-400 border border-slate-200 dark:border-slate-700 hover:scale-105 transition-all" title="Toggle Light/Dark Theme">
+                    <i id="theme-icon" class="fa-solid fa-moon text-lg"></i>
+                </button>
+
+                <!-- WhatsApp Quick Action -->
+                <button onclick="sharePortfolioWhatsApp()" class="flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all shadow-md">
+                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                    <span class="hidden sm:inline">Share Portfolio</span>
+                </button>
+
+                <!-- CMS shortcut remains password-gated every time it is opened -->
+                <button id="session-admin-btn" onclick="openCMSDashboard()" class="hidden bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-3 py-2 rounded-xl text-xs flex items-center space-x-1 shadow-lg">
+                    <i class="fa-solid fa-sliders"></i>
+                    <span>CMS Dashboard</span>
+                </button>
+            </div>
+        </div>
+        <nav id="mobile-navigation" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-3 space-y-1">
+            <a href="#about" onclick="closeMobileMenu()" class="block rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Capabilities</a>
+            <a href="#projects" onclick="closeMobileMenu()" class="block rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Executed Works</a>
+            <a href="#experiments" onclick="closeMobileMenu()" class="block rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">R&D / Testing</a>
+            <a href="#certifications" onclick="closeMobileMenu()" class="block rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Credentials</a>
+            <a href="#contact-footer" onclick="closeMobileMenu()" class="block rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Contact</a>
+        </nav>
+    </header>
+
+    <main class="flex-grow z-10 relative">
+        <!-- Hero Section -->
+        <section class="relative py-16 sm:py-24 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 transition-colors">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex items-center space-x-2 bg-sky-500/10 border border-sky-500/30 rounded-full px-4 py-1.5 text-sky-600 dark:text-sky-400 text-xs font-bold tracking-wide">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Licensed Structural Engineer (PE / CEng)</span>
+                        </div>
+                        
+                        <h1 id="hero-headline" class="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
+                            Building Resilient Infrastructure & Modern High-Rises
+                        </h1>
+                        
+                        <p id="hero-bio" class="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
+                            Over 12 years of structural engineering excellence, site supervision, concrete testing innovation, and managing mega-infrastructure projects up to $65M budget.
+                        </p>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-wrap gap-4 pt-2">
+                            <a id="hero-whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-3.5 rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5">
+                                <i class="fa-brands fa-whatsapp text-lg"></i>
+                                <span>WhatsApp Direct</span>
+                            </a>
+                            <a id="hero-email-btn" href="#contact-footer" class="flex items-center space-x-2 bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold px-6 py-3.5 rounded-xl shadow-lg shadow-sky-500/20 transition-all transform hover:-translate-y-0.5">
+                                <i class="fa-solid fa-envelope text-lg"></i>
+                                <span>Send Mail</span>
+                            </a>
+                            <button type="button" onclick="downloadCV()" class="flex items-center space-x-2 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 font-semibold px-5 py-3.5 rounded-xl transition-all shadow-sm">
+                                <i class="fa-solid fa-file-lines text-sky-500"></i>
+                                <span>Download CV Summary</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic SVG Animated Engineering Vector & Stats Display -->
+                    <div class="lg:col-span-5 space-y-6">
+                        <!-- Tower Crane & Blueprint Illustration SVG -->
+                        <div class="bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-xl relative overflow-hidden transition-colors">
+                            <div class="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-slate-700/60 pb-3">
+                                <div class="text-xs font-mono-code font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider flex items-center gap-2">
+                                    <i class="fa-solid fa-drafting-compass"></i> Structural CAD Live Model
+                                </div>
+                                <span class="text-[10px] bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 font-mono-code px-2 py-0.5 rounded">BUILDING_REVIT_2026</span>
+                            </div>
+
+                            <!-- Animated SVG Vector Crane & High Rise -->
+                            <div class="w-full h-48 flex items-center justify-center bg-slate-900 rounded-xl relative overflow-hidden border border-slate-800">
+                                <svg class="w-full h-full p-2" viewBox="0 0 300 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+                                        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+                                    </pattern>
+                                    <rect width="300" height="180" fill="url(#smallGrid)"/>
+
+                                    <rect x="50" y="60" width="70" height="110" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="2 2" fill="none"/>
+                                    <line x1="50" y1="90" x2="120" y2="90" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2 2"/>
+                                    <line x1="50" y1="120" x2="120" y2="120" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2 2"/>
+                                    <line x1="50" y1="150" x2="120" y2="150" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2 2"/>
+                                    <line x1="85" y1="60" x2="85" y2="170" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2 2"/>
+
+                                    <rect x="180" y="20" width="8" height="150" fill="#0ea5e9"/>
+                                    <path d="M 180 20 L 188 35 M 180 35 L 188 50 M 180 50 L 188 65 M 180 65 L 188 80 M 180 80 L 188 95" stroke="#78350f" stroke-width="1"/>
+
+                                    <g class="animate-crane-arm">
+                                        <line x1="100" y1="20" x2="230" y2="20" stroke="#0ea5e9" stroke-width="3"/>
+                                        <line x1="184" y1="5" x2="230" y2="20" stroke="#0ea5e9" stroke-width="1.5"/>
+                                        <line x1="184" y1="5" x2="140" y2="20" stroke="#0ea5e9" stroke-width="1.5"/>
+                                        
+                                        <g class="animate-cable">
+                                            <line x1="130" y1="20" x2="130" y2="70" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2 1"/>
+                                            <rect x="115" y="70" width="30" height="8" fill="#38bdf8" rx="2"/>
+                                        </g>
+                                    </g>
+                                    
+                                    <text x="10" y="170" fill="#64748b" font-size="9" font-family="monospace">AUTOCAD STRUCTURAL DRAFT v4.2</text>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Animated Stats Rollup Grid -->
+                        <div class="bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-xl transition-colors">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-slate-50 dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <div class="text-3xl font-extrabold text-sky-600 dark:text-sky-500 font-mono-code"><span class="counter" id="stat-years-disp" data-target="12">12</span>+</div>
+                                    <div class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-semibold">Years Experience</div>
+                                </div>
+                                <div class="bg-slate-50 dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <div class="text-3xl font-extrabold text-sky-600 dark:text-sky-500 font-mono-code"><span class="counter" id="stat-projects-disp" data-target="48">48</span>+</div>
+                                    <div class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-semibold">Completed Works</div>
+                                </div>
+                                <div class="bg-slate-50 dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <div class="text-3xl font-extrabold text-sky-600 dark:text-sky-500 font-mono-code">$<span class="counter" id="stat-budget-disp" data-target="65">65</span>M+</div>
+                                    <div class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-semibold">Managed Budget</div>
+                                </div>
+                                <div class="bg-slate-50 dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <div class="text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 font-mono-code"><span class="counter" id="stat-safety-disp" data-target="0">0</span></div>
+                                    <div class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-semibold">Lost Time Injuries</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Competencies -->
+        <section id="about" class="py-16 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 transition-colors">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <h2 class="text-xs font-bold text-sky-600 dark:text-sky-500 tracking-widest uppercase">Specializations</h2>
+                    <p class="text-3xl font-extrabold text-slate-900 dark:text-white mt-2">Core Technical Engineering Services</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-sky-500 transition-all group">
+                        <div class="w-12 h-12 bg-sky-500/10 rounded-xl flex items-center justify-center text-sky-600 dark:text-sky-500 mb-4 group-hover:bg-sky-500 group-hover:text-slate-950 transition-colors">
+                            <i class="fa-solid fa-building text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Structural Analysis & Design</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Reinforced concrete & structural steel design using ETABS, SAP2000, and STAAD Pro following Eurocode & ACI standards.</p>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-sky-500 transition-all group">
+                        <div class="w-12 h-12 bg-sky-500/10 rounded-xl flex items-center justify-center text-sky-600 dark:text-sky-500 mb-4 group-hover:bg-sky-500 group-hover:text-slate-950 transition-colors">
+                            <i class="fa-solid fa-clipboard-check text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Site Management & QA/QC</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Rigorous site supervision, safety compliance monitoring, quality assurance audits, and subcontractor supervision.</p>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-sky-500 transition-all group">
+                        <div class="w-12 h-12 bg-sky-500/10 rounded-xl flex items-center justify-center text-sky-600 dark:text-sky-500 mb-4 group-hover:bg-sky-500 group-hover:text-slate-950 transition-colors">
+                            <i class="fa-solid fa-flask-vial text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Geotechnical & Materials Testing</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Concrete cylinder compressive testing, soil bearing capacity assessments, slump tests, and asphalt mix verifications.</p>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-sky-500 transition-all group">
+                        <div class="w-12 h-12 bg-sky-500/10 rounded-xl flex items-center justify-center text-sky-600 dark:text-sky-500 mb-4 group-hover:bg-sky-500 group-hover:text-slate-950 transition-colors">
+                            <i class="fa-solid fa-cubes text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">BIM & CAD Engineering</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">3D structural modeling, clash detection using Revit Structure, and precision execution drawing generation in AutoCAD.</p>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-sky-500 transition-all group">
+                        <div class="w-12 h-12 bg-sky-500/10 rounded-xl flex items-center justify-center text-sky-600 dark:text-sky-500 mb-4 group-hover:bg-sky-500 group-hover:text-slate-950 transition-colors">
+                            <i class="fa-solid fa-calculator text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">BOQ & Cost Estimation</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Bill of Quantities preparation, rebar schedule calculation, structural material takeoff, and cost optimization.</p>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-sky-500 transition-all group">
+                        <div class="w-12 h-12 bg-sky-500/10 rounded-xl flex items-center justify-center text-sky-600 dark:text-sky-500 mb-4 group-hover:bg-sky-500 group-hover:text-slate-950 transition-colors">
+                            <i class="fa-solid fa-toolbox text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Retrofitting & Rehabilitation</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Structural health evaluation of aging edifices, carbon fiber reinforcement wrap, and concrete jacketing.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Executed Works Showcase -->
+        <section id="projects" class="py-20 bg-slate-100 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 transition-colors">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                    <div>
+                        <h2 class="text-xs font-bold text-sky-600 dark:text-sky-500 tracking-widest uppercase">Field Works Showcase</h2>
+                        <p class="text-3xl font-extrabold text-slate-900 dark:text-white mt-2">Executed Engineering Projects</p>
+                    </div>
+                    
+                    <!-- Category Filters -->
+                    <div id="project-filters" class="flex flex-wrap gap-2 mt-4 md:mt-0">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Projects Grid -->
+                <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Field Experiments & Stress Gauge Animation Section -->
+        <section id="experiments" class="py-20 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 transition-colors">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <span class="inline-block bg-sky-500/10 text-sky-600 dark:text-sky-400 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-sky-500/20">
+                        R&D / Empirical Testing
+                    </span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white">Worked Experiments & Material Research</h2>
+                    <p class="text-slate-600 dark:text-slate-400 mt-2">Empirical site testing reports, high-performance concrete mix formulations, and stress-strain testing.</p>
+                </div>
+
+                <!-- Interactive Stress-Strain Dynamic Gauge Simulator -->
+                <div class="mb-12 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-md">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div class="space-y-2 max-w-md">
+                            <h4 class="font-bold text-slate-900 dark:text-white text-lg flex items-center gap-2">
+                                <i class="fa-solid fa-gauge-high text-sky-500"></i> Hydraulic Compression Stress Simulator
+                            </h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Simulate cylinder load testing on engineered UHPC concrete samples.</p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-6 w-full md:w-auto">
+                            <div class="flex-grow">
+                                <label class="block text-xs font-mono-code text-slate-500 dark:text-slate-400 mb-1">Load Pressure (MPa): <span id="loadVal" class="text-sky-500 font-bold">60</span> MPa</label>
+                                <input type="range" id="loadRange" min="0" max="150" value="60" oninput="updateStressMeter(this.value)" class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-sky-500">
+                            </div>
+                            <div class="bg-white dark:bg-slate-950 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-800 text-center min-w-[120px]">
+                                <span class="text-[10px] uppercase font-bold text-slate-400 block">Status</span>
+                                <span id="stressStatus" class="text-xs font-extrabold text-emerald-500">STABLE</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="experiments-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Credentials & Testimonials -->
+        <section id="certifications" class="py-16 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 transition-colors">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                    
+                    <div class="lg:col-span-5 space-y-6">
+                        <h2 class="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-award text-sky-500"></i> Credentials & Registrations
+                        </h2>
+                        <div class="space-y-4">
+                            <div class="bg-white dark:bg-slate-800/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex items-start space-x-4">
+                                <div class="p-2.5 bg-sky-500/10 text-sky-500 rounded-lg"><i class="fa-solid fa-certificate"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 dark:text-white">Certified Professional Structural Engineer (PE)</h4>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">Board of Professional Engineers • Reg #PE-884291</p>
+                                </div>
+                            </div>
+                            <div class="bg-white dark:bg-slate-800/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex items-start space-x-4">
+                                <div class="p-2.5 bg-sky-500/10 text-sky-500 rounded-lg"><i class="fa-solid fa-shield-halved"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 dark:text-white">OSHA 30-Hour Construction Safety Certification</h4>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">Occupational Safety and Health Administration</p>
+                                </div>
+                            </div>
+                            <div class="bg-white dark:bg-slate-800/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex items-start space-x-4">
+                                <div class="p-2.5 bg-sky-500/10 text-sky-500 rounded-lg"><i class="fa-solid fa-layer-group"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 dark:text-white">Autodesk Certified Professional: Revit Structure</h4>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">BIM Level 2 Modeling & Interoperability</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-7 space-y-6">
+                        <h2 class="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-quote-left text-sky-500"></i> Client Endorsements
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-white dark:bg-slate-800/40 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                                <p class="text-slate-600 dark:text-slate-300 text-sm italic mb-4">"Eng. David Vance delivered our 14-story commercial tower 2 months ahead of schedule without a single compromise on structural integrity."</p>
+                                <div class="text-xs font-bold text-slate-900 dark:text-white">Marcus Sterling</div>
+                                <div class="text-xs text-sky-600 dark:text-sky-500">Project Director, Horizon Real Estate</div>
+                            </div>
+                            <div class="bg-white dark:bg-slate-800/40 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                                <p class="text-slate-600 dark:text-slate-300 text-sm italic mb-4">"His concrete mix optimization experiment saved our highway bridge project over $180,000 in material costs while exceeding compressive standards."</p>
+                                <div class="text-xs font-bold text-slate-900 dark:text-white">Elena Rostova</div>
+                                <div class="text-xs text-sky-600 dark:text-sky-500">Chief Infrastructure Officer, Apex Municipal</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER WITH INTEGRATED EMAILJS CONTACT FORM & SECRET ADMIN TRIGGERS -->
+    <footer id="contact-footer" class="bg-slate-950 text-slate-100 border-t border-slate-800 pt-16 pb-12 transition-colors relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            
+            <!-- Contact Card Banner with EmailJS Form -->
+            <div class="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/80 rounded-3xl p-8 sm:p-10 shadow-2xl relative overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    
+                    <div class="lg:col-span-6 space-y-4">
+                        <span class="text-sky-500 text-xs font-bold tracking-widest uppercase font-mono-code">Start A Project Consultation</span>
+                        <h2 class="text-3xl font-extrabold text-white">Ready for Structural Precision on Your Next Site?</h2>
+                        <p class="text-slate-300 text-sm leading-relaxed">Send project blueprints, RFIs, or schedule an onsite technical audit directly.</p>
+                        
+                        <div class="pt-2 flex flex-wrap gap-3">
+                            <a id="footer-wa-link" href="#" target="_blank" rel="noopener noreferrer" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-5 py-3 rounded-xl flex items-center space-x-2 text-xs shadow-md transition-all">
+                                <i class="fa-brands fa-whatsapp text-base"></i>
+                                <span>WhatsApp Consultation</span>
+                            </a>
+                        </div>
+
+                        <div class="pt-4 border-t border-slate-800 space-y-2 text-xs text-slate-300">
+                            <div class="flex items-center space-x-3">
+                                <i class="fa-solid fa-phone text-sky-500 w-4"></i>
+                                <a id="contact-phone-disp" href="tel:+15550192831" class="hover:text-sky-400 transition-colors">+1 (555) 019-2831</a>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i class="fa-solid fa-envelope text-sky-500 w-4"></i>
+                                <a id="contact-email-disp" href="mailto:david.vance@eng-solutions.com" class="hover:text-sky-400 transition-colors">david.vance@eng-solutions.com</a>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i class="fa-solid fa-location-dot text-sky-500 w-4"></i>
+                                <span id="contact-location-disp">Metropolitan Civil District, HQ</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- EmailJS Integrated Form -->
+                    <div class="lg:col-span-6 bg-slate-950/90 p-6 rounded-2xl border border-slate-800 space-y-4">
+                        <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code flex items-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i> Direct Email Inquiry (EmailJS Integrated)
+                        </h3>
+
+                        <form id="emailjs-contact-form" onsubmit="sendEmailJSMessage(event)" class="space-y-3">
+                            <div>
+                                <label class="block text-[11px] text-slate-400 mb-1">Your Name</label>
+                                <input type="text" id="emailjs-from-name" required placeholder="Enter your name" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-sky-500">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-400 mb-1">Your Email</label>
+                                <input type="email" id="emailjs-from-email" required placeholder="your.email@company.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-sky-500">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-400 mb-1">Project Details / Message</label>
+                                <textarea id="emailjs-message" rows="3" required placeholder="Describe structural requirements, site location, timeline..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-sky-500"></textarea>
+                            </div>
+
+                            <button type="submit" id="emailjs-submit-btn" class="w-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold py-2.5 rounded-xl text-xs transition-all flex items-center justify-center space-x-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Send Inquiry</span>
+                            </button>
+                            <div id="emailjs-status-msg" class="text-[11px] text-center hidden"></div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Footer Bottom Links & Hidden Admin Access Points -->
+            <div class="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+                
+                <!-- Secret Access Method 1: Triple-Click Copyright -->
+                <div onclick="handleSecretClick()" class="cursor-pointer select-none group flex items-center space-x-2" title="Triple click for Admin Access">
+                    <span class="w-2 h-2 rounded-full bg-sky-500/50 group-hover:bg-sky-500 transition-colors"></span>
+                    <span>&copy; <span id="year"></span> <span id="footer-engineer-name">Eng. David Vance</span>. All Engineering Rights Reserved.</span>
+                </div>
+
+                <div class="flex items-center space-x-4 text-[11px]">
+                    <!-- <span class="text-slate-600 font-mono-code">Shortcut: Ctrl+Shift+A</span> -->
+                    <!-- <span>•</span>
+                    <button onclick="resetDataToDefault()" class="text-slate-500 hover:text-rose-400 underline transition-colors">Reset Demo Data</button>
+                    <span>•</span> -->
+                    
+                    <!-- Secret Access Method 2: Discreet Gear Icon Button in Bottom Corner -->
+                    <button type="button" onclick="openAdminModal()"
+                    class="w-7 h-7 rounded-full bg-slate-900/60 text-slate-500 hover:bg-slate-700 hover:text-sky-400 focus-visible:text-sky-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-500 flex items-center justify-center transition-colors"
+                    title="Admin Portal Access" aria-label="Open admin portal login">
+                    <i class="fa-solid fa-gear text-[10px]" aria-hidden="true"></i>
+                </button>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <!-- Secret Admin Login Modal -->
+    <div id="admin-login-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-shield-halved text-sky-500"></i> Admin Security Access
+                </h3>
+                <button onclick="closeAdminLoginModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <p class="text-xs text-slate-400 mb-4">Enter your administrator password to open the CMS dashboard.</p>
+            <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                <div>
+                    <input type="password" id="admin-pin-input" autocomplete="current-password" placeholder="Enter administrator password" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-sky-500 text-center text-lg tracking-widest font-mono" required>
+                    <p id="admin-login-error" class="hidden text-rose-400 text-xs text-center mt-2" role="alert">Incorrect password. Please try again.</p>
+                </div>
+                <button type="submit" class="w-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold py-2.5 rounded-xl transition-all">
+                    Unlock CMS Dashboard
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Admin CMS Modal -->
+    <div id="admin-cms-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 hidden overflow-y-auto p-4 sm:p-6 lg:p-8">
+        <div class="max-w-5xl mx-auto bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl overflow-hidden my-8">
+            
+            <div class="bg-slate-800 px-6 py-4 border-b border-slate-700 flex items-center justify-between sticky top-0 z-20">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 bg-sky-500 text-slate-950 rounded-lg"><i class="fa-solid fa-sliders"></i></div>
+                    <div>
+                        <h2 class="text-lg font-bold text-white">Engineering Portfolio CMS Dashboard</h2>
+                        <p class="text-xs text-slate-400">Modify content dynamically with LocalStorage & EmailJS settings</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button onclick="saveAllCMSData()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow-md">
+                        <i class="fa-solid fa-floppy-disk"></i> Save Changes
+                    </button>
+                    <button onclick="closeCMSModal()" class="text-slate-400 hover:text-white p-2">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-8">
+                <!-- Navigation Tabs inside CMS -->
+                <div class="flex border-b border-slate-800 gap-4 text-sm font-bold overflow-x-auto pb-1">
+                    <button id="cms-tab-btn-hero" onclick="switchCMSTab('hero')" class="pb-3 border-b-2 border-sky-500 text-sky-500 whitespace-nowrap">Personal & Bio</button>
+                    <button id="cms-tab-btn-projects" onclick="switchCMSTab('projects')" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-white whitespace-nowrap">Projects Manager</button>
+                    <button id="cms-tab-btn-experiments" onclick="switchCMSTab('experiments')" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-white whitespace-nowrap">Experiments & Testing</button>
+                    <button id="cms-tab-btn-emailjs" onclick="switchCMSTab('emailjs')" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-white whitespace-nowrap">EmailJS Configuration</button>
+                    <button id="cms-tab-btn-backup" onclick="switchCMSTab('backup')" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-white whitespace-nowrap">JSON Export / Import</button>
+                </div>
+
+                <!-- TAB 1: Personal & Bio Edit -->
+                <div id="cms-tab-hero" class="space-y-6">
+                    <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code">Engineer Details & Metrics</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Full Name & Title</label>
+                            <input type="text" id="cms-input-name" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Professional Designation</label>
+                            <input type="text" id="cms-input-title" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-sm">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs text-slate-400 mb-1">Hero Headline</label>
+                            <input type="text" id="cms-input-headline" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-sm">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs text-slate-400 mb-1">Bio Summary</label>
+                            <textarea id="cms-input-bio" rows="3" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-sm"></textarea>
+                        </div>
+                    </div>
+
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono-code pt-2">Contact Details</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">WhatsApp Phone (Country Code Included)</label>
+                            <input type="text" id="cms-input-phone" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Contact Email</label>
+                            <input type="email" id="cms-input-email" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Office Location</label>
+                            <input type="text" id="cms-input-location" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-sm">
+                        </div>
+                    </div>
+
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono-code pt-2">Metric Statistics</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Years Exp.</label>
+                            <input type="text" id="cms-input-stat-years" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Projects Done</label>
+                            <input type="text" id="cms-input-stat-projects" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Budget ($M)</label>
+                            <input type="text" id="cms-input-stat-budget" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Safety Record</label>
+                            <input type="text" id="cms-input-stat-safety" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-sm">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: Projects Manager -->
+                <div id="cms-tab-projects" class="space-y-6 hidden">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code">Portfolio Projects</h3>
+                        <button onclick="addNewProjectForm()" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1">
+                            <i class="fa-solid fa-plus"></i> Add Project
+                        </button>
+                    </div>
+
+                    <div id="cms-projects-list" class="space-y-4">
+                        <!-- Dynamic list of project edit blocks -->
+                    </div>
+                </div>
+
+                <!-- TAB 3: Experiments Manager -->
+                <div id="cms-tab-experiments" class="space-y-6 hidden">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code">Field Experiments</h3>
+                        <button onclick="addNewExperimentForm()" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1">
+                            <i class="fa-solid fa-plus"></i> Add Experiment
+                        </button>
+                    </div>
+
+                    <div id="cms-experiments-list" class="space-y-4">
+                        <!-- Dynamic list of experiment edit blocks -->
+                    </div>
+                </div>
+
+                <!-- TAB 4: EmailJS Integration Settings -->
+                <div id="cms-tab-emailjs" class="space-y-6 hidden">
+                    <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code">EmailJS API Settings</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Configure your free EmailJS account parameters below to receive visitor inquiry emails directly to your personal mailbox when hosted online.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">EmailJS Service ID</label>
+                            <input type="text" id="cms-input-emailjs-service" placeholder="service_xxxxxx" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">EmailJS Template ID</label>
+                            <input type="text" id="cms-input-emailjs-template" placeholder="template_xxxxxx" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">EmailJS Public Key</label>
+                            <input type="text" id="cms-input-emailjs-key" placeholder="user_xxxxxxxxxxxx" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-sm">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 5: JSON Export / Import Backup Tool -->
+                <div id="cms-tab-backup" class="space-y-6 hidden">
+                    <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code">Hosting & Data Backup Tool</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Export your entire portfolio state as a `.json` backup file or import a saved JSON configuration file when deploying onto GitHub Pages, Netlify, or Vercel.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                        <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4">
+                            <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-download text-sky-500"></i> Export JSON Backup
+                            </h4>
+                            <p class="text-xs text-slate-400">Download your currently edited projects, experiments, and settings as a raw JSON file.</p>
+                            <button onclick="exportDataJSON()" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2">
+                                <i class="fa-solid fa-file-export"></i> Download Portfolio
+                            </button>
+                        </div>
+
+                        <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4">
+                            <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-upload text-emerald-400"></i> Import JSON Backup
+                            </h4>
+                            <p class="text-xs text-slate-400">Select a previously exported JSON backup file to overwrite active site data.</p>
+                            <input type="file" id="import-json-file" accept=".json" class="hidden" onchange="importDataJSON(event)">
+                            <button onclick="document.getElementById('import-json-file').click()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2">
+                                <i class="fa-solid fa-file-import"></i> Upload JSON File
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-800 p-6 rounded-2xl border border-rose-900/60 space-y-3">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-rotate-left text-rose-400"></i> Restore Demo Content
+                        </h4>
+                        <p class="text-xs text-slate-400">Replace your saved profile, projects, experiments, and settings with the original sample content. Export a backup first if you may need your current data.</p>
+                        <button type="button" onclick="resetDataToDefault()" class="bg-rose-700 hover:bg-rose-600 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2">
+                            <i class="fa-solid fa-rotate-left"></i> Reset to Demo Content
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Script Logic -->
+    <script>
+        // Initial Default Data
+        const INITIAL_DATA = {
+            profile: {
+                name: "Eng. David Vance",
+                title: "Senior Structural & Civil Engineer",
+                headline: "Building Resilient Infrastructure & Modern High-Rises",
+                bio: "Over 12 years of structural engineering excellence, site supervision, concrete testing innovation, and managing mega-infrastructure projects up to $65M budget.",
+                phone: "15550192831",
+                email: "david.vance@eng-solutions.com",
+                location: "Metropolitan Civil District, HQ",
+                stats: {
+                    years: "12",
+                    projects: "48",
+                    budget: "65",
+                    safety: "0"
+                }
+            },
+            emailjs: {
+                serviceId: "",
+                templateId: "",
+                publicKey: ""
+            },
+            projects: [
+                {
+                    id: "p1",
+                    title: "Grand Horizon Commercial Tower",
+                    category: "Commercial",
+                    location: "Downtown Central Metro",
+                    budget: "$32,000,000",
+                    duration: "22 Months",
+                    materials: "C50/60 Concrete, Post-Tensioned Slabs",
+                    imageUrl: "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=800&q=80",
+                    challenges: "High seismic soil zone required continuous cast-in-place bored piling and continuous vibration monitoring."
+                },
+                {
+                    id: "p2",
+                    title: "Kestrel River Span Viaduct Bridge",
+                    category: "Infrastructure",
+                    location: "Kestrel Valley Highway",
+                    budget: "$18,500,000",
+                    duration: "14 Months",
+                    materials: "Pre-stressed Concrete Girders, Epoxy Steel",
+                    imageUrl: "https://images.unsplash.com/photo-1545558014-8692077e9b5c?auto=format&fit=crop&w=800&q=80",
+                    challenges: "Rapid water flow during monsoon season necessitated specialized cofferdam underwater concrete pouring techniques."
+                },
+                {
+                    id: "p3",
+                    title: "Apex Logistics Heavy Structural Warehouse",
+                    category: "Industrial",
+                    location: "North Industrial Park",
+                    budget: "$9,200,000",
+                    duration: "9 Months",
+                    materials: "Structural Steel Portals, Fiber Slabs",
+                    imageUrl: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80",
+                    challenges: "Demanded extra-flat heavy floor slab leveling for automated high-reach forklifts."
+                }
+            ],
+            experiments: [
+                {
+                    id: "e1",
+                    title: "Ultra-High Performance Concrete (UHPC) Compression Test",
+                    objective: "Evaluate 28-day compressive strength using silica fume & steel micro-fibers.",
+                    method: "ASTM C39 standard hydraulic loading on 100mm x 200mm cylindrical specimens.",
+                    results: "Achieved 124 MPa crushing strength; structural ductility improved by 35%.",
+                    specs: "Mix Ratio: Cement 1 : Sand 1.1 : Silica Fume 0.25 | Water-Binder Ratio: 0.18",
+                    imageUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80"
+                },
+                {
+                    id: "e2",
+                    title: "Geotechnical Soil Bearing Stabilization Experiment",
+                    objective: "Mitigate clay expansive swelling under foundation footings using lime stabilization.",
+                    method: "Atterberg limits testing and California Bearing Ratio (CBR) soaking test.",
+                    results: "Plasticity Index dropped from 38% to 12%; CBR value increased 4-fold.",
+                    specs: "Hydrated Lime Addition: 5% by dry soil weight",
+                    imageUrl: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80"
+                }
+            ]
+        };
+
+        let appData = null;
+        let activeCategory = "All";
+        let secretClickCount = 0;
+        let secretClickTimer = null;
+
+        // On DOM Load
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('year').textContent = new Date().getFullYear();
+            initTheme();
+            loadAppData();
+            renderPortfolio();
+            initBlueprintCanvas();
+            initKeyboardShortcuts();
+            initEmailJS();
+        });
+
+        // Theme Switcher Logic
+        function initTheme() {
+            const savedTheme = localStorage.getItem('civil_theme') || 'dark';
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.getElementById('theme-icon').className = 'fa-solid fa-sun text-sky-400';
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.getElementById('theme-icon').className = 'fa-solid fa-moon text-slate-700';
+            }
+        }
+
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('civil_theme', 'light');
+                document.getElementById('theme-icon').className = 'fa-solid fa-moon text-slate-700';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('civil_theme', 'dark');
+                document.getElementById('theme-icon').className = 'fa-solid fa-sun text-sky-400';
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-navigation');
+            const button = document.getElementById('mobile-menu-toggle');
+            const icon = document.getElementById('mobile-menu-icon');
+            const isOpening = menu.classList.contains('hidden');
+            menu.classList.toggle('hidden', !isOpening);
+            button.setAttribute('aria-expanded', String(isOpening));
+            button.setAttribute('aria-label', isOpening ? 'Close navigation menu' : 'Open navigation menu');
+            icon.className = isOpening ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+        }
+
+        function closeMobileMenu() {
+            const menu = document.getElementById('mobile-navigation');
+            const button = document.getElementById('mobile-menu-toggle');
+            menu.classList.add('hidden');
+            button.setAttribute('aria-expanded', 'false');
+            button.setAttribute('aria-label', 'Open navigation menu');
+            document.getElementById('mobile-menu-icon').className = 'fa-solid fa-bars';
+        }
+
+        // Data Management
+        function loadAppData() {
+            const stored = localStorage.getItem('civil_portfolio_data_v3');
+            if (stored) {
+                try {
+                    appData = JSON.parse(stored);
+                } catch (e) {
+                    appData = JSON.parse(JSON.stringify(INITIAL_DATA));
+                }
+            } else {
+                appData = JSON.parse(JSON.stringify(INITIAL_DATA));
+                saveDataToStorage();
+            }
+        }
+
+        function saveDataToStorage() {
+            localStorage.setItem('civil_portfolio_data_v3', JSON.stringify(appData));
+        }
+
+        function resetDataToDefault() {
+            if (confirm("Reset portfolio back to original demo values?")) {
+                appData = JSON.parse(JSON.stringify(INITIAL_DATA));
+                saveDataToStorage();
+                renderPortfolio();
+                alert("Portfolio data reset to default demo content!");
+            }
+        }
+
+        // EmailJS Initialization & Form Handling
+        function initEmailJS() {
+            if (appData.emailjs && appData.emailjs.publicKey && window.emailjs) {
+                try {
+                    emailjs.init(appData.emailjs.publicKey);
+                } catch (err) {
+                    console.log("EmailJS Init Notice:", err);
+                }
+            }
+        }
+
+        function sendEmailJSMessage(e) {
+            e.preventDefault();
+            const statusMsg = document.getElementById('emailjs-status-msg');
+            const submitBtn = document.getElementById('emailjs-submit-btn');
+
+            const fromName = document.getElementById('emailjs-from-name').value;
+            const fromEmail = document.getElementById('emailjs-from-email').value;
+            const message = document.getElementById('emailjs-message').value;
+
+            statusMsg.classList.remove('hidden', 'text-rose-400', 'text-emerald-400');
+            statusMsg.classList.add('text-sky-400');
+            statusMsg.textContent = "Sending inquiry...";
+            submitBtn.disabled = true;
+
+            const serviceId = appData.emailjs?.serviceId;
+            const templateId = appData.emailjs?.templateId;
+
+            if (serviceId && templateId && window.emailjs) {
+                emailjs.send(serviceId, templateId, {
+                    from_name: fromName,
+                    from_email: fromEmail,
+                    message: message,
+                    to_email: appData.profile.email
+                })
+                .then(() => {
+                    statusMsg.className = "text-[11px] text-center text-emerald-400 font-bold mt-2";
+                    statusMsg.textContent = "Inquiry sent successfully! Thank you.";
+                    document.getElementById('emailjs-contact-form').reset();
+                    submitBtn.disabled = false;
+                })
+                .catch((err) => {
+                    statusMsg.className = "text-[11px] text-center text-rose-400 font-bold mt-2";
+                    statusMsg.textContent = "Unable to dispatch email. Opening mail client instead...";
+                    submitBtn.disabled = false;
+                    setTimeout(() => {
+                        const mailBody = `From: ${fromName} <${fromEmail}>\n\n${message}`;
+                        window.location.href = `mailto:${encodeURIComponent(appData.profile.email)}?subject=${encodeURIComponent(`Project Inquiry from ${fromName}`)}&body=${encodeURIComponent(mailBody)}`;
+                    }, 1200);
+                });
+            } else {
+                // Fallback direct mailto if EmailJS parameters are unconfigured
+                statusMsg.className = "text-[11px] text-center text-sky-400 font-bold mt-2";
+                statusMsg.textContent = "Opening your email app. Review and send the prepared message there.";
+                setTimeout(() => {
+                    const mailBody = `From: ${fromName} <${fromEmail}>\n\n${message}`;
+                    window.location.href = `mailto:${encodeURIComponent(appData.profile.email)}?subject=${encodeURIComponent(`Structural Inquiry from ${fromName}`)}&body=${encodeURIComponent(mailBody)}`;
+                    submitBtn.disabled = false;
+                }, 1000);
+            }
+        }
+
+        // JSON Import / Export Backup Operations
+        function exportDataJSON() {
+            const backupUrl = URL.createObjectURL(new Blob([JSON.stringify(appData, null, 2)], {type: 'application/json'}));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.href = backupUrl;
+            downloadAnchor.download = `${appData.profile.name.trim().replace(/[^\w-]+/g, '_')}_Portfolio_Backup.json`;
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            setTimeout(() => URL.revokeObjectURL(backupUrl), 1000);
+        }
+
+        function importDataJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const fileReader = new FileReader();
+            fileReader.onerror = () => alert("Unable to read the selected backup file.");
+            fileReader.onload = (e) => {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    const profileFields = ['name', 'title', 'headline', 'bio', 'phone', 'email', 'location'];
+                    const statFields = ['years', 'projects', 'budget', 'safety'];
+                    const validProfile = parsed && parsed.profile && parsed.profile.stats &&
+                        profileFields.every(field => parsed.profile[field] !== undefined) &&
+                        statFields.every(field => parsed.profile.stats[field] !== undefined);
+                    if (validProfile && Array.isArray(parsed.projects) && Array.isArray(parsed.experiments)) {
+                        parsed.emailjs = Object.assign(
+                            {},
+                            INITIAL_DATA.emailjs,
+                            parsed.emailjs && typeof parsed.emailjs === 'object' ? parsed.emailjs : {}
+                        );
+                        appData = parsed;
+                        saveDataToStorage();
+                        renderPortfolio();
+                        populateCMSForm();
+                        alert("Portfolio data imported successfully!");
+                    } else {
+                        alert("Invalid portfolio JSON format.");
+                    }
+                } catch (err) {
+                    alert("Error parsing uploaded JSON file.");
+                }
+            };
+            fileReader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // Secret Admin Access (Triple Click, Gear Icon, Keyboard Shortcut)
+        function handleSecretClick() {
+            secretClickCount++;
+            clearTimeout(secretClickTimer);
+            
+            if (secretClickCount >= 3) {
+                secretClickCount = 0;
+                openAdminModal();
+            } else {
+                secretClickTimer = setTimeout(() => {
+                    secretClickCount = 0;
+                }, 1000);
+            }
+        }
+
+        function initKeyboardShortcuts() {
+            window.addEventListener('keydown', (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'a') {
+                    e.preventDefault();
+                    openAdminModal();
+                } else if (e.key === 'Escape') {
+                    if (!document.getElementById('admin-cms-modal').classList.contains('hidden')) {
+                        closeCMSModal();
+                    }
+                    if (!document.getElementById('admin-login-modal').classList.contains('hidden')) {
+                        closeAdminLoginModal();
+                    }
+                    if (!document.getElementById('mobile-navigation').classList.contains('hidden')) {
+                        closeMobileMenu();
+                    }
+                }
+            });
+        }
+
+        function openAdminModal() {
+            document.getElementById('admin-login-modal').classList.remove('hidden');
+            document.getElementById('admin-login-error').classList.add('hidden');
+            document.getElementById('admin-pin-input').focus();
+        }
+
+        function closeAdminLoginModal() {
+            document.getElementById('admin-login-modal').classList.add('hidden');
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const pin = document.getElementById('admin-pin-input').value;
+            if (pin === 'Kabayiza10@') {
+                closeAdminLoginModal();
+                document.getElementById('admin-pin-input').value = '';
+                document.getElementById('admin-login-error').classList.add('hidden');
+                document.getElementById('session-admin-btn').classList.remove('hidden');
+                showCMSDashboard();
+            } else {
+                const input = document.getElementById('admin-pin-input');
+                document.getElementById('admin-login-error').classList.remove('hidden');
+                input.select();
+            }
+        }
+
+        function openCMSDashboard() {
+            openAdminModal();
+        }
+
+        function showCMSDashboard() {
+            populateCMSForm();
+            document.getElementById('admin-cms-modal').classList.remove('hidden');
+        }
+
+        function closeCMSModal() {
+            document.getElementById('admin-cms-modal').classList.add('hidden');
+        }
+
+        // Render Portfolio
+        function renderPortfolio() {
+            const p = appData.profile;
+
+            document.getElementById('nav-engineer-name').textContent = p.name;
+            document.getElementById('nav-engineer-title').textContent = p.title;
+            document.getElementById('footer-engineer-name').textContent = p.name;
+
+            document.getElementById('hero-headline').textContent = p.headline;
+            document.getElementById('hero-bio').textContent = p.bio;
+
+            const formattedPhone = String(p.phone).trim();
+            const whatsappPhone = formattedPhone.replace(/\D/g, '');
+            document.getElementById('contact-phone-disp').textContent = !formattedPhone || formattedPhone.startsWith('+') ? formattedPhone : `+${formattedPhone}`;
+            document.getElementById('contact-phone-disp').href = `tel:+${whatsappPhone}`;
+            document.getElementById('contact-email-disp').textContent = p.email;
+            document.getElementById('contact-email-disp').href = `mailto:${encodeURIComponent(p.email)}`;
+            document.getElementById('contact-location-disp').textContent = p.location;
+
+            document.getElementById('stat-years-disp').textContent = p.stats.years;
+            document.getElementById('stat-projects-disp').textContent = p.stats.projects;
+            document.getElementById('stat-budget-disp').textContent = p.stats.budget;
+            document.getElementById('stat-safety-disp').textContent = p.stats.safety;
+            document.getElementById('stat-years-disp').dataset.target = p.stats.years;
+            document.getElementById('stat-projects-disp').dataset.target = p.stats.projects;
+            document.getElementById('stat-budget-disp').dataset.target = p.stats.budget;
+            document.getElementById('stat-safety-disp').dataset.target = p.stats.safety;
+
+            const heroWaMsg = encodeURIComponent(`Hello ${p.name}, I reviewed your structural engineering portfolio and would like to discuss a project.`);
+            document.getElementById('hero-whatsapp-btn').href = `https://wa.me/${whatsappPhone}?text=${heroWaMsg}`;
+            document.getElementById('footer-wa-link').href = `https://wa.me/${whatsappPhone}?text=${heroWaMsg}`;
+
+            renderProjectFilters();
+            renderProjects();
+            renderExperiments();
+            initCounters();
+        }
+
+        function escapeHTML(value) {
+            const characters = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'};
+            return String(value == null ? '' : value).replace(/[&<>"']/g, character => characters[character]);
+        }
+
+        // Projects Filtering and Rendering
+        function renderProjectFilters() {
+            const filterContainer = document.getElementById('project-filters');
+            const categories = ["All", ...new Set(appData.projects.map(item => item.category))];
+
+            filterContainer.innerHTML = categories.map(cat => `
+                <button type="button" data-category="${escapeHTML(cat)}" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                    activeCategory === cat 
+                    ? 'bg-sky-500 text-slate-950 shadow-md' 
+                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700'
+                }">
+                    ${escapeHTML(cat)}
+                </button>
+            `).join('');
+            filterContainer.querySelectorAll('[data-category]').forEach(button => {
+                button.addEventListener('click', () => setCategory(button.dataset.category));
+            });
+        }
+
+        function setCategory(cat) {
+            activeCategory = cat;
+            renderProjectFilters();
+            renderProjects();
+        }
+
+        function renderProjects() {
+            const grid = document.getElementById('projects-grid');
+            const filtered = activeCategory === "All" 
+                ? appData.projects 
+                : appData.projects.filter(p => p.category === activeCategory);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-2 text-center text-slate-500 py-12">No project records found under this category.</div>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(proj => {
+                const waProjMsg = encodeURIComponent(`Hello ${appData.profile.name}, I am interested in details regarding your project: "${proj.title}".`);
+                const whatsappPhone = String(appData.profile.phone).replace(/\D/g, '');
+                const waLink = `https://wa.me/${whatsappPhone}?text=${waProjMsg}`;
+
+                return `
+                <div class="bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:border-sky-500 transition-all">
+                    <div class="relative h-60 overflow-hidden bg-slate-950">
+                        <img src="${escapeHTML(proj.imageUrl)}" alt="${escapeHTML(proj.title)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/800x500/1e293b/0284c7?text=Site+Photo'">
+                        <div class="absolute top-4 left-4 bg-sky-500 text-slate-950 px-3 py-1 rounded-full text-[10px] font-black tracking-wider uppercase">
+                            ${escapeHTML(proj.category)}
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <div>
+                            <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mb-2">${escapeHTML(proj.title)}</h3>
+                            <div class="grid grid-cols-2 gap-2 text-xs text-slate-600 dark:text-slate-300 mb-4 bg-slate-50 dark:bg-slate-900/60 p-3 rounded-xl border border-slate-200 dark:border-slate-700/50">
+                                <div><span class="text-slate-400">Location:</span> <span class="font-semibold text-slate-900 dark:text-white">${escapeHTML(proj.location)}</span></div>
+                                <div><span class="text-slate-400">Budget:</span> <span class="font-semibold text-sky-600 dark:text-sky-400">${escapeHTML(proj.budget)}</span></div>
+                                <div><span class="text-slate-400">Duration:</span> <span class="font-semibold text-slate-900 dark:text-white">${escapeHTML(proj.duration)}</span></div>
+                                <div><span class="text-slate-400">Materials:</span> <span class="font-semibold text-slate-900 dark:text-white">${escapeHTML(proj.materials)}</span></div>
+                            </div>
+                            <div class="text-xs space-y-1">
+                                <span class="font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider block">Engineering Solution:</span>
+                                <p class="leading-relaxed text-slate-600 dark:text-slate-300">${escapeHTML(proj.challenges)}</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t border-slate-200 dark:border-slate-700/60 flex items-center justify-between">
+                            <a href="${escapeHTML(waLink)}" target="_blank" rel="noopener noreferrer" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 text-xs font-bold flex items-center gap-1.5">
+                                <i class="fa-brands fa-whatsapp text-sm"></i> Share / Inquire on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        // Experiments Render
+        function renderExperiments() {
+            const grid = document.getElementById('experiments-grid');
+            if (appData.experiments.length === 0) {
+                grid.innerHTML = `<div class="col-span-2 text-center text-slate-500 py-12">No research experiments recorded yet.</div>`;
+                return;
+            }
+
+            grid.innerHTML = appData.experiments.map(exp => `
+                <div class="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-md flex flex-col md:flex-row gap-6 items-start">
+                    <div class="w-full md:w-2/5 h-48 rounded-xl overflow-hidden bg-slate-950 flex-shrink-0">
+                        <img src="${escapeHTML(exp.imageUrl)}" alt="${escapeHTML(exp.title)}" loading="lazy" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/1e293b/0284c7?text=Testing+Photo'">
+                    </div>
+                    <div class="w-full md:w-3/5 space-y-2.5">
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white leading-snug">${escapeHTML(exp.title)}</h3>
+                        <div class="text-xs text-slate-600 dark:text-slate-300 space-y-1.5">
+                            <div><strong class="text-sky-600 dark:text-sky-400">Objective:</strong> ${escapeHTML(exp.objective)}</div>
+                            <div><strong class="text-sky-600 dark:text-sky-400">Method:</strong> ${escapeHTML(exp.method)}</div>
+                            <div class="bg-white dark:bg-slate-800 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                                <strong class="text-emerald-600 dark:text-emerald-400">Result:</strong> ${escapeHTML(exp.results)}
+                            </div>
+                            <div class="text-[11px] text-slate-500 font-mono-code"><strong class="text-slate-400">Mix Specs:</strong> ${escapeHTML(exp.specs)}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Stress Gauge Simulator Animation
+        function updateStressMeter(val) {
+            document.getElementById('loadVal').textContent = val;
+            const status = document.getElementById('stressStatus');
+            if (val < 80) {
+                status.textContent = "STABLE";
+                status.className = "text-xs font-extrabold text-emerald-500";
+            } else if (val < 120) {
+                status.textContent = "YIELD ZONE";
+                status.className = "text-xs font-extrabold text-sky-500 animate-pulse";
+            } else {
+                status.textContent = "ULTIMATE CRUSH";
+                status.className = "text-xs font-extrabold text-rose-500 animate-bounce";
+            }
+        }
+
+        // Stats Counter Animation
+        function initCounters() {
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const targetText = counter.getAttribute('data-target').trim();
+                if (!/^\d+$/.test(targetText)) {
+                    counter.textContent = targetText;
+                    return;
+                }
+                const target = Number.parseInt(targetText, 10);
+                let count = 0;
+                const speed = 20;
+                const update = () => {
+                    const inc = Math.ceil(target / speed);
+                    count += inc;
+                    if (count < target) {
+                        counter.innerText = count;
+                        setTimeout(update, 40);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                update();
+            });
+        }
+
+        // Blueprint Interactive Canvas Background Animation
+        function initBlueprintCanvas() {
+            const canvas = document.getElementById('blueprintCanvas');
+            const ctx = canvas.getContext('2d');
+            let width, height;
+            let mouseX = 0, mouseY = 0;
+
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+
+            window.addEventListener('resize', resize);
+            window.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            resize();
+
+            function draw() {
+                ctx.clearRect(0, 0, width, height);
+
+                ctx.strokeStyle = '#0ea5e9';
+                ctx.lineWidth = 0.5;
+                ctx.beginPath();
+                ctx.moveTo(mouseX, 0);
+                ctx.lineTo(mouseX, height);
+                ctx.moveTo(0, mouseY);
+                ctx.lineTo(width, mouseY);
+                ctx.stroke();
+
+                requestAnimationFrame(draw);
+            }
+            draw();
+        }
+
+        // CV Download Action
+        function downloadCV() {
+            const profile = appData.profile;
+            const projectSummaries = appData.projects.map((project, index) =>
+                `${index + 1}. ${project.title}\n   ${project.category} | ${project.location}\n   ${project.duration} | ${project.budget}\n   ${project.challenges}`
+            ).join('\n\n');
+            const cvText = [
+                profile.name,
+                profile.title,
+                '',
+                profile.bio,
+                '',
+                'CAREER SUMMARY',
+                `${profile.stats.years} years of experience | ${profile.stats.projects} projects | $${profile.stats.budget}M portfolio budget`,
+                `Safety record: ${profile.stats.safety}`,
+                '',
+                'CONTACT',
+                `${profile.email} | +${profile.phone}`,
+                profile.location,
+                '',
+                'SELECTED PROJECTS',
+                projectSummaries || 'No projects added yet.'
+            ].join('\n');
+            
+            const element = document.createElement('a');
+            const file = new Blob([cvText], {type: 'text/plain;charset=utf-8'});
+            element.href = URL.createObjectURL(file);
+            element.download = `${profile.name.trim().replace(/[^\w-]+/g, '_')}_CV_Summary.txt`;
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+            setTimeout(() => URL.revokeObjectURL(element.href), 1000);
+        }
+
+        function sharePortfolioWhatsApp() {
+            const msg = encodeURIComponent(`Check out ${appData.profile.name}'s Structural Engineering Portfolio.`);
+            window.open(`https://wa.me/?text=${msg}`, '_blank');
+        }
+
+        // CMS Dynamic Form Handlers
+        function populateCMSForm() {
+            const p = appData.profile;
+            document.getElementById('cms-input-name').value = p.name;
+            document.getElementById('cms-input-title').value = p.title;
+            document.getElementById('cms-input-headline').value = p.headline;
+            document.getElementById('cms-input-bio').value = p.bio;
+
+            document.getElementById('cms-input-phone').value = p.phone;
+            document.getElementById('cms-input-email').value = p.email;
+            document.getElementById('cms-input-location').value = p.location;
+
+            document.getElementById('cms-input-stat-years').value = p.stats.years;
+            document.getElementById('cms-input-stat-projects').value = p.stats.projects;
+            document.getElementById('cms-input-stat-budget').value = p.stats.budget;
+            document.getElementById('cms-input-stat-safety').value = p.stats.safety;
+
+            if (appData.emailjs) {
+                document.getElementById('cms-input-emailjs-service').value = appData.emailjs.serviceId || '';
+                document.getElementById('cms-input-emailjs-template').value = appData.emailjs.templateId || '';
+                document.getElementById('cms-input-emailjs-key').value = appData.emailjs.publicKey || '';
+            }
+
+            renderCMSProjectsList();
+            renderCMSExperimentsList();
+        }
+
+        function switchCMSTab(tab) {
+            const tabs = ['hero', 'projects', 'experiments', 'emailjs', 'backup'];
+            tabs.forEach(t => {
+                document.getElementById(`cms-tab-${t}`).classList.add('hidden');
+                document.getElementById(`cms-tab-btn-${t}`).className = "pb-3 border-b-2 border-transparent text-slate-400 hover:text-white whitespace-nowrap";
+            });
+
+            document.getElementById(`cms-tab-${tab}`).classList.remove('hidden');
+            document.getElementById(`cms-tab-btn-${tab}`).className = "pb-3 border-b-2 border-sky-500 text-sky-500 whitespace-nowrap";
+        }
+
+        function renderCMSProjectsList() {
+            const container = document.getElementById('cms-projects-list');
+            container.innerHTML = appData.projects.map((p, idx) => `
+                <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 space-y-3 relative">
+                    <button onclick="deleteProject(${idx})" class="absolute top-4 right-4 text-rose-400 hover:text-rose-300 text-xs font-bold">
+                        <i class="fa-solid fa-trash"></i> Delete
+                    </button>
+                    <div class="font-bold text-xs text-sky-400 uppercase tracking-wider font-mono-code">Project #${idx + 1}</div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <input type="text" value="${escapeHTML(p.title)}" onchange="appData.projects[${idx}].title=this.value" placeholder="Title" class="bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
+                        <input type="text" value="${escapeHTML(p.category)}" onchange="appData.projects[${idx}].category=this.value" placeholder="Category" class="bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
+                        <input type="text" value="${escapeHTML(p.location)}" onchange="appData.projects[${idx}].location=this.value" placeholder="Location" class="bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
+                        <input type="text" value="${escapeHTML(p.budget)}" onchange="appData.projects[${idx}].budget=this.value" placeholder="Budget" class="bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
+                        <input type="text" value="${escapeHTML(p.duration)}" onchange="appData.projects[${idx}].duration=this.value" placeholder="Duration" class="bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
+                        <input type="text" value="${escapeHTML(p.materials)}" onchange="appData.projects[${idx}].materials=this.value" placeholder="Materials Used" class="bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
+                    </div>
+                    <input type="text" value="${escapeHTML(p.imageUrl)}" onchange="appData.projects[${idx}].imageUrl=this.value" placeholder="Image URL" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
+                    <textarea onchange="appData.projects[${idx}].challenges=this.value" placeholder="Challenges & Solutions" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs" rows="2">${escapeHTML(p.challenges)}</textarea>
+                </div>
+            `).join('');
+        }
+
+        function addNewProjectForm() {
+            appData.projects.unshift({
+                id: 'p_' + Date.now(),
+                title: "New Structural Project",
+                category: "Commercial",
+                location: "Site Location",
+                budget: "$5,000,000",
+                duration: "12 Months",
+                materials: "Reinforced Concrete C40",
+                imageUrl: "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=800&q=80",
+                challenges: "Details regarding specific engineering challenges solved."
+            });
+            renderCMSProjectsList();
+        }
+
+        function deleteProject(idx) {
+            if (confirm("Delete this project from portfolio?")) {
+                appData.projects.splice(idx, 1);
+                renderCMSProjectsList();
+            }
+        }
+
+        function renderCMSExperimentsList() {
+            const container = document.getElementById('cms-experiments-list');
+            container.innerHTML = appData.experiments.map((e, idx) => `
+                <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 space-y-3 relative">
+                    <button onclick="deleteExperiment(${idx})" class="absolute top-4 right-4 text-rose-400 hover:text-rose-300 text-xs font-bold">
+                        <i class="fa-solid fa-trash"></i> Delete
+                    </button>
+                    <div class="font-bold text-xs text-sky-400 uppercase tracking-wider font-mono-code">Experiment #${idx + 1}</div>
+                    <input type="text" value="${escapeHTML(e.title)}" onchange="appData.experiments[${idx}].title=this.value" placeholder="Title" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <input type="text" value="${escapeHTML(e.objective)}" onchange="appData.experiments[${idx}].objective=this.value" placeholder="Objective" class="bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
+                        <input type="text" value="${escapeHTML(e.method)}" onchange="appData.experiments[${idx}].method=this.value" placeholder="Testing Method" class="bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
+                        <input type="text" value="${escapeHTML(e.results)}" onchange="appData.experiments[${idx}].results=this.value" placeholder="Results" class="bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
+                        <input type="text" value="${escapeHTML(e.specs)}" onchange="appData.experiments[${idx}].specs=this.value" placeholder="Specs" class="bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
+                    </div>
+                    <input type="text" value="${escapeHTML(e.imageUrl)}" onchange="appData.experiments[${idx}].imageUrl=this.value" placeholder="Image URL" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs">
+                </div>
+            `).join('');
+        }
+
+        function addNewExperimentForm() {
+            appData.experiments.unshift({
+                id: 'e_' + Date.now(),
+                title: "New Concrete / Materials Field Study",
+                objective: "Determine material performance under cyclic loads",
+                method: "ASTM Hydraulic Compression Test",
+                results: "Exceeded design strength targets by 20%",
+                specs: "Mix Ratio: Standard Mix C35",
+                imageUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80"
+            });
+            renderCMSExperimentsList();
+        }
+
+        function deleteExperiment(idx) {
+            if (confirm("Delete this field experiment report?")) {
+                appData.experiments.splice(idx, 1);
+                renderCMSExperimentsList();
+            }
+        }
+
+        function saveAllCMSData() {
+            appData.profile.name = document.getElementById('cms-input-name').value;
+            appData.profile.title = document.getElementById('cms-input-title').value;
+            appData.profile.headline = document.getElementById('cms-input-headline').value;
+            appData.profile.bio = document.getElementById('cms-input-bio').value;
+
+            appData.profile.phone = document.getElementById('cms-input-phone').value;
+            appData.profile.email = document.getElementById('cms-input-email').value;
+            appData.profile.location = document.getElementById('cms-input-location').value;
+
+            appData.profile.stats.years = document.getElementById('cms-input-stat-years').value;
+            appData.profile.stats.projects = document.getElementById('cms-input-stat-projects').value;
+            appData.profile.stats.budget = document.getElementById('cms-input-stat-budget').value;
+            appData.profile.stats.safety = document.getElementById('cms-input-stat-safety').value;
+
+            if (!appData.emailjs) appData.emailjs = {};
+            appData.emailjs.serviceId = document.getElementById('cms-input-emailjs-service').value.trim();
+            appData.emailjs.templateId = document.getElementById('cms-input-emailjs-template').value.trim();
+            appData.emailjs.publicKey = document.getElementById('cms-input-emailjs-key').value.trim();
+
+            saveDataToStorage();
+            initEmailJS();
+            renderPortfolio();
+            closeCMSModal();
+            alert("All portfolio changes saved successfully!");
+        }
+    </script>
+</body>
+</html>
