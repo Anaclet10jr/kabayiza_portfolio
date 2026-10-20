@@ -571,8 +571,7 @@
                         <button type="button" onclick="showAdjacentProjectPhoto(1)" class="absolute right-0 z-10 rounded-full bg-black/60 p-3 text-white hover:bg-black/80 sm:right-3" aria-label="Next photo"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
                     </div>
                     <div class="pt-4 text-center text-white">
-                        <p id="project-photo-viewer-title" class="text-sm font-semibold text-sky-300"></p>
-                        <p id="project-photo-viewer-caption" class="mx-auto mt-1 max-w-3xl text-sm text-slate-200"></p>
+                        <p id="project-photo-viewer-caption" class="mx-auto max-w-3xl text-sm text-slate-200"></p>
                     </div>
                 </div>
             </div>
@@ -1215,10 +1214,7 @@
             const cards = projectGalleryItems.map((photo, index) => `
                 <button type="button" data-gallery-index="${index}" class="relative h-40 w-60 flex-shrink-0 overflow-hidden rounded-xl bg-slate-900 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-400" aria-label="View ${escapeHTML(photo.projectTitle)} photo: ${escapeHTML(photo.caption)}">
                     <img src="${escapeHTML(photo.src)}" alt="${escapeHTML(photo.caption)}" loading="lazy" class="h-full w-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e293b/0284c7?text=Project+Photo'">
-                    <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent px-3 pb-3 pt-8">
-                        <span class="block truncate text-[10px] font-semibold uppercase tracking-wide text-sky-300">${escapeHTML(photo.projectTitle)}</span>
-                        <span class="mt-0.5 block truncate text-xs text-white">${escapeHTML(photo.caption)}</span>
-                    </span>
+                    <span class="absolute inset-x-0 bottom-0 truncate bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent px-3 pb-3 pt-8 text-xs text-white">${escapeHTML(photo.caption)}</span>
                 </button>
             `).join('');
             track.innerHTML = `<div class="flex gap-4 pr-4">${cards}</div><div class="flex gap-4 pr-4" aria-hidden="true">${cards}</div>`;
@@ -1240,7 +1236,6 @@
             const photo = projectGalleryItems[activeProjectPhotoIndex];
             document.getElementById('project-photo-viewer-image').src = photo.src;
             document.getElementById('project-photo-viewer-image').alt = photo.caption;
-            document.getElementById('project-photo-viewer-title').textContent = photo.projectTitle;
             document.getElementById('project-photo-viewer-caption').textContent = photo.caption;
             document.getElementById('project-photo-counter').textContent = `${activeProjectPhotoIndex + 1} / ${projectGalleryItems.length}`;
         }
@@ -1501,7 +1496,7 @@
                     <div>
                         <label class="block text-[11px] font-semibold text-slate-300">Upload multiple project photos (JPG, PNG, WebP; max 12 MB each)</label>
                         <input type="file" accept="image/jpeg,image/png,image/webp" multiple onchange="handleProjectImageUpload(event, ${idx})" class="mt-2 w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs file:mr-3 file:rounded file:border-0 file:bg-sky-600 file:px-3 file:py-1 file:font-semibold file:text-white">
-                        <p class="mt-1 text-[11px] text-slate-500">Choose the photo to use on the project card. Add a short caption for each photo; visitors can click a photo and browse the full gallery.</p>
+                        <p class="mt-1 text-[11px] text-slate-500">Choose which photo appears on the project card. Visitors can click a photo to browse the full gallery.</p>
                     </div>
                     ${getProjectPhotos(p).length ? `
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -1509,9 +1504,7 @@
                                 <div class="overflow-hidden rounded-xl border ${photo.isCover ? 'border-sky-400' : 'border-slate-700'} bg-slate-900">
                                     <img src="${escapeHTML(photo.src)}" alt="${escapeHTML(photo.caption)}" class="h-36 w-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e293b/0284c7?text=Project+Photo'">
                                     <div class="space-y-2 p-3">
-                                        <label class="block text-[11px] text-slate-400">Photo description
-                                            <input type="text" value="${escapeHTML(photo.caption)}" onchange="updateProjectPhotoCaption(${idx}, ${photoIdx}, this.value)" placeholder="Describe this photo" class="mt-1 w-full bg-slate-800 border border-slate-700 rounded p-2 text-white text-xs">
-                                        </label>
+                                        <p class="truncate text-[11px] text-slate-300" title="${escapeHTML(photo.caption)}">${escapeHTML(photo.caption)}</p>
                                         <div class="flex items-center justify-between gap-2">
                                             <label class="flex items-center gap-2 text-[11px] text-slate-300">
                                                 <input type="radio" name="project-cover-${idx}" ${photo.isCover ? 'checked' : ''} onchange="selectProjectCover(${idx}, ${photoIdx})" class="accent-sky-500">
@@ -1598,11 +1591,10 @@
                         context.fillStyle = '#ffffff';
                         context.fillRect(0, 0, canvas.width, canvas.height);
                         context.drawImage(image, 0, 0, canvas.width, canvas.height);
-                        const safeName = file.name.replace(/\.[^.]+$/, '').replace(/[_-]+/g, ' ').trim();
                         resolve({
                             id: `photo-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
                             src: canvas.toDataURL('image/jpeg', 0.72),
-                            caption: safeName || 'Project photo',
+                            caption: file.name,
                             isCover: false
                         });
                     };
@@ -1610,15 +1602,6 @@
                 };
                 reader.readAsDataURL(file);
             });
-        }
-
-        function updateProjectPhotoCaption(projectIndex, photoIndex, caption) {
-            const photo = getProjectPhotos(appData.projects[projectIndex])[photoIndex];
-            if (!photo) return;
-            photo.caption = caption.trim() || 'Project photo';
-            renderCMSProjectsList();
-            renderProjectGalleryStrip();
-            renderProjects();
         }
 
         function selectProjectCover(projectIndex, photoIndex) {
