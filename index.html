@@ -493,7 +493,7 @@
                 </h3>
                 <button type="button" onclick="closeAdminLoginModal()" class="text-slate-400 hover:text-white" aria-label="Close admin login"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
             </div>
-            <p class="text-xs text-slate-400 mb-4">Sign in with your portfolio admin account to edit and publish content.</p>
+            <p class="text-xs text-slate-400 mb-4">Sign in with your portfolio admin account to edit and publish content. You’ll need to sign in again after reloading this page.</p>
             <form onsubmit="handleAdminLogin(event)" class="space-y-3">
                 <div>
                     <label for="admin-email-input" class="block text-[11px] text-slate-400 mb-1">Admin email</label>
@@ -1009,15 +1009,8 @@ with check (id = 'main' and auth.uid() = 'YOUR-ADMIN-USER-UUID'::uuid);</code></
         /* ------------------------------------------------------------------
            Admin authentication (Supabase)
         ------------------------------------------------------------------ */
-        function loadStoredSession() {
-            try {
-                const s = JSON.parse(localStorage.getItem(KEYS.session) || 'null');
-                return s && s.refreshToken ? s : null;
-            } catch (e) { return null; }
-        }
         function persistSession(session) {
             adminSession = session;
-            try { session ? localStorage.setItem(KEYS.session, JSON.stringify(session)) : localStorage.removeItem(KEYS.session); } catch (e) { /* ignore */ }
             updateAdminUI();
         }
         function updateAdminUI() {
@@ -1088,6 +1081,7 @@ with check (id = 'main' and auth.uid() = 'YOUR-ADMIN-USER-UUID'::uuid);</code></
                 $('admin-pin-input').value = '';
                 closeAdminLoginModal();
                 showCMSDashboard();
+                if (hasUnpublished()) toast('You have unpublished edits on this device. Press Save & Publish to publish them.', 'info');
             } catch (error) {
                 errorEl.textContent = error instanceof TypeError
                     ? 'Could not reach Supabase. Check your internet connection and Supabase project URL.'
@@ -1283,7 +1277,10 @@ with check (id = 'main' and auth.uid() = 'YOUR-ADMIN-USER-UUID'::uuid);</code></
         window.addEventListener('DOMContentLoaded', async () => {
             $('year').textContent = new Date().getFullYear();
             initTheme();
-            adminSession = loadStoredSession();
+            adminSession = null;
+            try { localStorage.removeItem(KEYS.session); } catch (error) {
+                console.error('Unable to clear a previously stored admin session:', error);
+            }
             updateAdminUI();
             loadAppData();
             renderPortfolio();
@@ -1291,9 +1288,6 @@ with check (id = 'main' and auth.uid() = 'YOUR-ADMIN-USER-UUID'::uuid);</code></
             initKeyboardShortcuts();
             initMobileNav();
             initCMSEvents();
-            if (adminSession && hasUnpublished()) {
-                toast('You have unpublished edits on this device. Open the CMS Dashboard and press Save & Publish.', 'info');
-            }
             await refreshFromCloud();
             startAutoRefresh();
         });
@@ -1375,6 +1369,10 @@ with check (id = 'main' and auth.uid() = 'YOUR-ADMIN-USER-UUID'::uuid);</code></
             $('admin-login-error').style.display = 'none';
         }
         function showCMSDashboard() {
+            if (!adminSession) {
+                openAdminModal();
+                return;
+            }
             draft = clone(appData);
             populateCMSForm();
             switchCMSTab('hero');
