@@ -450,6 +450,9 @@
                     <span class="w-2 h-2 rounded-full bg-sky-500/50"></span>
                     <span>&copy; <span id="year"></span> <span id="footer-engineer-name">Eng. Clement KABAYIZA</span>. All Engineering Rights Reserved.</span>
                 </div>
+                <button type="button" onclick="openAdminModal()" class="text-slate-700 hover:text-slate-400 transition-colors" aria-label="Admin sign in" title="Admin sign in">
+                    <i class="fa-solid fa-lock text-[11px]" aria-hidden="true"></i>
+                </button>
             </div>
         </div>
     </footer>
@@ -1006,7 +1009,7 @@ with check (id = 'main' and auth.uid() = 'YOUR-ADMIN-USER-UUID'::uuid);</code></
         }
         function updateAdminUI() {
             const btn = $('session-admin-btn');
-            btn.style.display = adminSession ? 'flex' : 'none';
+            if (btn) btn.style.display = adminSession ? 'flex' : 'none';
             const who = $('cloud-admin-user');
             if (who) who.textContent = adminSession && adminSession.email ? `Signed in as ${adminSession.email}` : 'Not signed in.';
             const accountWho = $('account-admin-user');
@@ -1169,7 +1172,16 @@ with check (id = 'main' and auth.uid() = 'YOUR-ADMIN-USER-UUID'::uuid);</code></
             form.append('folder', 'portfolio');
             const response = await fetch(`https://api.cloudinary.com/v1_1/${encodeURIComponent(cloudName)}/image/upload`, {method: 'POST', body: form});
             const result = await response.json().catch(() => ({}));
-            if (!response.ok || !result.secure_url) throw new Error((result.error && result.error.message) || `Photo upload failed (${response.status}).`);
+            if (!response.ok || !result.secure_url) {
+                const detail = result.error && result.error.message;
+                if (response.status === 401 && detail && /unknown api key/i.test(detail)) {
+                    throw new Error('Cloudinary rejected the configured cloud name. Copy the Cloud name from your Cloudinary dashboard Settings and update CLOUDINARY_CONFIG.cloudName.');
+                }
+                if (response.status === 400 && detail && /upload preset/i.test(detail)) {
+                    throw new Error(`Cloudinary rejected the upload preset "${uploadPreset}". Verify it exists and is enabled for unsigned uploads. ${detail}`);
+                }
+                throw new Error(detail || `Photo upload failed (${response.status}).`);
+            }
             return result.secure_url;
         }
         const prettyName = name => name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').trim() || 'Project photo';
