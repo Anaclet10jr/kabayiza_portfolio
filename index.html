@@ -124,11 +124,6 @@
                     <span class="hidden sm:inline">Share Portfolio</span>
                 </button>
 
-                <button id="session-admin-btn" type="button" onclick="openAdminModal()" style="display:none" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-3 py-2 rounded-xl text-xs items-center space-x-1 shadow-lg">
-                    <i class="fa-solid fa-sliders" aria-hidden="true"></i>
-                    <span>CMS Dashboard</span>
-                </button>
-
                 <button id="mobile-menu-btn" type="button" class="md:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-sky-400 border border-slate-200 dark:border-slate-700" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
                     <i class="fa-solid fa-bars text-lg" aria-hidden="true"></i>
                 </button>
@@ -451,14 +446,10 @@
             </div>
 
             <div class="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-                <!-- Triple-click the copyright line (or press Ctrl+Shift+A) to open admin sign-in -->
-                <div onclick="handleSecretClick()" class="cursor-default select-none flex items-center space-x-2">
+                <div class="flex items-center space-x-2">
                     <span class="w-2 h-2 rounded-full bg-sky-500/50"></span>
                     <span>&copy; <span id="year"></span> <span id="footer-engineer-name">Eng. Clement KABAYIZA</span>. All Engineering Rights Reserved.</span>
                 </div>
-                <button type="button" onclick="openAdminModal()" class="text-slate-700 hover:text-slate-400 transition-colors" aria-label="Admin sign in">
-                    <i class="fa-solid fa-lock text-[11px]" aria-hidden="true"></i>
-                </button>
             </div>
         </div>
     </footer>
@@ -636,7 +627,7 @@
                             <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code">Recent Projects &amp; Executed Works</h3>
                             <p class="text-xs text-slate-400 mt-1">Photos upload to Cloudinary as soon as you choose them. Press Save &amp; Publish to make all edits live.</p>
                         </div>
-                        <button type="button" data-action="add-project" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1">
+                        <button type="button" onclick="addCMSProject(event)" data-action="add-project" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1">
                             <i class="fa-solid fa-plus" aria-hidden="true"></i> Add Project
                         </button>
                     </div>
@@ -1804,6 +1795,27 @@ h1{font-size:26px;margin:0}h2{font-size:13px;letter-spacing:.12em;text-transform
             }).join('');
         }
 
+        function addCMSProject(event) {
+            event.stopPropagation();
+            if (!draft) {
+                toast('Open the admin dashboard before adding a project.', 'error');
+                return;
+            }
+            draft.projects.unshift({
+                id: uid('p'),
+                title: 'New Structural Project',
+                category: 'Commercial',
+                location: 'Site Location',
+                budget: '$5,000,000',
+                duration: '12 Months',
+                materials: 'Reinforced Concrete C40',
+                images: [],
+                challenges: 'Describe the engineering challenge and how it was solved.'
+            });
+            switchCMSTab('projects');
+            renderCMSProjects();
+        }
+
         function renderCMSExperiments() {
             const container = $('cms-experiments-list');
             if (!draft.experiments.length) {
@@ -1914,9 +1926,6 @@ h1{font-size:26px;margin:0}h2{font-size:13px;letter-spacing:.12em;text-transform
                 if (!btn || !draft) return;
                 const index = Number(btn.dataset.index);
                 switch (btn.dataset.action) {
-                    case 'add-project':
-                        draft.projects.unshift({id: uid('p'), title: 'New Structural Project', category: 'Commercial', location: 'Site Location', budget: '$5,000,000', duration: '12 Months', materials: 'Reinforced Concrete C40', images: [], challenges: 'Describe the engineering challenge and how it was solved.'});
-                        renderCMSProjects(); break;
                     case 'delete-project':
                         if (confirm('Delete this project from the portfolio?')) { draft.projects.splice(index, 1); renderCMSProjects(); }
                         break;
