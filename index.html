@@ -540,8 +540,31 @@
                     <button type="button" data-cms-tab="experiments" class="pb-3 border-b-2 whitespace-nowrap">Experiments</button>
                     <button type="button" data-cms-tab="credentials" class="pb-3 border-b-2 whitespace-nowrap">Credentials &amp; Reviews</button>
                     <button type="button" data-cms-tab="publish" class="pb-3 border-b-2 whitespace-nowrap">Publishing</button>
-                    <button type="button" data-cms-tab="account" class="pb-3 border-b-2 whitespace-nowrap">Account</button>
                 </div>
+
+                <section class="rounded-xl border border-sky-900 bg-slate-800 p-4 space-y-3" aria-labelledby="cms-password-heading">
+                    <div>
+                        <h3 id="cms-password-heading" class="text-sm font-bold text-white">Change admin password</h3>
+                        <p id="account-admin-user" class="text-xs text-slate-400 mt-1"></p>
+                        <p class="text-xs text-slate-400 mt-1">Set a new password for the signed-in Supabase account. For security, the current password cannot be viewed here.</p>
+                    </div>
+                    <form onsubmit="changeAdminPassword(event)" class="space-y-3">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <label for="new-admin-password" class="block text-xs text-slate-400 mb-1">New password</label>
+                                <input type="password" id="new-admin-password" autocomplete="new-password" minlength="12" required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white text-sm">
+                            </div>
+                            <div>
+                                <label for="confirm-admin-password" class="block text-xs text-slate-400 mb-1">Confirm new password</label>
+                                <input type="password" id="confirm-admin-password" autocomplete="new-password" minlength="12" required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white text-sm">
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <button id="change-admin-password-btn" type="submit" class="rounded-lg bg-sky-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-sky-400">Update password</button>
+                            <p id="change-admin-password-status" class="text-xs text-slate-300" role="status" aria-live="polite"></p>
+                        </div>
+                    </form>
+                </section>
 
                 <!-- TAB: Personal -->
                 <div id="cms-tab-hero" class="space-y-6">
@@ -701,34 +724,6 @@ with check (id = 'main' and auth.uid() = 'YOUR-ADMIN-USER-UUID'::uuid);</code></
                     </details>
                 </div>
 
-                <!-- TAB: Account -->
-                <div id="cms-tab-account" style="display:none" class="space-y-6">
-                    <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code">Admin Account</h3>
-                    <div class="rounded-xl border border-slate-700 bg-slate-800 p-4 space-y-3">
-                        <p id="account-admin-user" class="text-sm text-slate-200"></p>
-                        <p class="text-xs text-slate-400">For security, your current password cannot be viewed here. You can set a new password while signed in.</p>
-                    </div>
-                    <form onsubmit="changeAdminPassword(event)" class="rounded-xl border border-slate-700 bg-slate-800 p-4 space-y-3">
-                        <div>
-                            <h4 class="text-sm font-bold text-white">Change admin password</h4>
-                            <p class="text-xs text-slate-400 mt-1">Choose a strong, unique password with at least 12 characters. The update is applied to your Supabase Auth account.</p>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div>
-                                <label for="new-admin-password" class="block text-xs text-slate-400 mb-1">New password</label>
-                                <input type="password" id="new-admin-password" autocomplete="new-password" minlength="12" required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white text-sm">
-                            </div>
-                            <div>
-                                <label for="confirm-admin-password" class="block text-xs text-slate-400 mb-1">Confirm new password</label>
-                                <input type="password" id="confirm-admin-password" autocomplete="new-password" minlength="12" required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white text-sm">
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap items-center gap-3">
-                            <button id="change-admin-password-btn" type="submit" class="rounded-lg bg-sky-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-sky-400">Update password</button>
-                            <p id="change-admin-password-status" class="text-xs text-slate-300" role="status" aria-live="polite"></p>
-                        </div>
-                    </form>
-                </div>
             </div>
         </div>
     </div>
@@ -1734,7 +1729,7 @@ h1{font-size:26px;margin:0}h2{font-size:13px;letter-spacing:.12em;text-transform
         const TAB_ACTIVE = 'pb-3 border-b-2 border-sky-500 text-sky-500 whitespace-nowrap';
         const TAB_IDLE = 'pb-3 border-b-2 border-transparent text-slate-400 hover:text-white whitespace-nowrap';
         const INPUT_CLS = 'mt-1 w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-xs';
-        const TABS = ['hero', 'projects', 'experiments', 'credentials', 'publish', 'account'];
+        const TABS = ['hero', 'projects', 'experiments', 'credentials', 'publish'];
 
         function switchCMSTab(tab) {
             TABS.forEach(t => { $(`cms-tab-${t}`).style.display = t === tab ? 'block' : 'none'; });
