@@ -18,6 +18,7 @@
     <meta id="twitter-description" name="twitter:description" content="Civil and structural engineering portfolio featuring projects, infrastructure work, and technical services.">
     <meta id="twitter-image" name="twitter:image" content="">
     <link id="canonical-url" rel="canonical" href="">
+    <link id="site-favicon" rel="icon" href="">
     <script id="person-structured-data" type="application/ld+json">{}</script>
     <!-- Tailwind CSS CDN with dark mode support -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -98,7 +99,8 @@
 
             <a href="#top" class="flex items-center space-x-3">
                 <div class="w-10 h-10 rounded-lg bg-sky-500 flex items-center justify-center text-slate-950 font-bold text-xl shadow-lg shadow-sky-500/20">
-                    <i class="fa-solid fa-hard-hat" aria-hidden="true"></i>
+                    <img id="nav-profile-picture" src="" alt="" style="display:none" class="h-full w-full rounded-lg object-cover">
+                    <i id="nav-profile-placeholder" class="fa-solid fa-hard-hat" aria-hidden="true"></i>
                 </div>
                 <div>
                     <div id="nav-engineer-name" class="font-extrabold text-lg tracking-tight text-slate-900 dark:text-white">Eng. Clement KABAYIZA</div>
@@ -171,6 +173,35 @@
                                 <i class="fa-solid fa-file-pdf text-sky-500" aria-hidden="true"></i>
                                 <span>Download Resume</span>
                             </button>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-12">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                            <div class="bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-lg">
+                                <div class="mb-5 flex justify-center">
+                                    <div class="h-36 w-36 overflow-hidden rounded-full border-4 border-sky-500/30 bg-slate-100 dark:bg-slate-900 shadow-lg">
+                                        <img id="owner-profile-picture" src="" alt="" style="display:none" class="h-full w-full object-cover">
+                                        <div id="owner-profile-picture-placeholder" class="flex h-full w-full items-center justify-center text-5xl text-sky-500" aria-hidden="true"><i class="fa-solid fa-user-tie"></i></div>
+                                    </div>
+                                </div>
+                                <div class="text-[11px] font-bold uppercase tracking-[0.2em] text-sky-600 dark:text-sky-400 mb-3">Owner profile</div>
+                                <h2 id="owner-profile-name" class="text-2xl font-black text-slate-900 dark:text-white">Eng. Clement KABAYIZA</h2>
+                                <p id="owner-profile-title" class="mt-2 text-sm font-semibold text-sky-600 dark:text-sky-400">Senior Structural &amp; Civil Engineer</p>
+                                <p id="owner-profile-summary" class="mt-4 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">I lead safe, resilient, and cost-conscious structural engineering work with a strong commitment to quality, construction supervision, and measurable client outcomes.</p>
+                            </div>
+                            <div class="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-lg">
+                                <div class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 mb-3">Contact</div>
+                                <ul class="space-y-3 text-sm text-slate-600 dark:text-slate-300">
+                                    <li class="flex items-center gap-3"><i class="fa-solid fa-phone text-sky-500"></i><a id="owner-profile-phone" href="tel:+250788820893" class="hover:text-sky-500">+250 788 820 893</a></li>
+                                    <li class="flex items-center gap-3"><i class="fa-solid fa-envelope text-sky-500"></i><a id="owner-profile-email" href="mailto:kabayizaclement10@gmail.com" class="hover:text-sky-500">kabayizaclement10@gmail.com</a></li>
+                                    <li class="flex items-center gap-3"><i class="fa-solid fa-location-dot text-sky-500"></i><span id="owner-profile-location">KIGALI-GASABO-GISOZI, HQ</span></li>
+                                </ul>
+                            </div>
+                            <div class="bg-sky-500/10 border border-sky-500/30 rounded-2xl p-6 shadow-lg">
+                                <div class="text-[11px] font-bold uppercase tracking-[0.2em] text-sky-600 dark:text-sky-400 mb-3">Professional focus</div>
+                                <p id="owner-profile-focus" class="text-sm text-slate-700 dark:text-slate-200 leading-relaxed">Structural analysis, civil works coordination, material testing, QA/QC, and infrastructure delivery for high-value projects.</p>
+                            </div>
                         </div>
                     </div>
 
@@ -584,6 +615,26 @@
                             <label class="block text-xs text-slate-400 mb-1">Bio Summary</label>
                             <textarea rows="3" data-bind="profile.bio" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-sm"></textarea>
                         </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs text-slate-400 mb-1">Owner Profile Summary</label>
+                            <textarea rows="3" data-bind="profile.ownerSummary" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-sm"></textarea>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs text-slate-400 mb-1">Professional Focus</label>
+                            <textarea rows="2" data-bind="profile.ownerFocus" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-sm"></textarea>
+                        </div>
+                        <div class="md:col-span-2 rounded-xl border border-slate-700 bg-slate-900 p-4">
+                            <label for="owner-photo-upload" class="block text-xs font-semibold text-slate-300">Owner profile picture (JPG, PNG, or WebP; up to 12 MB)</label>
+                            <div class="mt-3 flex flex-wrap items-center gap-4">
+                                <img id="cms-owner-photo-preview" src="" alt="Owner profile picture preview" style="display:none" class="h-20 w-20 rounded-full border-2 border-sky-500/50 object-cover">
+                                <div id="cms-owner-photo-placeholder" class="flex h-20 w-20 items-center justify-center rounded-full border-2 border-slate-700 bg-slate-800 text-2xl text-slate-500" aria-hidden="true"><i class="fa-solid fa-user-tie"></i></div>
+                                <div class="min-w-0 flex-1">
+                                    <input id="owner-photo-upload" type="file" accept="image/jpeg,image/png,image/webp" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs file:mr-3 file:rounded file:border-0 file:bg-sky-600 file:px-3 file:py-1 file:font-semibold file:text-white">
+                                    <p class="mt-2 text-[11px] text-slate-400">The selected photo uploads immediately. Press Save &amp; Publish to show it to visitors.</p>
+                                    <button type="button" data-action="remove-owner-photo" class="mt-2 text-xs font-semibold text-rose-400 hover:text-rose-300">Remove profile picture</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono-code pt-2">Contact Details</h4>
@@ -630,7 +681,7 @@
                             <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono-code">Recent Projects &amp; Executed Works</h3>
                             <p class="text-xs text-slate-400 mt-1">Photos upload to Cloudinary as soon as you choose them. Press Save &amp; Publish to make all edits live.</p>
                         </div>
-                        <button type="button" onclick="addCMSProject(event)" data-action="add-project" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1">
+                        <button type="button" data-action="add-project" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1">
                             <i class="fa-solid fa-plus" aria-hidden="true"></i> Add Project
                         </button>
                     </div>
@@ -751,6 +802,9 @@ with check (id = 'main' and auth.uid() = 'YOUR-ADMIN-USER-UUID'::uuid);</code></
                 badge: "Licensed Structural Engineer (PE / CEng)",
                 headline: "Building Resilient Infrastructure & Modern High-Rises",
                 bio: "Over 12 years of structural engineering excellence, site supervision, concrete testing innovation, and managing mega-infrastructure projects up to $65M budget.",
+                ownerSummary: "I lead safe, resilient, and cost-conscious structural engineering work with a strong commitment to quality, construction supervision, and measurable client outcomes.",
+                ownerFocus: "Structural analysis, civil works coordination, material testing, QA/QC, and infrastructure delivery for high-value projects.",
+                photo: "",
                 phone: "250788820893",
                 email: "kabayizaclement10@gmail.com",
                 location: "KIGALI-GASABO-GISOZI, HQ",
@@ -893,8 +947,15 @@ with check (id = 'main' and auth.uid() = 'YOUR-ADMIN-USER-UUID'::uuid);</code></
             const base = clone(INITIAL_DATA);
             const d = raw && typeof raw === 'object' ? clone(raw) : {};
             const profile = d.profile || {};
+            const normalizedProfile = {
+                ...base.profile,
+                ...profile,
+                stats: {...base.profile.stats, ...(profile.stats || {})},
+                ownerSummary: profile.ownerSummary ?? base.profile.ownerSummary,
+                ownerFocus: profile.ownerFocus ?? base.profile.ownerFocus
+            };
             const out = {
-                profile: {...base.profile, ...profile, stats: {...base.profile.stats, ...(profile.stats || {})}},
+                profile: normalizedProfile,
                 projects: Array.isArray(d.projects) ? d.projects : base.projects,
                 experiments: Array.isArray(d.experiments) ? d.experiments : base.experiments,
                 credentials: Array.isArray(d.credentials) ? d.credentials : base.credentials,
@@ -1449,15 +1510,37 @@ with check (id = 'main' and auth.uid() = 'YOUR-ADMIN-USER-UUID'::uuid);</code></
             $('hero-badge').textContent = p.badge;
             $('hero-headline').textContent = p.headline;
             $('hero-bio').textContent = p.bio;
+            $('owner-profile-name').textContent = p.name;
+            $('owner-profile-title').textContent = p.title;
+            $('owner-profile-summary').textContent = p.ownerSummary || p.bio;
+            $('owner-profile-focus').textContent = p.ownerFocus || 'Structural analysis, civil works coordination, material testing, QA/QC, and infrastructure delivery for high-value projects.';
+            const navPhoto = $('nav-profile-picture');
+            navPhoto.src = p.photo || '';
+            navPhoto.alt = p.photo ? `${p.name} profile picture` : '';
+            navPhoto.style.display = p.photo ? 'block' : 'none';
+            $('nav-profile-placeholder').style.display = p.photo ? 'none' : 'block';
+            $('site-favicon').href = p.photo || '';
+            const ownerPhoto = $('owner-profile-picture');
+            ownerPhoto.src = p.photo || '';
+            ownerPhoto.alt = p.photo ? `${p.name} profile picture` : '';
+            ownerPhoto.style.display = p.photo ? 'block' : 'none';
+            $('owner-profile-picture-placeholder').style.display = p.photo ? 'none' : 'flex';
 
             const phoneDigits = String(p.phone || '').replace(/\D/g, '');
             const phoneLink = $('contact-phone-disp');
             phoneLink.textContent = `+${phoneDigits}`;
             phoneLink.href = `tel:+${phoneDigits}`;
+            const ownerPhoneLink = $('owner-profile-phone');
+            ownerPhoneLink.textContent = `+${phoneDigits}`;
+            ownerPhoneLink.href = `tel:+${phoneDigits}`;
             const emailLink = $('contact-email-disp');
             emailLink.textContent = p.email;
             emailLink.href = `mailto:${p.email}`;
+            const ownerEmailLink = $('owner-profile-email');
+            ownerEmailLink.textContent = p.email;
+            ownerEmailLink.href = `mailto:${p.email}`;
             $('contact-location-disp').textContent = p.location;
+            $('owner-profile-location').textContent = p.location;
 
             const stats = [['stat-years-disp', p.stats.years], ['stat-projects-disp', p.stats.projects], ['stat-budget-disp', p.stats.budget], ['stat-safety-disp', p.stats.safety]];
             stats.forEach(([id, value]) => animateCounter($(id), value));
@@ -1753,11 +1836,19 @@ h1{font-size:26px;margin:0}h2{font-size:13px;letter-spacing:.12em;text-transform
                 const value = getByPath(draft, el.dataset.bind);
                 el.value = value == null ? '' : value;
             });
+            renderCMSOwnerPhotoPreview();
             renderCMSProjects();
             renderCMSExperiments();
             renderCMSCredentials();
             renderCMSTestimonials();
             updateAdminUI();
+        }
+
+        function renderCMSOwnerPhotoPreview() {
+            const photo = draft && draft.profile.photo;
+            $('cms-owner-photo-preview').src = photo || '';
+            $('cms-owner-photo-preview').style.display = photo ? 'block' : 'none';
+            $('cms-owner-photo-placeholder').style.display = photo ? 'none' : 'flex';
         }
 
         function renderCMSProjects() {
@@ -1805,27 +1896,6 @@ h1{font-size:26px;margin:0}h2{font-size:13px;letter-spacing:.12em;text-transform
                     ${cmsField('Work summary / challenge and solution', `projects.${idx}.challenges`, p.challenges, {area: true})}
                 </article>`;
             }).join('');
-        }
-
-        function addCMSProject(event) {
-            event.stopPropagation();
-            if (!draft) {
-                toast('Open the admin dashboard before adding a project.', 'error');
-                return;
-            }
-            draft.projects.unshift({
-                id: uid('p'),
-                title: 'New Structural Project',
-                category: 'Commercial',
-                location: 'Site Location',
-                budget: '$5,000,000',
-                duration: '12 Months',
-                materials: 'Reinforced Concrete C40',
-                images: [],
-                challenges: 'Describe the engineering challenge and how it was solved.'
-            });
-            switchCMSTab('projects');
-            renderCMSProjects();
         }
 
         function renderCMSExperiments() {
@@ -1909,16 +1979,40 @@ h1{font-size:26px;margin:0}h2{font-size:13px;letter-spacing:.12em;text-transform
             const file = input.files && input.files[0];
             input.value = '';
             if (!file || !draft || !draft.experiments[idx]) return;
+            const experiment = draft.experiments[idx];
             toast('Uploading photo…', 'info');
             try {
                 const src = await uploadImage(file);
-                if (draft && draft.experiments[idx]) draft.experiments[idx].imageUrl = src;
+                if (!draft || !draft.experiments.includes(experiment)) return;
+                experiment.imageUrl = src;
                 toast('Photo uploaded. Press Save & Publish to make it live.', 'ok');
             } catch (error) {
                 console.error('Photo upload failed:', error);
                 toast(error.message || 'Photo upload failed.', 'error');
             }
             if (draft) renderCMSExperiments();
+        }
+
+        async function handleOwnerPhotoUpload(input) {
+            const file = input.files && input.files[0];
+            const targetDraft = draft;
+            input.value = '';
+            if (!file || !targetDraft) return;
+
+            input.disabled = true;
+            toast('Uploading profile picture…', 'info');
+            try {
+                const src = await uploadImage(file);
+                if (draft !== targetDraft) return;
+                targetDraft.profile.photo = src;
+                renderCMSOwnerPhotoPreview();
+                toast('Profile picture uploaded. Press Save & Publish to make it live.', 'ok');
+            } catch (error) {
+                console.error('Profile picture upload failed:', error);
+                toast(error.message || 'Profile picture upload failed.', 'error');
+            } finally {
+                input.disabled = false;
+            }
         }
 
         function initCMSEvents() {
@@ -1928,7 +2022,8 @@ h1{font-size:26px;margin:0}h2{font-size:13px;letter-spacing:.12em;text-transform
                 if (path && draft) setByPath(draft, path, e.target.value);
             });
             modal.addEventListener('change', e => {
-                if (e.target.matches('[data-photo-upload]')) handleProjectPhotoUpload(e.target);
+                if (e.target.matches('#owner-photo-upload')) handleOwnerPhotoUpload(e.target);
+                else if (e.target.matches('[data-photo-upload]')) handleProjectPhotoUpload(e.target);
                 else if (e.target.matches('[data-exp-upload]')) handleExperimentPhotoUpload(e.target);
             });
             modal.addEventListener('click', e => {
@@ -1938,6 +2033,26 @@ h1{font-size:26px;margin:0}h2{font-size:13px;letter-spacing:.12em;text-transform
                 if (!btn || !draft) return;
                 const index = Number(btn.dataset.index);
                 switch (btn.dataset.action) {
+                    case 'remove-owner-photo':
+                        draft.profile.photo = '';
+                        renderCMSOwnerPhotoPreview();
+                        toast('Profile picture removed from the draft. Press Save & Publish to apply.', 'info');
+                        break;
+                    case 'add-project':
+                        draft.projects.unshift({
+                            id: uid('p'),
+                            title: 'New Structural Project',
+                            category: 'Commercial',
+                            location: 'Site Location',
+                            budget: '$5,000,000',
+                            duration: '12 Months',
+                            materials: 'Reinforced Concrete C40',
+                            images: [],
+                            challenges: 'Describe the engineering challenge and how it was solved.'
+                        });
+                        switchCMSTab('projects');
+                        renderCMSProjects();
+                        break;
                     case 'delete-project':
                         if (confirm('Delete this project from the portfolio?')) { draft.projects.splice(index, 1); renderCMSProjects(); }
                         break;
@@ -1953,21 +2068,37 @@ h1{font-size:26px;margin:0}h2{font-size:13px;letter-spacing:.12em;text-transform
                         renderCMSProjects(); break;
                     }
                     case 'add-experiment':
-                        draft.experiments.unshift({id: uid('e'), title: 'New Materials Field Study', objective: 'State the objective of the study.', method: 'Describe the testing standard and method.', results: 'Summarise the measured results.', specs: 'Mix or test specifications', imageUrl: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80'});
-                        renderCMSExperiments(); break;
+                        draft.experiments.unshift({
+                            id: uid('e'),
+                            title: 'New Materials Field Study',
+                            objective: 'State the objective of the study.',
+                            method: 'Describe the testing standard and method.',
+                            results: 'Summarise the measured results.',
+                            specs: 'Mix or test specifications',
+                            imageUrl: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80'
+                        });
+                        switchCMSTab('experiments');
+                        renderCMSExperiments();
+                        break;
                     case 'delete-experiment':
                         if (confirm('Delete this experiment report?')) { draft.experiments.splice(index, 1); renderCMSExperiments(); }
                         break;
                     case 'add-credential':
                         draft.credentials.push({id: uid('c'), title: 'New credential', detail: 'Issuing body / registration number'});
-                        renderCMSCredentials(); break;
+                        switchCMSTab('credentials');
+                        renderCMSCredentials();
+                        break;
                     case 'delete-credential':
-                        draft.credentials.splice(index, 1); renderCMSCredentials(); break;
+                        draft.credentials.splice(index, 1); renderCMSCredentials();
+                        break;
                     case 'add-testimonial':
                         draft.testimonials.push({id: uid('t'), quote: '', name: '', role: ''});
-                        renderCMSTestimonials(); break;
+                        switchCMSTab('credentials');
+                        renderCMSTestimonials();
+                        break;
                     case 'delete-testimonial':
-                        draft.testimonials.splice(index, 1); renderCMSTestimonials(); break;
+                        draft.testimonials.splice(index, 1); renderCMSTestimonials();
+                        break;
                 }
             });
         }
