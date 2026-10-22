@@ -18,7 +18,7 @@
     <meta id="twitter-description" name="twitter:description" content="Civil and structural engineering portfolio featuring projects, infrastructure work, and technical services.">
     <meta id="twitter-image" name="twitter:image" content="">
     <link id="canonical-url" rel="canonical" href="">
-    <link id="site-favicon" rel="icon" href="">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f172a'/%3E%3Cpath d='M10 48h29a5 5 0 0 1 0 10H10a5 5 0 0 1 0-10Z' fill='%23334155' stroke='%2394a3b8' stroke-width='2'/%3E%3Cpath d='M17 47V37h16l7 7v4H17Z' fill='%23facc15' stroke='%23facc15' stroke-linejoin='round'/%3E%3Cpath d='M21 37V28h10l5 9' fill='%230ea5e9' stroke='%23facc15' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='m35 30 10-13 8 4' fill='none' stroke='%23facc15' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='m51 21 5 2-2 7-5-2' fill='%23facc15' stroke='%23facc15' stroke-linejoin='round'/%3E%3Ccircle cx='23' cy='53' r='2' fill='%23cbd5e1'/%3E%3Ccircle cx='35' cy='53' r='2' fill='%23cbd5e1'/%3E%3C/svg%3E">
     <script id="person-structured-data" type="application/ld+json">{}</script>
     <!-- Tailwind CSS CDN with dark mode support -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -1519,7 +1519,6 @@ with check (id = 'main' and auth.uid() = 'YOUR-ADMIN-USER-UUID'::uuid);</code></
             navPhoto.alt = p.photo ? `${p.name} profile picture` : '';
             navPhoto.style.display = p.photo ? 'block' : 'none';
             $('nav-profile-placeholder').style.display = p.photo ? 'none' : 'block';
-            $('site-favicon').href = p.photo || '';
             const ownerPhoto = $('owner-profile-picture');
             ownerPhoto.src = p.photo || '';
             ownerPhoto.alt = p.photo ? `${p.name} profile picture` : '';
